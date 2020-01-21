@@ -1,0 +1,4 @@
+# Project exclude paths
+/target/
+/.idea/
+/diy_array_list.iml
