@@ -1,3 +1,7 @@
+/*
+    Прошу проверить
+ */
+
 package ru.chaban.domain;
 
 import org.junit.jupiter.api.Test;
