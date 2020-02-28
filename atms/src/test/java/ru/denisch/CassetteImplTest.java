@@ -6,9 +6,11 @@ import ru.denisch.atm.BillImpl;
 import ru.denisch.atm.CassetteImpl;
 import ru.denisch.atm.CurTypeImpl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CassetteImplTest {
 

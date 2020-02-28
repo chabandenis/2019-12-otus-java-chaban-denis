@@ -91,14 +91,14 @@ class AtmImplTest {
 
         System.out.println("Состояние пустого банкомата");
         System.out.println(atmImpl.toString());
-        System.out.println("");
+        System.out.println();
 
         // первоначальная загрузка банкомата
         atmImpl.loadCassetes(bills500).loadCassetes(bills100).loadCassetes(bills50);
 
         System.out.println("Состояние после первоначальной загрузки банкомата");
         System.out.println(atmImpl.toString());
-        System.out.println("");
+        System.out.println();
 
         List<BillImpl> tmp = new ArrayList<>();
         tmp.add(new BillImpl("my 50 001", CurTypeImpl.RUR50));
@@ -111,7 +111,7 @@ class AtmImplTest {
 
         System.out.println("Состояние после загрузки купюры");
         System.out.println(atmImpl.toString());
-        System.out.println("");
+        System.out.println();
 
 
         // снять пытаюсь те же купюры в обратном порядке
@@ -123,13 +123,13 @@ class AtmImplTest {
 
             System.out.println("Состояние после списания 50р");
             System.out.println(atmImpl.toString());
-            System.out.println("");
+            System.out.println();
 
             tmpList = atmImpl.getMoney(1000);
 
             System.out.println("Состояние после списания 1000р");
             System.out.println(atmImpl.toString());
-            System.out.println("");
+            System.out.println();
 
             assertEquals(tmpList.get(0).getSerNumber(), "my 500 003");
             assertEquals(tmpList.get(1).getSerNumber(), "r500 n001");
@@ -138,7 +138,7 @@ class AtmImplTest {
 
             System.out.println("Состояние после списания 150р");
             System.out.println(atmImpl.toString());
-            System.out.println("");
+            System.out.println();
 
             assertEquals(tmpList.get(0).getSerNumber(), "r100 n001");
             assertEquals(tmpList.get(1).getSerNumber(), "my 50 001");
@@ -157,7 +157,7 @@ class AtmImplTest {
 
             System.out.println("Состояние после списания 40р");
             System.out.println(atmImpl.toString());
-            System.out.println("");
+            System.out.println();
 
             // должно возникнуть исключение о нехватке денег
             assertEquals(1, 2);
@@ -177,7 +177,7 @@ class AtmImplTest {
 
             System.out.println("Состояние после списания 60р");
             System.out.println(atmImpl.toString());
-            System.out.println("");
+            System.out.println();
 
             // должно возникнуть исключение о нехватке денег
             assertEquals(1, 2);

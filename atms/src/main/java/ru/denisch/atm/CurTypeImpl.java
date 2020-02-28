@@ -3,8 +3,7 @@ package ru.denisch.atm;
 public enum CurTypeImpl implements CurType {
     RUR50(50),
     RUR100(100),
-    RUR500(500)
-    ;
+    RUR500(500);
 
     private int nominal;
 
