@@ -2,6 +2,7 @@ package ru.denisch.atm;
 
 import java.util.*;
 
+//Memento - первоначальное состояние банкомата
 public class CassetteImpl implements Cassete {
 
     // номинал
