@@ -13,13 +13,12 @@ public class ComplexType4MementoAtm {
     // операции зачисления и списания должны актуализировать остаток
     // это не дублирование кода, дак как касета механическая штука
     private Map<CassetteImpl, Long> cntInCassete = new HashMap<>();
+    // по купюре определим нужную касету
+    private Map<Integer, CassetteImpl> casseteForMoney = new HashMap<>();
 
     public ComplexType4MementoAtm(ComplexType4MementoAtm mementoAtm) {
 
     }
-
-    // по купюре определим нужную касету
-    private Map<Integer, CassetteImpl> casseteForMoney = new HashMap<>();
 
     public List<CassetteImpl> getCassetteImpls() {
         return cassetteImpls;
