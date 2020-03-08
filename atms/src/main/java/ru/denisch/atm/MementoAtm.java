@@ -3,6 +3,9 @@ package ru.denisch.atm;
 public class MementoAtm {
     private ComplexType4MementoAtm ct = new ComplexType4MementoAtm();
 
+    public MementoAtm() {
+    }
+
     public MementoAtm(ComplexType4MementoAtm ct) {
         this.ct = ct;
     }

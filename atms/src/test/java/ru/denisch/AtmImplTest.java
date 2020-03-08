@@ -1,10 +1,7 @@
 package ru.denisch;
 
 import org.junit.jupiter.api.Test;
-import ru.denisch.atm.AtmException;
-import ru.denisch.atm.AtmImpl;
-import ru.denisch.atm.BillImpl;
-import ru.denisch.atm.CurTypeImpl;
+import ru.denisch.atm.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +57,7 @@ class AtmImplTest {
 
         // пробуем передать больше чем есть
         System.out.println("загружаем больше чем есть");
-        List<BillImpl> billsCnt10 = new ArrayList<>();
+        List<Bill> billsCnt10 = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
             billsCnt10.add(new BillImpl("over0" + i, CurTypeImpl.RUR50));
@@ -100,7 +97,7 @@ class AtmImplTest {
         System.out.println(atmImpl.toString());
         System.out.println();
 
-        List<BillImpl> tmp = new ArrayList<>();
+        List<Bill> tmp = new ArrayList<>();
         tmp.add(new BillImpl("my 50 001", CurTypeImpl.RUR50));
         tmp.add(new BillImpl("my 50 002", CurTypeImpl.RUR50));
         tmp.add(new BillImpl("my 500 003", CurTypeImpl.RUR500));
@@ -108,11 +105,9 @@ class AtmImplTest {
         // загружаю в банкомат курюры
         atmImpl.addMoney(tmp);
 
-
         System.out.println("Состояние после загрузки купюры");
         System.out.println(atmImpl.toString());
         System.out.println();
-
 
         // снять пытаюсь те же купюры в обратном порядке
         try {

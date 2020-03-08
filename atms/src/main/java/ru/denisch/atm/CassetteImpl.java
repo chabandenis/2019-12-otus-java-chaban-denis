@@ -15,6 +15,26 @@ public class CassetteImpl implements Cassete {
     // в касете хранятся банкноты, не более 10
     private Deque<BillImpl> q = new ArrayDeque(maxCount);
 
+    public CurTypeImpl getNominal() {
+        return nominal;
+    }
+
+    public void setNominal(CurTypeImpl nominal) {
+        this.nominal = nominal;
+    }
+
+    public Deque<BillImpl> getQ() {
+        return q;
+    }
+
+    public void setQ(Deque<BillImpl> q) {
+        this.q = q;
+    }
+
+    public void newQ() {
+        this.q = new ArrayDeque(maxCount);
+    }
+
     // касету создать и передать набор купюр
     public CassetteImpl(List<BillImpl> billImpls) throws AtmException {
         this.put(billImpls);
@@ -56,6 +76,11 @@ public class CassetteImpl implements Cassete {
         }
 
         return tmp;
+    }
+
+    // функция служебная. Аналог окрыть банкомат и посмотреть, а что в касете лежит, в какой последовательности и с какими серийными номерами
+    public Long getTotalSum() {
+        return Long.valueOf(q.size()) * nominal.getNominal();
     }
 
     // купюры в касете

@@ -5,10 +5,13 @@ import java.util.List;
 public interface Atm {
 
     // положить деньги в банкомат
-    long addMoney(List<BillImpl> money) throws AtmException;
+    long addMoney(List<Bill> money) throws AtmException;
 
     // взять деньги
     List<BillImpl> getMoney(long value) throws AtmException;
+
+    // количество денег в банкомате
+    public Long totalSum();
 
     MementoAtm saveState();
 

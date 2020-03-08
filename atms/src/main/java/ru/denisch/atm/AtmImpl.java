@@ -17,7 +17,16 @@ public class AtmImpl implements Atm {
 
     @Override
     public Long getId() {
-        return null;
+        return id;
+    }
+
+    // количество денег в банкомате
+    public Long totalSum() {
+        Long tmpSum = Long.valueOf(0);
+        for (CassetteImpl cassetteImpl : ct.getCassetteImpls()) {
+            tmpSum += cassetteImpl.getTotalSum();
+        }
+        return tmpSum;
     }
 
     // функция загрузки касет.
@@ -36,13 +45,13 @@ public class AtmImpl implements Atm {
     }
 
     // user add money
-    public long addMoney(List<BillImpl> money) throws AtmException {
+    public long addMoney(List<Bill> money) throws AtmException {
         long retValue = 0;
 
-        for (BillImpl billImpl : money) {
+        for (Bill billImpl : money) {
             CassetteImpl cassetteImpl = ct.getCasseteForMoney().get(billImpl.getCurTypeImpl().getNominal());
             List<BillImpl> tmpList = new ArrayList<>();
-            tmpList.add(billImpl);
+            tmpList.add((BillImpl) billImpl);
             cassetteImpl.put(tmpList);
 
             // запонили сколько в касете денег

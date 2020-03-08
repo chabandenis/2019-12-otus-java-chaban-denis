@@ -1,20 +1,22 @@
 package ru.denisch.department;
 
 import org.junit.jupiter.api.Test;
-import ru.denisch.atm.AtmException;
-import ru.denisch.atm.AtmImpl;
-import ru.denisch.atm.BillImpl;
-import ru.denisch.atm.CurTypeImpl;
+import ru.denisch.atm.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DepAtmImplTest {
 
     @Test
+        // проверяю, что мементо работает
     void department() throws AtmException {
         DepAtm depAtm = new DepAtmImpl();
 
+        // инициализация первоначального состояния банкомата
         for (int i = 1; i <= 3; i++) {
 
             List<BillImpl> bills50 = new ArrayList<>();
@@ -33,7 +35,43 @@ class DepAtmImplTest {
             }
 
             // доабавить банкомат в департамент
-            depAtm.addAtm(new AtmImpl(i).loadCassetes(bills50).loadCassetes(bills100).loadCassetes(bills500));
+            depAtm.addAtm(new AtmImpl(i-1).loadCassetes(bills50).loadCassetes(bills100).loadCassetes(bills500));
         }
+
+
+        // проверю суммы в банкоматах
+        assertEquals(Long.valueOf(650), depAtm.getAtms().get(0).totalSum());
+        assertEquals(Long.valueOf(1300), depAtm.getAtms().get(1).totalSum());
+        assertEquals(Long.valueOf(1950), depAtm.getAtms().get(2).totalSum());
+
+        // запомнить состояние банкоматов в департаменте
+        depAtm.saveState();
+
+        List<Bill> bill = new ArrayList<>();
+        bill.add(new BillImpl("xxx", CurTypeImpl.RUR50));
+
+        // добавлю по 50р в банкоматы
+        depAtm.getAtms().stream().forEach((atm) -> {
+            try {
+                atm.addMoney(bill);
+            } catch (AtmException e) {
+                e.printStackTrace();
+            }
+        });
+
+        // проверю суммы в банкоматах после увеличения на 50р
+        assertEquals(Long.valueOf(650 + 50), depAtm.getAtms().get(0).totalSum());
+        assertEquals(Long.valueOf(1300 + 50), depAtm.getAtms().get(1).totalSum());
+        assertEquals(Long.valueOf(1950 + 50), depAtm.getAtms().get(2).totalSum());
+
+
+        // вернуть исходное состояние банкоматов в департаменте
+        depAtm.restoreState();
+
+        // проверю суммы в банкоматах
+        assertEquals(Long.valueOf(650), depAtm.getAtms().get(0).totalSum());
+        assertEquals(Long.valueOf(1300), depAtm.getAtms().get(1).totalSum());
+        assertEquals(Long.valueOf(1950), depAtm.getAtms().get(2).totalSum());
+
     }
 }

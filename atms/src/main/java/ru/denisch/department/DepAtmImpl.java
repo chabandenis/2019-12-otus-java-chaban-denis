@@ -28,7 +28,7 @@ public class DepAtmImpl implements DepAtm {
         atms.stream().forEach((atm) -> {
                     stateAtm.put(
                             atm.getId(),
-                            new CaretakerMementoAtm().setMementoAtm(atm.saveState())
+                            (new CaretakerMementoAtm()).setMementoAtm(atm.saveState())
                     );
                 }
         );
