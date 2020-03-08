@@ -4,6 +4,7 @@ import ru.denisch.atm.Atm;
 
 import java.util.List;
 
+// департамент АТМ
 interface DepAtm {
 
     // список банкоматов
