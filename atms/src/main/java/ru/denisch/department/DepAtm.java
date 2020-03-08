@@ -11,4 +11,8 @@ interface DepAtm {
 
     // добавить банкомат
     void addAtm(Atm atms);
+
+    void saveState();
+
+    void restoreState();
 }

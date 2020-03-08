@@ -33,7 +33,7 @@ class DepAtmImplTest {
             }
 
             // доабавить банкомат в департамент
-            depAtm.addAtm(new AtmImpl().loadCassetes(bills50).loadCassetes(bills100).loadCassetes(bills500));
+            depAtm.addAtm(new AtmImpl(i).loadCassetes(bills50).loadCassetes(bills100).loadCassetes(bills500));
         }
     }
 }

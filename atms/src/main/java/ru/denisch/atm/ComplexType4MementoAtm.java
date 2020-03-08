@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ComplexType4MementoAtm {
+
     // в банкомате есть фиксированное количество касет
     private List<CassetteImpl> cassetteImpls = new ArrayList<>();
 
@@ -15,10 +16,6 @@ public class ComplexType4MementoAtm {
     private Map<CassetteImpl, Long> cntInCassete = new HashMap<>();
     // по купюре определим нужную касету
     private Map<Integer, CassetteImpl> casseteForMoney = new HashMap<>();
-
-    public ComplexType4MementoAtm(ComplexType4MementoAtm mementoAtm) {
-
-    }
 
     public List<CassetteImpl> getCassetteImpls() {
         return cassetteImpls;

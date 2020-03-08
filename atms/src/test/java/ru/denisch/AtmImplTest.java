@@ -15,7 +15,7 @@ class AtmImplTest {
 
     @Test
     void loadBills() {
-        AtmImpl atmImpl = new AtmImpl();
+        AtmImpl atmImpl = new AtmImpl(1);
 
 
         List<BillImpl> bills50 = new ArrayList<>();
@@ -78,7 +78,7 @@ class AtmImplTest {
     @Test
     void addMoney() throws AtmException {
 
-        AtmImpl atmImpl = new AtmImpl();
+        AtmImpl atmImpl = new AtmImpl(1);
 
         List<BillImpl> bills50 = new ArrayList<>();
         bills50.add(new BillImpl("r50 n001", CurTypeImpl.RUR50));

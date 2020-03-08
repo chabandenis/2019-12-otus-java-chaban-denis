@@ -7,7 +7,8 @@ public class CaretakerMementoAtm {
         return mementoAtm;
     }
 
-    public void setMementoAtm(MementoAtm mementoAtm) {
+    public CaretakerMementoAtm setMementoAtm(MementoAtm mementoAtm) {
         this.mementoAtm = mementoAtm;
+        return this;
     }
 }

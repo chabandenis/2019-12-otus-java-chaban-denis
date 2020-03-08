@@ -13,4 +13,7 @@ public interface Atm {
     MementoAtm saveState();
 
     void restoreState(MementoAtm memento);
+
+    // идентификатор банкомата
+    Long getId();
 }

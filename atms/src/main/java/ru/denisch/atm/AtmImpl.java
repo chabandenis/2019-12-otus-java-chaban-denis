@@ -5,7 +5,20 @@ import java.util.List;
 
 public class AtmImpl implements Atm {
     //
-    private ComplexType4MementoAtm ct;
+    private ComplexType4MementoAtm ct = new ComplexType4MementoAtm();
+
+    // идентификатор банкомата
+    private Long id;
+
+    // конструктор обязательно должен быть определен ID
+    public AtmImpl(long id) {
+        this.id = id;
+    }
+
+    @Override
+    public Long getId() {
+        return null;
+    }
 
     // функция загрузки касет.
     // в функции за один раз должны быть передаваться номиналы одного достоинства
