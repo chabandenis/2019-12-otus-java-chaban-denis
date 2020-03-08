@@ -10,4 +10,7 @@ public interface Atm {
     // взять деньги
     List<BillImpl> getMoney(long value) throws AtmException;
 
+    MementoAtm saveState();
+
+    void restoreState(MementoAtm memento);
 }
