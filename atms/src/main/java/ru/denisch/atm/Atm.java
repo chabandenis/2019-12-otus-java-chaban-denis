@@ -11,7 +11,7 @@ public interface Atm {
     List<BillImpl> getMoney(long value) throws AtmException;
 
     // количество денег в банкомате
-    public Long totalSum();
+    Long totalSum();
 
     MementoAtm saveState();
 

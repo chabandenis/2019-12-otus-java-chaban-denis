@@ -5,7 +5,6 @@ import ru.denisch.atm.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -35,7 +34,7 @@ class DepAtmImplTest {
             }
 
             // доабавить банкомат в департамент
-            depAtm.addAtm(new AtmImpl(i-1).loadCassetes(bills50).loadCassetes(bills100).loadCassetes(bills500));
+            depAtm.addAtm(new AtmImpl(i - 1).loadCassetes(bills50).loadCassetes(bills100).loadCassetes(bills500));
         }
 
 

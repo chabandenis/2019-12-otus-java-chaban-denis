@@ -15,6 +15,16 @@ public class CassetteImpl implements Cassete {
     // в касете хранятся банкноты, не более 10
     private Deque<BillImpl> q = new ArrayDeque(maxCount);
 
+    // касету создать и передать набор купюр
+    public CassetteImpl(List<BillImpl> billImpls) throws AtmException {
+        this.put(billImpls);
+        nominal = billImpls.get(0).getCurTypeImpl();
+    }
+
+    // пустая касета
+    public CassetteImpl() {
+    }
+
     public CurTypeImpl getNominal() {
         return nominal;
     }
@@ -33,16 +43,6 @@ public class CassetteImpl implements Cassete {
 
     public void newQ() {
         this.q = new ArrayDeque(maxCount);
-    }
-
-    // касету создать и передать набор купюр
-    public CassetteImpl(List<BillImpl> billImpls) throws AtmException {
-        this.put(billImpls);
-        nominal = billImpls.get(0).getCurTypeImpl();
-    }
-
-    // пустая касета
-    public CassetteImpl() {
     }
 
     // добавить кпюру в касету
