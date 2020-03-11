@@ -40,4 +40,18 @@ public class ComplexType4MementoAtm {
     public void setCassetteForMoney(Map<Integer, Cassette> cassetteForMoney) {
         this.cassetteForMoney = cassetteForMoney;
     }
+
+    // клонирование
+    public ComplexType4MementoAtm myClone() {
+        ComplexType4MementoAtm complexType4MementoAtm = new ComplexType4MementoAtm();
+
+        List<Cassette> cassettes = new ArrayList<>();
+        this.getCassette().stream().forEach((cassette -> cassettes.add(cassette.myClone())));
+        complexType4MementoAtm.setCassettes(cassettes);
+
+        complexType4MementoAtm.setCassetteForMoney(new HashMap<>(this.getCassetteForMoney()));
+        complexType4MementoAtm.setCntInCassette(new HashMap<>(this.getCntInCassette()));
+
+        return complexType4MementoAtm;
+    }
 }

@@ -95,4 +95,15 @@ public class CassetteImpl implements Cassette {
         }
         return str.toString();
     }
+
+    // клонирование
+    public Cassette myClone() {
+        Cassette cassette = new CassetteImpl();
+
+        cassette.setQ(((ArrayDeque<Bill>) this.getQ()).clone());
+        cassette.setNominal(this.getNominal());
+
+        return cassette;
+    }
+
 }

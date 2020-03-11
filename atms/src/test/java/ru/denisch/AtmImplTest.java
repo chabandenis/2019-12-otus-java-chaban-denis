@@ -31,7 +31,7 @@ class AtmImplTest {
         bills500.add(new BillImpl("r500 n003", CurTypeImpl.RUR500));
 
         try {
-            atm.loadCassetes(bills50).loadCassetes(bills100).loadCassetes(bills500);
+            atm.loadCassettes(bills50).loadCassettes(bills100).loadCassettes(bills500);
         } catch (AtmException e) {
             assertEquals(1, 2);
         }
@@ -91,7 +91,7 @@ class AtmImplTest {
         System.out.println();
 
         // первоначальная загрузка банкомата
-        atmImpl.loadCassetes(bills500).loadCassetes(bills100).loadCassetes(bills50);
+        atmImpl.loadCassettes(bills500).loadCassettes(bills100).loadCassettes(bills50);
 
         System.out.println("Состояние после первоначальной загрузки банкомата");
         System.out.println(atmImpl.toString());

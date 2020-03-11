@@ -17,4 +17,11 @@ public class MementoAtm {
     public void setCt(ComplexType4MementoAtm ct) {
         this.ct = ct;
     }
+
+    // клонирование
+    public MementoAtm myClone() {
+        MementoAtm mementoAtm = new MementoAtm();
+        mementoAtm.ct = this.ct.myClone();
+        return mementoAtm;
+    }
 }
