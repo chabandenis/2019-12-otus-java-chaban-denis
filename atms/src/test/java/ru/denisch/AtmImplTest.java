@@ -12,7 +12,7 @@ class AtmImplTest {
 
     @Test
     void loadBills() {
-        AtmImpl atmImpl = new AtmImpl(1);
+        Atm atm = new AtmImpl(1);
 
 
         List<Bill> bills50 = new ArrayList<>();
@@ -31,28 +31,28 @@ class AtmImplTest {
         bills500.add(new BillImpl("r500 n003", CurTypeImpl.RUR500));
 
         try {
-            atmImpl.loadCassetes(bills50).loadCassetes(bills100).loadCassetes(bills500);
+            atm.loadCassetes(bills50).loadCassetes(bills100).loadCassetes(bills500);
         } catch (AtmException e) {
             assertEquals(1, 2);
         }
 
-        System.out.println("1 " + atmImpl.status().size());
+        System.out.println("1 " + atm.status().size());
 
-        for (Bill billImpl : atmImpl.status()) {
-            System.out.println(billImpl.toString());
+        for (Bill bill : atm.status()) {
+            System.out.println(bill.toString());
         }
 
-        System.out.println("2 " + atmImpl.status().size());
+        System.out.println("2 " + atm.status().size());
 
-        assertEquals(atmImpl.status().get(0).getSerNumber(), "r50 n001");
-        assertEquals(atmImpl.status().get(1).getSerNumber(), "r50 n002");
-        assertEquals(atmImpl.status().get(2).getSerNumber(), "r50 n003");
-        assertEquals(atmImpl.status().get(3).getSerNumber(), "r100 n001");
-        assertEquals(atmImpl.status().get(4).getSerNumber(), "r100 n002");
-        assertEquals(atmImpl.status().get(5).getSerNumber(), "r100 n003");
-        assertEquals(atmImpl.status().get(6).getSerNumber(), "r500 n001");
-        assertEquals(atmImpl.status().get(7).getSerNumber(), "r500 n002");
-        assertEquals(atmImpl.status().get(8).getSerNumber(), "r500 n003");
+        assertEquals(atm.status().get(0).getSerNumber(), "r50 n001");
+        assertEquals(atm.status().get(1).getSerNumber(), "r50 n002");
+        assertEquals(atm.status().get(2).getSerNumber(), "r50 n003");
+        assertEquals(atm.status().get(3).getSerNumber(), "r100 n001");
+        assertEquals(atm.status().get(4).getSerNumber(), "r100 n002");
+        assertEquals(atm.status().get(5).getSerNumber(), "r100 n003");
+        assertEquals(atm.status().get(6).getSerNumber(), "r500 n001");
+        assertEquals(atm.status().get(7).getSerNumber(), "r500 n002");
+        assertEquals(atm.status().get(8).getSerNumber(), "r500 n003");
 
 
         // пробуем передать больше чем есть
@@ -65,7 +65,7 @@ class AtmImplTest {
 
 
         try {
-            atmImpl.addMoney(billsCnt10);
+            atm.addMoney(billsCnt10);
             assertEquals(1, 2);
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Касета переполнена");

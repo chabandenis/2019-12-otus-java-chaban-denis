@@ -5,30 +5,30 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-public class CassetteImpl implements Cassete {
+public class CassetteImpl implements Cassette {
 
     // максимальное количество купюр в кассете
     private static int maxCount = 10;
     // номинал
-    private CurTypeImpl nominal;
+    private CurType nominal;
     // в касете хранятся банкноты, не более 10
     private Deque<Bill> q = new ArrayDeque(maxCount);
 
     // касету создать и передать набор купюр
     public CassetteImpl(List<Bill> bills) throws AtmException {
         this.put(bills);
-        nominal = bills.get(0).getCurTypeImpl();
+        nominal = bills.get(0).getCurType();
     }
 
     // пустая касета
     public CassetteImpl() {
     }
 
-    public CurTypeImpl getNominal() {
+    public CurType getNominal() {
         return nominal;
     }
 
-    public void setNominal(CurTypeImpl nominal) {
+    public void setNominal(CurType nominal) {
         this.nominal = nominal;
     }
 
@@ -54,7 +54,7 @@ public class CassetteImpl implements Cassete {
         for (Bill b : bills) {
             q.add(b);
         }
-        nominal = bills.get(0).getCurTypeImpl();
+        nominal = bills.get(0).getCurType();
     }
 
     // взять купюру из касеты
@@ -83,7 +83,7 @@ public class CassetteImpl implements Cassete {
     }
 
     // купюры в касете
-    public CurTypeImpl getCurType() {
+    public CurType getCurType() {
         return nominal;
     }
 

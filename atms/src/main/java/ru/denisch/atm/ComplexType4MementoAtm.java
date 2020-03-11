@@ -8,36 +8,36 @@ import java.util.Map;
 public class ComplexType4MementoAtm {
 
     // в банкомате есть фиксированное количество касет
-    private List<CassetteImpl> cassetteImpls = new ArrayList<>();
+    private List<Cassette> cassettes = new ArrayList<Cassette>();
 
     // банкомат должен знать в какой касете сколько купюр
     // операции зачисления и списания должны актуализировать остаток
     // это не дублирование кода, дак как касета механическая штука
-    private Map<CassetteImpl, Long> cntInCassete = new HashMap<>();
+    private Map<Cassette, Long> cntInCassette = new HashMap<Cassette, Long>();
     // по купюре определим нужную касету
-    private Map<Integer, CassetteImpl> casseteForMoney = new HashMap<>();
+    private Map<Integer, Cassette> cassetteForMoney = new HashMap<Integer, Cassette>();
 
-    public List<CassetteImpl> getCassetteImpls() {
-        return cassetteImpls;
+    public List<Cassette> getCassette() {
+        return cassettes;
     }
 
-    public void setCassetteImpls(List<CassetteImpl> cassetteImpls) {
-        this.cassetteImpls = cassetteImpls;
+    public void setCassettes(List<Cassette> cassettes) {
+        this.cassettes = cassettes;
     }
 
-    public Map<CassetteImpl, Long> getCntInCassete() {
-        return cntInCassete;
+    public Map<Cassette, Long> getCntInCassette() {
+        return cntInCassette;
     }
 
-    public void setCntInCassete(Map<CassetteImpl, Long> cntInCassete) {
-        this.cntInCassete = cntInCassete;
+    public void setCntInCassette(Map<Cassette, Long> cntInCassette) {
+        this.cntInCassette = cntInCassette;
     }
 
-    public Map<Integer, CassetteImpl> getCasseteForMoney() {
-        return casseteForMoney;
+    public Map<Integer, Cassette> getCassetteForMoney() {
+        return cassetteForMoney;
     }
 
-    public void setCasseteForMoney(Map<Integer, CassetteImpl> casseteForMoney) {
-        this.casseteForMoney = casseteForMoney;
+    public void setCassetteForMoney(Map<Integer, Cassette> cassetteForMoney) {
+        this.cassetteForMoney = cassetteForMoney;
     }
 }

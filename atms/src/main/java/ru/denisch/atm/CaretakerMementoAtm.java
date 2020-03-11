@@ -17,17 +17,17 @@ public class CaretakerMementoAtm {
 
         ComplexType4MementoAtm complexType4MementoAtm = new ComplexType4MementoAtm();
 
-        List<CassetteImpl> cassettes = new ArrayList<>();
-        for (CassetteImpl cassette : mementoAtm.getCt().getCassetteImpls()) {
-            CassetteImpl cassetteTemp = new CassetteImpl();
-            cassetteTemp.setQ(((ArrayDeque<BillImpl>) cassette.getQ()).clone());
+        List<Cassette> cassettes = new ArrayList<>();
+        for (Cassette cassette : mementoAtm.getCt().getCassette()) {
+            Cassette cassetteTemp = new CassetteImpl();
+            cassetteTemp.setQ(((ArrayDeque<Bill>) cassette.getQ()).clone());
             cassetteTemp.setNominal(cassette.getNominal());
             cassettes.add(cassetteTemp);
         }
-        complexType4MementoAtm.setCassetteImpls(cassettes);
+        complexType4MementoAtm.setCassettes(cassettes);
 
-        complexType4MementoAtm.setCasseteForMoney(new HashMap<>(mementoAtm.getCt().getCasseteForMoney()));
-        complexType4MementoAtm.setCntInCassete(new HashMap<>(mementoAtm.getCt().getCntInCassete()));
+        complexType4MementoAtm.setCassetteForMoney(new HashMap<>(mementoAtm.getCt().getCassetteForMoney()));
+        complexType4MementoAtm.setCntInCassette(new HashMap<>(mementoAtm.getCt().getCntInCassette()));
 
         this.mementoAtm.setCt(complexType4MementoAtm);
 

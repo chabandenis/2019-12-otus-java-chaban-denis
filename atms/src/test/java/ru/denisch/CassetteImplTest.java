@@ -1,10 +1,7 @@
 package ru.denisch;
 
 import org.junit.jupiter.api.Test;
-import ru.denisch.atm.AtmException;
-import ru.denisch.atm.BillImpl;
-import ru.denisch.atm.CassetteImpl;
-import ru.denisch.atm.CurTypeImpl;
+import ru.denisch.atm.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,43 +13,32 @@ class CassetteImplTest {
 
     @Test
     void TestEnum() {
-
-        CurTypeImpl curTypeImpl = CurTypeImpl.RUR100;
-
-        System.out.println("_" + curTypeImpl.getNominal());
-
-
+        CurType curType = CurTypeImpl.RUR100;
+        System.out.println("_" + curType.getNominal());
     }
 
     @Test
     void putGet() {
-        CassetteImpl cassetteImpl = new CassetteImpl();
-        List<BillImpl> billImpls = new ArrayList<>();
+        Cassette cassette = new CassetteImpl();
+        List<Bill> bills = new ArrayList<>();
 
-        billImpls.add(new BillImpl("001", CurTypeImpl.RUR50));
-        billImpls.add(new BillImpl("002", CurTypeImpl.RUR50));
-        billImpls.add(new BillImpl("003", CurTypeImpl.RUR50));
+        bills.add(new BillImpl("001", CurTypeImpl.RUR50));
+        bills.add(new BillImpl("002", CurTypeImpl.RUR50));
+        bills.add(new BillImpl("003", CurTypeImpl.RUR50));
 
         try {
-            cassetteImpl.put(billImpls);
+            cassette.put(bills);
 
-            System.out.println(cassetteImpl.toString());
-
+            System.out.println(cassette.toString());
 
             HashSet d = new HashSet();
-/*
-        Bill b1 = cassette.get(1).get(0);
-        Bill b2 = (Bill)cassette.get(1).get(0);
-        Bill b3 = (Bill)cassette.get(1).get(0);
-*/
-            assertEquals(cassetteImpl.get(1).get(0).getSerNumber(), "003");
-            assertEquals(cassetteImpl.get(1).get(0).getSerNumber(), "002");
-            assertEquals(cassetteImpl.get(1).get(0).getSerNumber(), "001");
+
+            assertEquals(cassette.get(1).get(0).getSerNumber(), "003");
+            assertEquals(cassette.get(1).get(0).getSerNumber(), "002");
+            assertEquals(cassette.get(1).get(0).getSerNumber(), "001");
 
         } catch (AtmException e) {
             assertEquals(1, 2);
         }
-
     }
-
 }

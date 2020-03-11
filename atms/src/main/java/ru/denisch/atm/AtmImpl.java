@@ -23,8 +23,8 @@ public class AtmImpl implements Atm {
     // количество денег в банкомате
     public Long totalSum() {
         Long tmpSum = Long.valueOf(0);
-        for (CassetteImpl cassetteImpl : ct.getCassetteImpls()) {
-            tmpSum += cassetteImpl.getTotalSum();
+        for (Cassette cassette : ct.getCassette()) {
+            tmpSum += cassette.getTotalSum();
         }
         return tmpSum;
     }
@@ -32,15 +32,15 @@ public class AtmImpl implements Atm {
     // функция загрузки касет.
     // в функции за один раз должны быть передаваться номиналы одного достоинства
     // инициализация в обратном порядке
-    public AtmImpl loadCassetes(List<Bill> billImpls) throws AtmException {
+    public AtmImpl loadCassetes(List<Bill> bills) throws AtmException {
         // сформировали касету
-        CassetteImpl cassetteImpl = new CassetteImpl(billImpls);
+        Cassette cassette = new CassetteImpl(bills);
         // запомнили соответствие купюра- касета
-        ct.getCasseteForMoney().put(billImpls.get(0).getCurTypeImpl().getNominal(), cassetteImpl);
+        ct.getCassetteForMoney().put(bills.get(0).getCurType().getNominal(), cassette);
         // запонили сколько в касете денег
-        ct.getCntInCassete().put(cassetteImpl, (long) billImpls.size());
+        ct.getCntInCassette().put(cassette, (long) bills.size());
 
-        ct.getCassetteImpls().add(cassetteImpl);
+        ct.getCassette().add(cassette);
         return this;
     }
 
@@ -49,16 +49,16 @@ public class AtmImpl implements Atm {
         long retValue = 0;
 
         for (Bill bill : money) {
-            CassetteImpl cassetteImpl = ct.getCasseteForMoney().get(bill.getCurTypeImpl().getNominal());
+            Cassette cassette = ct.getCassetteForMoney().get(bill.getCurType().getNominal());
             List<Bill> tmpList = new ArrayList<>();
             tmpList.add(bill);
-            cassetteImpl.put(tmpList);
+            cassette.put(tmpList);
 
             // запонили сколько в касете денег
-            ct.getCntInCassete().put(cassetteImpl, ct.getCntInCassete().get(cassetteImpl) + 1);
+            ct.getCntInCassette().put(cassette, ct.getCntInCassette().get(cassette) + 1);
 
 
-            retValue += bill.getCurTypeImpl().getNominal();
+            retValue += bill.getCurType().getNominal();
         }
 
         return retValue;
@@ -68,8 +68,8 @@ public class AtmImpl implements Atm {
     public List<Bill> status() {
         List<Bill> tmp = new ArrayList<>();
 
-        for (CassetteImpl cassetteImpl : ct.getCassetteImpls()) {
-            tmp.addAll(cassetteImpl.getStatus());
+        for (Cassette cassette : ct.getCassette()) {
+            tmp.addAll(cassette.getStatus());
         }
 
         return tmp;
@@ -79,34 +79,34 @@ public class AtmImpl implements Atm {
     public String toString() {
         String tmpStatus = "";
 
-        for (CassetteImpl cassetteImpl : ct.getCassetteImpls()) {
-            tmpStatus += cassetteImpl.toString() + "; " + ct.getCntInCassete().get(cassetteImpl) + "\n";
+        for (Cassette cassette : ct.getCassette()) {
+            tmpStatus += cassette.toString() + "; " + ct.getCntInCassette().get(cassette) + "\n";
         }
 
         return tmpStatus;
     }
 
     public List<Bill> getMoney(long value) throws AtmException {
-        List<Bill> tmpBillImpls = new ArrayList<>();
+        List<Bill> bills = new ArrayList<>();
 
         long retMoney = value;
 
-        for (CassetteImpl cassetteImpl : ct.getCassetteImpls()) {
+        for (Cassette cassette : ct.getCassette()) {
 
-            long price = cassetteImpl.getCurType().getNominal();
+            long price = cassette.getCurType().getNominal();
 
 
             if (price <= value) {
                 // есть купюры
                 // денег для списания больше, чем купюра в кассете
                 // остаток весь списан
-                while (cassetteImpl.getCurType().getNominal() <= retMoney && retMoney != 0 && ct.getCntInCassete().get(cassetteImpl) > 0) {
+                while (cassette.getCurType().getNominal() <= retMoney && retMoney != 0 && ct.getCntInCassette().get(cassette) > 0) {
                     List oneBill = new ArrayList();
-                    oneBill = cassetteImpl.get(1);
-                    tmpBillImpls.addAll(oneBill);
+                    oneBill = cassette.get(1);
+                    bills.addAll(oneBill);
                     // запонили сколько в касете денег
-                    ct.getCntInCassete().put(cassetteImpl, ct.getCntInCassete().get(cassetteImpl) - 1);
-                    retMoney -= cassetteImpl.getCurType().getNominal();
+                    ct.getCntInCassette().put(cassette, ct.getCntInCassette().get(cassette) - 1);
+                    retMoney -= cassette.getCurType().getNominal();
                 }
             }
         }
@@ -114,8 +114,8 @@ public class AtmImpl implements Atm {
         int countMoney = 0;
 
         // посмотрим, есть ли в банкомате деньги
-        for (CassetteImpl cassetteImpl : ct.getCassetteImpls()) {
-            countMoney += ct.getCntInCassete().get(cassetteImpl);
+        for (Cassette cassette : ct.getCassette()) {
+            countMoney += ct.getCntInCassette().get(cassette);
         }
 
         if (retMoney > 0 && countMoney > 0) {
@@ -126,7 +126,7 @@ public class AtmImpl implements Atm {
             throw new AtmException("Запрашиваемая сумма больше остатка в банкомате");
         }
 
-        return tmpBillImpls;
+        return bills;
     }
 
     public MementoAtm saveState() {

@@ -6,7 +6,7 @@ public interface Bill {
     String getSerNumber();
 
     // номинал
-    CurTypeImpl getCurTypeImpl();
+    CurType getCurType();
 
 
 }
