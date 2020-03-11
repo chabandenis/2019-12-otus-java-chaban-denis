@@ -8,7 +8,7 @@ public interface Atm {
     long addMoney(List<Bill> money) throws AtmException;
 
     // взять деньги
-    List<BillImpl> getMoney(long value) throws AtmException;
+    List<Bill> getMoney(long value) throws AtmException;
 
     // количество денег в банкомате
     Long totalSum();

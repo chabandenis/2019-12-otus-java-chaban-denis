@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-//Memento - первоначальное состояние банкомата
 public class CassetteImpl implements Cassete {
 
     // максимальное количество купюр в кассете
@@ -13,12 +12,12 @@ public class CassetteImpl implements Cassete {
     // номинал
     private CurTypeImpl nominal;
     // в касете хранятся банкноты, не более 10
-    private Deque<BillImpl> q = new ArrayDeque(maxCount);
+    private Deque<Bill> q = new ArrayDeque(maxCount);
 
     // касету создать и передать набор купюр
-    public CassetteImpl(List<BillImpl> billImpls) throws AtmException {
-        this.put(billImpls);
-        nominal = billImpls.get(0).getCurTypeImpl();
+    public CassetteImpl(List<Bill> bills) throws AtmException {
+        this.put(bills);
+        nominal = bills.get(0).getCurTypeImpl();
     }
 
     // пустая касета
@@ -33,11 +32,11 @@ public class CassetteImpl implements Cassete {
         this.nominal = nominal;
     }
 
-    public Deque<BillImpl> getQ() {
+    public Deque<Bill> getQ() {
         return q;
     }
 
-    public void setQ(Deque<BillImpl> q) {
+    public void setQ(Deque<Bill> q) {
         this.q = q;
     }
 
@@ -46,20 +45,20 @@ public class CassetteImpl implements Cassete {
     }
 
     // добавить кпюру в касету
-    public void put(List<BillImpl> billImpls) throws AtmException {
+    public void put(List<Bill> bills) throws AtmException {
 
-        if ((billImpls.size() + q.size()) > maxCount) {
+        if ((bills.size() + q.size()) > maxCount) {
             throw new AtmException("Касета переполнена");
         }
 
-        for (BillImpl b : billImpls) {
+        for (Bill b : bills) {
             q.add(b);
         }
-        nominal = billImpls.get(0).getCurTypeImpl();
+        nominal = bills.get(0).getCurTypeImpl();
     }
 
     // взять купюру из касеты
-    public List<BillImpl> get(int cnt) {
+    public List<Bill> get(int cnt) {
         List tmpBill = new ArrayList();
         for (int i = 0; i < cnt; i++) {
             tmpBill.add(q.getLast());
@@ -69,10 +68,10 @@ public class CassetteImpl implements Cassete {
     }
 
     // функция служебная. Аналог окрыть банкомат и посмотреть, а что в касете лежит, в какой последовательности и с какими серийными номерами
-    public List<BillImpl> getStatus() {
-        List<BillImpl> tmp = new ArrayList<>();
-        for (BillImpl billImpl : q) {
-            tmp.add(billImpl);
+    public List<Bill> getStatus() {
+        List<Bill> tmp = new ArrayList<>();
+        for (Bill bill : q) {
+            tmp.add(bill);
         }
 
         return tmp;
@@ -91,8 +90,8 @@ public class CassetteImpl implements Cassete {
     @Override
     public String toString() {
         StringBuffer str = new StringBuffer();
-        for (BillImpl billImpl : q) {
-            str.append(billImpl.toString() + "\n");
+        for (Bill bill : q) {
+            str.append(bill.toString() + "\n");
         }
         return str.toString();
     }

@@ -5,9 +5,9 @@ import java.util.List;
 public interface Cassete {
 
     // добавить кпюру в касету
-    void put(List<BillImpl> billImpls) throws AtmException;
+    void put(List<Bill> bills) throws AtmException;
 
     // взять купюру из касеты
-    List<BillImpl> get(int cnt);
+    List<Bill> get(int cnt);
 
 }

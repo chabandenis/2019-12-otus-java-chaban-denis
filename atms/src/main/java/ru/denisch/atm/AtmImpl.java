@@ -32,7 +32,7 @@ public class AtmImpl implements Atm {
     // функция загрузки касет.
     // в функции за один раз должны быть передаваться номиналы одного достоинства
     // инициализация в обратном порядке
-    public AtmImpl loadCassetes(List<BillImpl> billImpls) throws AtmException {
+    public AtmImpl loadCassetes(List<Bill> billImpls) throws AtmException {
         // сформировали касету
         CassetteImpl cassetteImpl = new CassetteImpl(billImpls);
         // запомнили соответствие купюра- касета
@@ -48,25 +48,25 @@ public class AtmImpl implements Atm {
     public long addMoney(List<Bill> money) throws AtmException {
         long retValue = 0;
 
-        for (Bill billImpl : money) {
-            CassetteImpl cassetteImpl = ct.getCasseteForMoney().get(billImpl.getCurTypeImpl().getNominal());
-            List<BillImpl> tmpList = new ArrayList<>();
-            tmpList.add((BillImpl) billImpl);
+        for (Bill bill : money) {
+            CassetteImpl cassetteImpl = ct.getCasseteForMoney().get(bill.getCurTypeImpl().getNominal());
+            List<Bill> tmpList = new ArrayList<>();
+            tmpList.add(bill);
             cassetteImpl.put(tmpList);
 
             // запонили сколько в касете денег
             ct.getCntInCassete().put(cassetteImpl, ct.getCntInCassete().get(cassetteImpl) + 1);
 
 
-            retValue += billImpl.getCurTypeImpl().getNominal();
+            retValue += bill.getCurTypeImpl().getNominal();
         }
 
         return retValue;
     }
 
     // служебная функция, возвращает номиналы в касетах
-    public List<BillImpl> status() {
-        List<BillImpl> tmp = new ArrayList<>();
+    public List<Bill> status() {
+        List<Bill> tmp = new ArrayList<>();
 
         for (CassetteImpl cassetteImpl : ct.getCassetteImpls()) {
             tmp.addAll(cassetteImpl.getStatus());
@@ -86,14 +86,12 @@ public class AtmImpl implements Atm {
         return tmpStatus;
     }
 
-
-    public List<BillImpl> getMoney(long value) throws AtmException {
-        List<BillImpl> tmpBillImpls = new ArrayList<>();
+    public List<Bill> getMoney(long value) throws AtmException {
+        List<Bill> tmpBillImpls = new ArrayList<>();
 
         long retMoney = value;
 
         for (CassetteImpl cassetteImpl : ct.getCassetteImpls()) {
-//            System.out.println("касета " + cassetteNew.toString());
 
             long price = cassetteImpl.getCurType().getNominal();
 
@@ -111,8 +109,6 @@ public class AtmImpl implements Atm {
                     retMoney -= cassetteImpl.getCurType().getNominal();
                 }
             }
-
-
         }
 
         int countMoney = 0;

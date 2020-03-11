@@ -15,17 +15,17 @@ class AtmImplTest {
         AtmImpl atmImpl = new AtmImpl(1);
 
 
-        List<BillImpl> bills50 = new ArrayList<>();
+        List<Bill> bills50 = new ArrayList<>();
         bills50.add(new BillImpl("r50 n001", CurTypeImpl.RUR50));
         bills50.add(new BillImpl("r50 n002", CurTypeImpl.RUR50));
         bills50.add(new BillImpl("r50 n003", CurTypeImpl.RUR50));
 
-        List<BillImpl> bills100 = new ArrayList<>();
+        List<Bill> bills100 = new ArrayList<>();
         bills100.add(new BillImpl("r100 n001", CurTypeImpl.RUR100));
         bills100.add(new BillImpl("r100 n002", CurTypeImpl.RUR100));
         bills100.add(new BillImpl("r100 n003", CurTypeImpl.RUR100));
 
-        List<BillImpl> bills500 = new ArrayList<>();
+        List<Bill> bills500 = new ArrayList<>();
         bills500.add(new BillImpl("r500 n001", CurTypeImpl.RUR500));
         bills500.add(new BillImpl("r500 n002", CurTypeImpl.RUR500));
         bills500.add(new BillImpl("r500 n003", CurTypeImpl.RUR500));
@@ -38,7 +38,7 @@ class AtmImplTest {
 
         System.out.println("1 " + atmImpl.status().size());
 
-        for (BillImpl billImpl : atmImpl.status()) {
+        for (Bill billImpl : atmImpl.status()) {
             System.out.println(billImpl.toString());
         }
 
@@ -77,13 +77,13 @@ class AtmImplTest {
 
         AtmImpl atmImpl = new AtmImpl(1);
 
-        List<BillImpl> bills50 = new ArrayList<>();
+        List<Bill> bills50 = new ArrayList<>();
         bills50.add(new BillImpl("r50 n001", CurTypeImpl.RUR50));
 
-        List<BillImpl> bills100 = new ArrayList<>();
+        List<Bill> bills100 = new ArrayList<>();
         bills100.add(new BillImpl("r100 n001", CurTypeImpl.RUR100));
 
-        List<BillImpl> bills500 = new ArrayList<>();
+        List<Bill> bills500 = new ArrayList<>();
         bills500.add(new BillImpl("r500 n001", CurTypeImpl.RUR500));
 
         System.out.println("Состояние пустого банкомата");
@@ -111,7 +111,7 @@ class AtmImplTest {
 
         // снять пытаюсь те же купюры в обратном порядке
         try {
-            List<BillImpl> tmpList;
+            List<Bill> tmpList;
             tmpList = atmImpl.getMoney(50);
 
             assertEquals(tmpList.get(0).getSerNumber(), "my 50 002");
@@ -147,7 +147,7 @@ class AtmImplTest {
         // пробуем списать 40
         System.out.println("Пробуем списать 40р");
         try {
-            List<BillImpl> tmpList;
+            List<Bill> tmpList;
             tmpList = atmImpl.getMoney(40);
 
             System.out.println("Состояние после списания 40р");
@@ -167,7 +167,7 @@ class AtmImplTest {
         // пробуем списать 60
         System.out.println("Пробуем списать 60р");
         try {
-            List<BillImpl> tmpList;
+            List<Bill> tmpList;
             tmpList = atmImpl.getMoney(60);
 
             System.out.println("Состояние после списания 60р");

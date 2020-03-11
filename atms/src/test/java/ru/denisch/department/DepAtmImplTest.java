@@ -18,17 +18,17 @@ class DepAtmImplTest {
         // инициализация первоначального состояния банкомата
         for (int i = 1; i <= 3; i++) {
 
-            List<BillImpl> bills50 = new ArrayList<>();
+            List<Bill> bills50 = new ArrayList<>();
             for (int j = 1; j <= i; j++) {
                 bills50.add(new BillImpl("r50 n0" + i + j, CurTypeImpl.RUR50));
             }
 
-            List<BillImpl> bills100 = new ArrayList<>();
+            List<Bill> bills100 = new ArrayList<>();
             for (int j = 1; j <= i; j++) {
                 bills100.add(new BillImpl("r100 n0" + i + j, CurTypeImpl.RUR100));
             }
 
-            List<BillImpl> bills500 = new ArrayList<>();
+            List<Bill> bills500 = new ArrayList<>();
             for (int j = 1; j <= i; j++) {
                 bills500.add(new BillImpl("r500 n0" + i + j, CurTypeImpl.RUR500));
             }
