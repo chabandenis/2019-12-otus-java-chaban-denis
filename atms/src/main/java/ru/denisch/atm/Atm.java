@@ -27,6 +27,5 @@ public interface Atm {
 
     // служебная функция, возвращает номиналы в касетах
     List<Bill> status();
-
 }
 

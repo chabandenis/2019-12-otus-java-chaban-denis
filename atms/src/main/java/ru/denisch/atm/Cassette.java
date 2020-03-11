@@ -4,7 +4,6 @@ import java.util.Deque;
 import java.util.List;
 
 public interface Cassette {
-
     // добавить кпюру в касету
     void put(List<Bill> bills) throws AtmException;
 
@@ -30,5 +29,4 @@ public interface Cassette {
 
     // клонирование
     Cassette myClone();
-
 }

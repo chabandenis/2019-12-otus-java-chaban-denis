@@ -9,11 +9,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AtmImplTest {
-
     @Test
     void loadBills() {
         Atm atm = new AtmImpl(1);
-
 
         List<Bill> bills50 = new ArrayList<>();
         bills50.add(new BillImpl("r50 n001", CurTypeImpl.RUR50));
@@ -54,7 +52,6 @@ class AtmImplTest {
         assertEquals(atm.status().get(7).getSerNumber(), "r500 n002");
         assertEquals(atm.status().get(8).getSerNumber(), "r500 n003");
 
-
         // пробуем передать больше чем есть
         System.out.println("загружаем больше чем есть");
         List<Bill> billsCnt10 = new ArrayList<>();
@@ -62,7 +59,6 @@ class AtmImplTest {
         for (int i = 0; i < 10; i++) {
             billsCnt10.add(new BillImpl("over0" + i, CurTypeImpl.RUR50));
         }
-
 
         try {
             atm.addMoney(billsCnt10);
@@ -181,7 +177,5 @@ class AtmImplTest {
             // исключение, все верно
             assertEquals(e.getMessage(), "Запрашиваемая сумма больше остатка в банкомате");
         }
-
-
     }
 }

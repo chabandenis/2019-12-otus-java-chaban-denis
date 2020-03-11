@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ComplexType4MementoAtm {
-
     // в банкомате есть фиксированное количество касет
     private List<Cassette> cassettes = new ArrayList<Cassette>();
 

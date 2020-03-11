@@ -6,7 +6,6 @@ import java.util.Deque;
 import java.util.List;
 
 public class CassetteImpl implements Cassette {
-
     // максимальное количество купюр в кассете
     private static int maxCount = 10;
     // номинал
@@ -105,5 +104,4 @@ public class CassetteImpl implements Cassette {
 
         return cassette;
     }
-
 }

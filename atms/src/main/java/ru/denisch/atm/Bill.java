@@ -8,5 +8,4 @@ public interface Bill {
     // номинал
     CurType getCurType();
 
-
 }

@@ -9,7 +9,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DepAtmImplTest {
-
     @Test
         // проверяю, что мементо работает
     void department() throws AtmException {
@@ -37,7 +36,6 @@ class DepAtmImplTest {
             depAtm.addAtm(new AtmImpl(i - 1).loadCassettes(bills50).loadCassettes(bills100).loadCassettes(bills500));
         }
 
-
         // проверю суммы в банкоматах
         assertEquals(Long.valueOf(650), depAtm.getAtms().get(0).totalSum());
         assertEquals(Long.valueOf(1300), depAtm.getAtms().get(1).totalSum());
@@ -63,7 +61,6 @@ class DepAtmImplTest {
         assertEquals(Long.valueOf(1300 + 50), depAtm.getAtms().get(1).totalSum());
         assertEquals(Long.valueOf(1950 + 50), depAtm.getAtms().get(2).totalSum());
 
-
         // вернуть исходное состояние банкоматов в департаменте
         depAtm.restoreState();
 
@@ -71,6 +68,5 @@ class DepAtmImplTest {
         assertEquals(Long.valueOf(650), depAtm.getAtms().get(0).totalSum());
         assertEquals(Long.valueOf(1300), depAtm.getAtms().get(1).totalSum());
         assertEquals(Long.valueOf(1950), depAtm.getAtms().get(2).totalSum());
-
     }
 }
