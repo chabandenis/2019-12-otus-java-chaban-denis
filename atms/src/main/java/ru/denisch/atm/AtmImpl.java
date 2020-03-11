@@ -32,7 +32,7 @@ public class AtmImpl implements Atm {
     // функция загрузки касет.
     // в функции за один раз должны быть передаваться номиналы одного достоинства
     // инициализация в обратном порядке
-    public AtmImpl loadCassetes(List<Bill> bills) throws AtmException {
+    public AtmImpl loadCassettes(List<Bill> bills) throws AtmException {
         // сформировали касету
         Cassette cassette = new CassetteImpl(bills);
         // запомнили соответствие купюра- касета

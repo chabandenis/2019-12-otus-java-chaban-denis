@@ -23,8 +23,9 @@ public interface Atm {
     // функция загрузки касет.
     // в функции за один раз должны быть передаваться номиналы одного достоинства
     // инициализация в обратном порядке
-    AtmImpl loadCassetes(List<Bill> bills) throws AtmException;
+    AtmImpl loadCassettes(List<Bill> bills) throws AtmException;
 
     // служебная функция, возвращает номиналы в касетах
     List<Bill> status();
 }
+
