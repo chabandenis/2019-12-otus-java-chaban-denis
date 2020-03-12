@@ -1,5 +1,7 @@
 package ru.denisch.atm;
 
+import ru.denisch.department.Observer;
+
 import java.util.List;
 
 public interface Atm {
@@ -27,5 +29,8 @@ public interface Atm {
 
     // служебная функция, возвращает номиналы в касетах
     List<Bill> status();
+
+    // регистрируем слушателя
+    void registerObserver(Observer o);
 }
 

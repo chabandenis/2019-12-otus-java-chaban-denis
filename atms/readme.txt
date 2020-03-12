@@ -1,0 +1,4 @@
+паттерны:
+*   мементо
+*   observer
+*   commander

@@ -16,4 +16,6 @@ interface DepAtm {
     void saveState();
 
     void restoreState();
+
+    Observer getObserver();
 }

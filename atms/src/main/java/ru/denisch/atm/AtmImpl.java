@@ -1,9 +1,14 @@
 package ru.denisch.atm;
 
+import ru.denisch.department.Observable;
+import ru.denisch.department.Observer;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class AtmImpl implements Atm {
+public class AtmImpl implements Atm, Observable {
+    private List<Observer> observers = new ArrayList<>();
+
     //
     private ComplexType4MementoAtm ct = new ComplexType4MementoAtm();
 
@@ -41,6 +46,12 @@ public class AtmImpl implements Atm {
         ct.getCntInCassette().put(cassette, (long) bills.size());
 
         ct.getCassette().add(cassette);
+
+        // оповестим
+        bills.stream().forEach(bill -> {
+            notifyObservers(bill.getCurType().getNominal());
+        });
+
         return this;
     }
 
@@ -57,9 +68,11 @@ public class AtmImpl implements Atm {
             // запонили сколько в касете денег
             ct.getCntInCassette().put(cassette, ct.getCntInCassette().get(cassette) + 1);
 
-
             retValue += bill.getCurType().getNominal();
         }
+
+        // оповестим
+        notifyObservers(retValue);
 
         return retValue;
     }
@@ -126,6 +139,9 @@ public class AtmImpl implements Atm {
             throw new AtmException("Запрашиваемая сумма больше остатка в банкомате");
         }
 
+        // оповестим
+        notifyObservers(-value);
+
         return bills;
     }
 
@@ -137,4 +153,22 @@ public class AtmImpl implements Atm {
         this.ct = memento.getCt();
     }
 
+    @Override
+    public void registerObserver(Observer o) {
+        if (!observers.contains(o)) {
+            observers.add(o);
+        }
+    }
+
+    @Override
+    public void removeObserver(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers(long sumChange) {
+        observers.stream().forEach(observer -> {
+            observer.update(sumChange, id);
+        });
+    }
 }

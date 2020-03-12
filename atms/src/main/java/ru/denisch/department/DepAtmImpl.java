@@ -15,12 +15,16 @@ public class DepAtmImpl implements DepAtm {
     // состояние по идентификатору банкомата
     private Map<Long, CaretakerMementoAtm> stateAtm = new HashMap<>();
 
+    // количество денег в каждом бакомате
+    private Observer observer = new ObserverImpl();
+
     public List<Atm> getAtms() {
         return atms;
     }
 
     public void addAtm(Atm atm) {
-        atms.add(atm);
+        this.atms.add(atm);
+        atm.registerObserver(observer);
     }
 
     @Override
@@ -40,5 +44,13 @@ public class DepAtmImpl implements DepAtm {
                     atm.restoreState(stateAtm.get(atm.getId()).getMementoAtm());
                 }
         );
+    }
+
+    public Observer getObserver() {
+        return observer;
+    }
+
+    public void setObserver(Observer observer) {
+        this.observer = observer;
     }
 }
