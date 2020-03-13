@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class SimpleTest {
 
     @Test
-    void testSimple() throws ClassNotFoundException {
+    void testSimple() throws ClassNotFoundException, IllegalAccessException {
 
         Simple simple = new Simple();
 
@@ -24,7 +24,6 @@ class SimpleTest {
         assertEquals("null", myGson.getValueSimple("aFloat", simple));
         assertEquals("null", myGson.getValueSimple("aShort", simple));
         assertEquals("null", myGson.getValueSimple("aLong", simple));
-
 
         simple.setI(1);
         simple.setiH(8);
@@ -45,8 +44,5 @@ class SimpleTest {
         assertEquals(String.valueOf(123.6f), myGson.getValueSimple("aFloat", simple));
         assertEquals(String.valueOf((short) 12345), myGson.getValueSimple("aShort", simple));
         assertEquals(String.valueOf(1234567890L), myGson.getValueSimple("aLong", simple));
-
-
     }
-
 }
