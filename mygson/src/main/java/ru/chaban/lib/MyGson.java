@@ -1,9 +1,10 @@
 package ru.chaban.lib;
 
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -16,15 +17,10 @@ public class MyGson {
         System.out.println("Поля в классе");
         for (var field : myObject.getClass().getFields()) {
             System.out.println("field " + field.getType());
-            if(field.getType().toString().equals("interface java.util.Set")) {
-                jO.add(field.getName(), Json.createArrayBuilder()
-                        .add(Json.createObjectBuilder()
-                                .add(getValueSimple(field, myObject)))
-                        )
+            if (field.getType().toString().equals("interface java.util.Set")) {
+                jO.add(field.getName(), getValueSimple(field, myObject));
 
-            }
-            else
-            {
+            } else {
                 jO.add(field.getName(), getValueSimple(field, myObject));
             }
         }
@@ -34,7 +30,7 @@ public class MyGson {
 
     }
 
-    public String getValueSimple(String field, Object myObject) throws IllegalAccessException {
+    public JsonArrayBuilder getValueSimple(String field, Object myObject) throws IllegalAccessException {
 
         /*
         System.out.println("Поля в классе");
@@ -49,18 +45,19 @@ public class MyGson {
 
         for (var fl : myObject.getClass().getFields()) {
             if (fl.getName().equals(field)) {
-                return (getValueSimple(fl, myObject));
+                return getValueSimple(fl, myObject);
             }
         }
         return null;
     }
 
-    public String getValueSimple(Field field, Object myObject) throws IllegalAccessException {
-        String retValue = "";
+    public JsonArrayBuilder getValueSimple(Field field, Object myObject) throws IllegalAccessException {
+       // JsonArrayBuilder retValue = "";
 
         try {
+
             switch (String.valueOf(field.getType())) {
-                case ("int"):
+            /*    case ("int"):
                     retValue = String.valueOf(field.getInt(myObject));
                     break;
 
@@ -74,7 +71,7 @@ public class MyGson {
 
                 case ("class java.lang.Boolean"):
                     if (field.get(myObject) == null) {
-                        return String.valueOf("null");
+                        //return String.valueOf("null");
                     }
                     retValue = String.valueOf(field.get(myObject));
                     break;
@@ -104,36 +101,26 @@ public class MyGson {
                         retValue += tmp + "; ";
                     }
                     break;
-
+*/
                 case ("interface java.util.Set"):
-                    var js = Json.createArrayBuilder()
-                            .add(Json.createObjectBuilder();
-                                    .add(getValueSimple(field, myObject)))
-                        )
+                    var jsonArrayBuilder = Json.createArrayBuilder();
+                    var jsonObjectBuilder = Json.createObjectBuilder();
 
-                    Arrays.asList((Set) field.get(myObject)).stream().forEach((x)->{js.add(x);});
+                    for ( var item : (Set) field.get(myObject)) {
+                        jsonArrayBuilder.add(item.toString());
+                    };
+                    //jsonArrayBuilder.add(jsonObjectBuilder);
 
-                    for (var fl : ) {
-                        js.add(fl)
-                    }
-
-                    for (int i=0; i< lst.size(); i++){
-                        if (i==lst.size()-1){
-                            retValue+=lst.get(i);
-                        } else {
-                            retValue+="\"" + lst.get(i) + ", ";
-                        }
-                    }
-                    break;
+                    return jsonArrayBuilder;
 
                 default:
-                    retValue = "error";
+                    //retValue = "error";
                     break;
             }
         } catch (IllegalAccessException e) {
-            retValue = "error";
+           // retValue = "error";
             e.printStackTrace();
         }
-        return retValue;
+        return null;
     }
 }
