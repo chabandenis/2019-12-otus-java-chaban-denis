@@ -100,13 +100,13 @@ class DepAtmImplTest {
             atm.loadCassettes(bills50).loadCassettes(bills100).loadCassettes(bills500);
         }
 
-        depAtm.getObserver().getMoneyInAtm().keySet().stream().
-                forEach((idAtm) -> System.out.println("res: " + idAtm + "; " + depAtm.getObserver().getMoneyInAtm().get(idAtm)));
+        ((DepAtmImpl)depAtm).getObserver().getMoneyInAtm().keySet().stream().
+                forEach((idAtm) -> System.out.println("res: " + idAtm + "; " + ((DepAtmImpl)depAtm).getObserver().getMoneyInAtm().get(idAtm)));
 
         // проверю суммы в банкоматах
-        assertEquals(Long.valueOf(650), depAtm.getObserver().getMoneyInAtm().get(Long.valueOf(0)));
-        assertEquals(Long.valueOf(1300), depAtm.getObserver().getMoneyInAtm().get(Long.valueOf(1)));
-        assertEquals(Long.valueOf(1950), depAtm.getObserver().getMoneyInAtm().get(Long.valueOf(2)));
+        assertEquals(Long.valueOf(650), ((DepAtmImpl)depAtm).getObserver().getMoneyInAtm().get(Long.valueOf(0)));
+        assertEquals(Long.valueOf(1300), ((DepAtmImpl)depAtm).getObserver().getMoneyInAtm().get(Long.valueOf(1)));
+        assertEquals(Long.valueOf(1950), ((DepAtmImpl)depAtm).getObserver().getMoneyInAtm().get(Long.valueOf(2)));
 
         List<Bill> bill = new ArrayList<>();
         bill.add(new BillImpl("xxx", CurTypeImpl.RUR50));
@@ -120,12 +120,12 @@ class DepAtmImplTest {
             }
         });
 
-        depAtm.getObserver().getMoneyInAtm().keySet().stream().
-                forEach((idAtm) -> System.out.println("res: " + idAtm + "; " + depAtm.getObserver().getMoneyInAtm().get(idAtm)));
+        ((DepAtmImpl)depAtm).getObserver().getMoneyInAtm().keySet().stream().
+                forEach((idAtm) -> System.out.println("res: " + idAtm + "; " + ((DepAtmImpl)depAtm).getObserver().getMoneyInAtm().get(idAtm)));
 
         // проверю суммы в банкоматах после увеличения на 50р
-        assertEquals(Long.valueOf(650 + 50), depAtm.getObserver().getMoneyInAtm().get(Long.valueOf(0)));
-        assertEquals(Long.valueOf(1300 + 50), depAtm.getObserver().getMoneyInAtm().get(Long.valueOf(1)));
-        assertEquals(Long.valueOf(1950 + 50), depAtm.getObserver().getMoneyInAtm().get(Long.valueOf(2)));
+        assertEquals(Long.valueOf(650 + 50), ((DepAtmImpl)depAtm).getObserver().getMoneyInAtm().get(Long.valueOf(0)));
+        assertEquals(Long.valueOf(1300 + 50), ((DepAtmImpl)depAtm).getObserver().getMoneyInAtm().get(Long.valueOf(1)));
+        assertEquals(Long.valueOf(1950 + 50), ((DepAtmImpl)depAtm).getObserver().getMoneyInAtm().get(Long.valueOf(2)));
     }
 }

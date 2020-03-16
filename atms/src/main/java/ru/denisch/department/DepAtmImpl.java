@@ -29,13 +29,12 @@ public class DepAtmImpl implements DepAtm {
 
     @Override
     public void saveState() {
-        atms.stream().forEach((atm) -> {
-                    savedPreviousState.put(
-                            atm.getId(),
-                            (new CaretakerMementoAtm()).setMementoAtm(atm.saveState())
-                    );
-                }
-        );
+        for (var atm : atms) {
+            savedPreviousState.put(
+                    atm.getId(),
+                    (new CaretakerMementoAtm()).setMementoAtm(atm.saveState())
+            );
+        }
     }
 
     @Override
