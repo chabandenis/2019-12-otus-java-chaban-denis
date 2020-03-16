@@ -13,7 +13,7 @@ public class DepAtmImpl implements DepAtm {
     private List<Atm> atms = new ArrayList<>();
 
     // состояние по идентификатору банкомата
-    private Map<Long, CaretakerMementoAtm> stateAtm = new HashMap<>();
+    private Map<Long, CaretakerMementoAtm> savedPreviousState = new HashMap<>();
 
     // количество денег в каждом бакомате
     private Observer observer = new ObserverImpl();
@@ -30,7 +30,7 @@ public class DepAtmImpl implements DepAtm {
     @Override
     public void saveState() {
         atms.stream().forEach((atm) -> {
-                    stateAtm.put(
+                    savedPreviousState.put(
                             atm.getId(),
                             (new CaretakerMementoAtm()).setMementoAtm(atm.saveState())
                     );
@@ -41,7 +41,7 @@ public class DepAtmImpl implements DepAtm {
     @Override
     public void restoreState() {
         atms.stream().forEach((atm) -> {
-                    atm.restoreState(stateAtm.get(atm.getId()).getMementoAtm());
+                    atm.restoreState(savedPreviousState.get(atm.getId()).getMementoAtm());
                 }
         );
     }
