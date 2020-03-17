@@ -1,5 +1,7 @@
 package ru.denisch.department;
 
+import ru.denisch.atm.Atm;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,11 +10,11 @@ public class ObserverImpl implements Observer {
     private Map<Long, Long> moneyInAtm = new HashMap<>();
 
     @Override
-    public void update(long sumChange, long idAtm) {
-        if (moneyInAtm.containsKey(idAtm)) {
-            moneyInAtm.put(idAtm, moneyInAtm.get(idAtm) + sumChange);
+    public void update(long sumChange, Atm atm) {
+        if (moneyInAtm.containsKey(atm.getId())) {
+            moneyInAtm.put(atm.getId(), moneyInAtm.get(atm.getId()) + sumChange);
         } else {
-            moneyInAtm.put(idAtm, sumChange);
+            moneyInAtm.put(atm.getId(), sumChange);
         }
     }
 

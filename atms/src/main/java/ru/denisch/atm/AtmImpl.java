@@ -168,7 +168,7 @@ public class AtmImpl implements Atm, Observable {
     @Override
     public void notifyObservers(long sumChange) {
         observers.stream().forEach(observer -> {
-            observer.update(sumChange, id);
+            observer.update(sumChange, this);
         });
     }
 }
