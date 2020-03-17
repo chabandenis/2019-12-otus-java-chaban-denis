@@ -1,20 +1,16 @@
-package ru.chaban.exaples;
+package ru.chaban.examples;
 
 import org.junit.jupiter.api.Test;
 import ru.chaban.lib.MyGson;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MyListTest {
-
+class MySetTest {
     @Test
-    void getList() throws IllegalAccessException {
-
+    void setList() throws IllegalAccessException {
         MyGson myGson = new MyGson();
         MySet mySet = new MySet();
 
@@ -25,5 +21,6 @@ class MyListTest {
         mySet.setSet(str);
 
         assertEquals("{denis}", myGson.getValueSimple("list", mySet));
+
     }
 }

@@ -1,4 +1,4 @@
-package ru.chaban.exaples;
+package ru.chaban.examples;
 
 import org.junit.jupiter.api.Test;
 import ru.chaban.lib.MyGson;

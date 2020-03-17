@@ -1,4 +1,4 @@
-package ru.chaban.exaples;
+package ru.chaban.examples;
 
 import java.util.ArrayList;
 import java.util.List;

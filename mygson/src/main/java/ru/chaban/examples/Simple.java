@@ -1,4 +1,4 @@
-package ru.chaban.exaples;
+package ru.chaban.examples;
 
 public class Simple {
     public int i;
