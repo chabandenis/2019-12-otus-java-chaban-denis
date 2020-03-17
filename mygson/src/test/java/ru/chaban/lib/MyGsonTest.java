@@ -53,8 +53,8 @@ class MyGsonTest {
 
         Map<String, String> myMap = new HashMap<>();
         myMap.put("name", "Denis");
-        myMap.put("age","19");
-        myMap.put("sex","male");
+        myMap.put("age", "19");
+        myMap.put("sex", "male");
 
         myList.setMap(myMap);
 
