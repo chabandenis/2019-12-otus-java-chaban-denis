@@ -3,6 +3,7 @@ package ru.denisch.department;
 import ru.denisch.atm.Atm;
 
 import java.util.List;
+import java.util.Map;
 
 // департамент АТМ
 interface DepAtm {
@@ -17,4 +18,5 @@ interface DepAtm {
 
     void restoreState();
 
+    Map<Atm, Long> getMoneyInAtm();
 }

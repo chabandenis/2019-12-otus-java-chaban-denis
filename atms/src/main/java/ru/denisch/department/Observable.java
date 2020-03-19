@@ -5,5 +5,4 @@ public interface Observable {
 
     void removeObserver(Observer o);
 
-    void notifyObservers(long sumChange);
 }
