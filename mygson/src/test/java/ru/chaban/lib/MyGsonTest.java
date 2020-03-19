@@ -83,6 +83,41 @@ class MyGsonTest {
         simple.setaShort((short) 12345);
         simple.setaLong(1234567890L);
 
+        simple.setI(1);
+        simple.setiH(8);
+        simple.setStr("a123");
+        simple.setaBoolean(true);
+        simple.setaChar('a');
+        simple.setaDouble(123.456);
+        simple.setaFloat(123.6f);
+        simple.setaShort((short) 12345);
+        simple.setaLong(1234567890L);
+
+        simple.setiPrivate(1);
+        simple.setiHPrivate(8);
+        simple.setStrPrivate("a123");
+        simple.setaBooleanPrivate(true);
+        simple.setaCharPrivate('a');
+        simple.setaDoublePrivate(123.456);
+        simple.setaFloatPrivate(123.6f);
+        simple.setaShortPrivate((short) 12345);
+        simple.setaLongPrivate(1234567890L);
+
+        MySet mySet1 = new MySet();
+        mySet1.set.add("01-01");
+        mySet1.set.add("01-02");
+        simple.mySets.add(mySet1);
+
+        MySet mySet2 = new MySet();
+        mySet2.set.add("02-01");
+        mySet2.set.add("02-02");
+        simple.mySets.add(mySet2);
+
+        MySet mySet3 = new MySet();
+        mySet3.set.add("03-01");
+        mySet3.set.add("03-02");
+        simple.mySets.add(mySet3);
+
         System.out.println("gson: " + new Gson().toJson(simple));
         System.out.println("my gson: " + myGson.create(simple));
         assertEquals(new Gson().toJson(simple), myGson.create(simple));

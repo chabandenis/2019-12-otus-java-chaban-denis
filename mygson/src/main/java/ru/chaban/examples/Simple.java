@@ -1,6 +1,11 @@
 package ru.chaban.examples;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Simple {
+    public Set<MySet>  mySets = new HashSet<>();
+
     public int i;
     public String str;
     public Integer iH;
@@ -10,6 +15,48 @@ public class Simple {
     public Float aFloat;
     public Short aShort;
     public Long aLong;
+
+    private int iPrivate;
+    private String strPrivate;
+    private Integer iHPrivate;
+    private Boolean aBooleanPrivate;
+    private char aCharPrivate;
+    private Double aDoublePrivate;
+    private Float aFloatPrivate;
+    private Short aShortPrivate;
+    private Long aLongPrivate;
+
+    public Set<MySet> getMySets() {
+        return mySets;
+    }
+
+    public void setMySets(Set<MySet> mySets) {
+        this.mySets = mySets;
+    }
+
+    public int getI() {
+        return i;
+    }
+
+    public void setI(int i) {
+        this.i = i;
+    }
+
+    public String getStr() {
+        return str;
+    }
+
+    public void setStr(String str) {
+        this.str = str;
+    }
+
+    public Integer getiH() {
+        return iH;
+    }
+
+    public void setiH(Integer iH) {
+        this.iH = iH;
+    }
 
     public Boolean getaBoolean() {
         return aBoolean;
@@ -59,27 +106,75 @@ public class Simple {
         this.aLong = aLong;
     }
 
-    public int getI() {
-        return i;
+    public int getiPrivate() {
+        return iPrivate;
     }
 
-    public void setI(int i) {
-        this.i = i;
+    public void setiPrivate(int iPrivate) {
+        this.iPrivate = iPrivate;
     }
 
-    public String getStr() {
-        return str;
+    public String getStrPrivate() {
+        return strPrivate;
     }
 
-    public void setStr(String str) {
-        this.str = str;
+    public void setStrPrivate(String strPrivate) {
+        this.strPrivate = strPrivate;
     }
 
-    public Integer getiH() {
-        return iH;
+    public Integer getiHPrivate() {
+        return iHPrivate;
     }
 
-    public void setiH(Integer iH) {
-        this.iH = iH;
+    public void setiHPrivate(Integer iHPrivate) {
+        this.iHPrivate = iHPrivate;
+    }
+
+    public Boolean getaBooleanPrivate() {
+        return aBooleanPrivate;
+    }
+
+    public void setaBooleanPrivate(Boolean aBooleanPrivate) {
+        this.aBooleanPrivate = aBooleanPrivate;
+    }
+
+    public char getaCharPrivate() {
+        return aCharPrivate;
+    }
+
+    public void setaCharPrivate(char aCharPrivate) {
+        this.aCharPrivate = aCharPrivate;
+    }
+
+    public Double getaDoublePrivate() {
+        return aDoublePrivate;
+    }
+
+    public void setaDoublePrivate(Double aDoublePrivate) {
+        this.aDoublePrivate = aDoublePrivate;
+    }
+
+    public Float getaFloatPrivate() {
+        return aFloatPrivate;
+    }
+
+    public void setaFloatPrivate(Float aFloatPrivate) {
+        this.aFloatPrivate = aFloatPrivate;
+    }
+
+    public Short getaShortPrivate() {
+        return aShortPrivate;
+    }
+
+    public void setaShortPrivate(Short aShortPrivate) {
+        this.aShortPrivate = aShortPrivate;
+    }
+
+    public Long getaLongPrivate() {
+        return aLongPrivate;
+    }
+
+    public void setaLongPrivate(Long aLongPrivate) {
+        this.aLongPrivate = aLongPrivate;
     }
 }

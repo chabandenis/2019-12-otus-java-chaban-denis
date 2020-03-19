@@ -1,8 +1,6 @@
 package ru.chaban.lib;
 
 import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,7 +12,9 @@ public class MyGson {
         var jO = Json.createObjectBuilder();
 
         // поля объекта
-        for (var field : myObject.getClass().getFields()) {
+        for (var field : myObject.getClass().getDeclaredFields()) {
+
+            field.setAccessible(true);
 
             if (field.get(myObject) == null) {
                 continue;
@@ -25,7 +25,8 @@ public class MyGson {
                     var jsonArrayBuilder = Json.createArrayBuilder();
 
                     for (var item : (Set) field.get(myObject)) {
-                        jsonArrayBuilder.add(item.toString());
+                        //((Set) field.get(myObject)).size()
+                        jsonArrayBuilder.add(   create(item));
                     }
 
                     jO.add(field.getName(), jsonArrayBuilder);
@@ -112,8 +113,4 @@ public class MyGson {
         }
         return jO.build().toString();
     }
-
-
-
-
 }
