@@ -1,6 +1,7 @@
 package ru.chaban.lib;
 
 import com.google.gson.Gson;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import ru.chaban.examples.MyList;
 import ru.chaban.examples.MyMap;
@@ -122,4 +123,29 @@ class MyGsonTest {
         System.out.println("my gson: " + myGson.create(simple));
         assertEquals(new Gson().toJson(simple), myGson.create(simple));
     }
+
+    @Test
+    void mySimple2() throws ClassNotFoundException, IllegalAccessException {
+        C c = new C();
+
+        MyGson myGson = new MyGson();
+
+        System.out.println("gson: " + new Gson().toJson(c));
+        System.out.println("my gson: " + myGson.create(c));
+        assertEquals(new Gson().toJson(c), myGson.create(c));
+    }
+}
+
+class A {
+    public int x = 1;
+}
+
+class B {
+    public int y = 2;
+}
+
+class C {
+    public A a = new A();
+    public B b = new B();
+    int z = 3;
 }
