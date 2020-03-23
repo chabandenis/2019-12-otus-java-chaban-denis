@@ -109,6 +109,9 @@ public class MyGson {
                 case ("class java.lang.Long"):
                     jO.add(field.getName(), (Long) field.get(myObject));
                     break;
+
+                default:
+                    return String.valueOf(create(myObject));
             }
         }
         return jO.build().toString();
