@@ -127,6 +127,11 @@ class MyGsonTest {
     @Test
     void mySimple2() throws ClassNotFoundException, IllegalAccessException {
         C c = new C();
+        c.a = new A();
+        c.a.x = 1;
+        c.b = new B();
+        c.b.y = 2;
+        c.z = 3;
 
         MyGson myGson = new MyGson();
 
@@ -137,15 +142,15 @@ class MyGsonTest {
 }
 
 class A {
-    public int x = 1;
+    public int x;
 }
 
 class B {
-    public int y = 2;
+    public int y;
 }
 
 class C {
-    public A a = new A();
-    public B b = new B();
-    int z = 3;
+    public A a;
+    public B b;
+    int z;
 }
