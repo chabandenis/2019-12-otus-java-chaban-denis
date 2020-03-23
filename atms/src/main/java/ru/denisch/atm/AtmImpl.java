@@ -108,7 +108,6 @@ public class AtmImpl implements Atm, Observable {
 
             long price = cassette.getCurType().getNominal();
 
-
             if (price <= value) {
                 // есть купюры
                 // денег для списания больше, чем купюра в кассете
@@ -169,5 +168,10 @@ public class AtmImpl implements Atm, Observable {
         observers.stream().forEach(observer -> {
             observer.update(sumChange, this);
         });
+    }
+
+    // А есть ли подписчик в банкомате?
+    public boolean IsObserver(Observer observer) {
+        return observers.contains(observer);
     }
 }

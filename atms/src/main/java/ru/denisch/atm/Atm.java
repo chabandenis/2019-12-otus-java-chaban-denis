@@ -12,6 +12,9 @@ public interface Atm {
     // взять деньги
     List<Bill> getMoney(long value) throws AtmException;
 
+    // А есть ли подписчик в банкомате?
+    boolean IsObserver(Observer observer);
+
     // количество денег в банкомате
     Long totalSum();
 
@@ -32,5 +35,6 @@ public interface Atm {
 
     // регистрируем слушателя
     void registerObserver(Observer o);
+
 }
 
