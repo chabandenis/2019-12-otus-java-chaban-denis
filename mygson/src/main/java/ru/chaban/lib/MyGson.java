@@ -16,20 +16,6 @@ public class MyGson {
     public JsonObjectBuilder create2(Object myObject) throws ClassNotFoundException, IllegalAccessException {
         var jO = Json.createObjectBuilder();
 
-        switch (String.valueOf(myObject.getClass())) {
-            case ("java.util.HashSet"): {
-                var jsonArrayBuilder = Json.createArrayBuilder();
-
-                for (var item : (Set) myObject) {
-                    //((Set) field.get(myObject)).size()
-                    jsonArrayBuilder.add(item.toString());
-                }
-
-                jO.add("1", jsonArrayBuilder);
-                break;
-            }
-        }
-
         // поля объекта
         for (var field : myObject.getClass().getDeclaredFields()) {
 
@@ -134,5 +120,7 @@ public class MyGson {
             }
         }
         return jO;
+
+
     }
 }
