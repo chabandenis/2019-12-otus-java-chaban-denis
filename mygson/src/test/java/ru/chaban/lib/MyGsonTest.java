@@ -1,7 +1,6 @@
 package ru.chaban.lib;
 
 import com.google.gson.Gson;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import ru.chaban.examples.MyList;
 import ru.chaban.examples.MyMap;

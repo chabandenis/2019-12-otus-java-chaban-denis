@@ -12,7 +12,7 @@ public class MyGson {
         var jO = Json.createObjectBuilder();
 
         // поля объекта
-        for (var field : myObject.getClass().getFields()) {
+        for (var field : myObject.getClass().getDeclaredFields()) {
 
             field.setAccessible(true);
 
@@ -26,7 +26,7 @@ public class MyGson {
 
                     for (var item : (Set) field.get(myObject)) {
                         //((Set) field.get(myObject)).size()
-                        jsonArrayBuilder.add(   create(item));
+                        jsonArrayBuilder.add(   create(item).toString());
                     }
 
                     jO.add(field.getName(), jsonArrayBuilder);
@@ -111,7 +111,7 @@ public class MyGson {
                     break;
 
                 default:
-                    return create(field).toString();
+                    jO.add(field.getName(), create(field.get(myObject)));
             }
         }
         return jO.build().toString();
