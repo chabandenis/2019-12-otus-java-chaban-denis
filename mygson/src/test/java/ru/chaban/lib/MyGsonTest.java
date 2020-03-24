@@ -138,6 +138,24 @@ class MyGsonTest {
         System.out.println("my gson: " + myGson.create(c));
         assertEquals(new Gson().toJson(c), myGson.create(c));
     }
+
+    @Test
+    void mySimpleSet() throws ClassNotFoundException, IllegalAccessException {
+        Set<A> a = new HashSet<>();
+        A myA = new A();
+        myA.x = 55;
+        a.add(myA);
+        A myA2 = new A();
+        myA2.x = 66;
+        a.add(myA2);
+
+        MyGson myGson = new MyGson();
+
+        System.out.println("gson: " + new Gson().toJson(a));
+        System.out.println("my gson: " + myGson.create(a));
+        assertEquals(new Gson().toJson(a), myGson.create(a));
+    }
+
 }
 
 class A {

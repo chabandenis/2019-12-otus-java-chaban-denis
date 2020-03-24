@@ -2,7 +2,6 @@ package ru.chaban.lib;
 
 import javax.json.Json;
 import javax.json.JsonObjectBuilder;
-import javax.naming.spi.ObjectFactoryBuilder;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,6 +15,20 @@ public class MyGson {
 
     public JsonObjectBuilder create2(Object myObject) throws ClassNotFoundException, IllegalAccessException {
         var jO = Json.createObjectBuilder();
+
+        switch (String.valueOf(myObject.getClass())) {
+            case ("java.util.HashSet"): {
+                var jsonArrayBuilder = Json.createArrayBuilder();
+
+                for (var item : (Set) myObject) {
+                    //((Set) field.get(myObject)).size()
+                    jsonArrayBuilder.add(item.toString());
+                }
+
+                jO.add("1", jsonArrayBuilder);
+                break;
+            }
+        }
 
         // поля объекта
         for (var field : myObject.getClass().getDeclaredFields()) {
@@ -32,7 +45,7 @@ public class MyGson {
 
                     for (var item : (Set) field.get(myObject)) {
                         //((Set) field.get(myObject)).size()
-                        jsonArrayBuilder.add(create(item).toString());
+                        jsonArrayBuilder.add(item.toString());
                     }
 
                     jO.add(field.getName(), jsonArrayBuilder);
