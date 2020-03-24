@@ -1,6 +1,8 @@
 package ru.chaban.lib;
 
 import javax.json.Json;
+import javax.json.JsonObjectBuilder;
+import javax.naming.spi.ObjectFactoryBuilder;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -9,6 +11,10 @@ public class MyGson {
 
     // метод формирования строки JSON
     public String create(Object myObject) throws ClassNotFoundException, IllegalAccessException {
+        return create2(myObject).build().toString();
+    }
+
+    public JsonObjectBuilder create2(Object myObject) throws ClassNotFoundException, IllegalAccessException {
         var jO = Json.createObjectBuilder();
 
         // поля объекта
@@ -26,7 +32,7 @@ public class MyGson {
 
                     for (var item : (Set) field.get(myObject)) {
                         //((Set) field.get(myObject)).size()
-                        jsonArrayBuilder.add(   create(item).toString());
+                        jsonArrayBuilder.add(create(item).toString());
                     }
 
                     jO.add(field.getName(), jsonArrayBuilder);
@@ -111,9 +117,9 @@ public class MyGson {
                     break;
 
                 default:
-                    jO.add(field.getName(), create(field.get(myObject)));
+                    jO.add(field.getName(), create2(field.get(myObject)));
             }
         }
-        return jO.build().toString();
+        return jO;
     }
 }
