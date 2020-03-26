@@ -22,7 +22,7 @@ public class MyGson {
                 || myObject.getClass().toString().contains("class java.util.HashSet")) {
             var aB = Json.createArrayBuilder();
             for (var item : (Set) myObject) {
-                aB.add(createSimple(item));
+                aB.add(createSimpleObject(item));
             }
             return aB.build().toString();
 
@@ -32,17 +32,27 @@ public class MyGson {
             var aB = Json.createArrayBuilder();
 
             for (var item : (List) myObject) {
-                aB.add(createSimple(item));
+                aB.add((JsonArrayBuilder) insert(item));
+                aB.add((JsonObjectBuilder) insert(item));
             }
 
             return aB.build().toString();
         } else {
-            return createSimple(myObject).build().toString();
+            return createSimpleObject(myObject).build().toString();
         }
         //return "";
     }
 
-    public JsonArrayBuilder createSimple(Object myObject) throws ClassNotFoundException, IllegalAccessException {
+    Object insert(Object myObject) throws IllegalAccessException, ClassNotFoundException {
+        if (isSimple(myObject)) {
+            return createSimpleArray(myObject);
+
+        } else {
+            return createSimpleObject(myObject);
+        }
+    }
+
+    public JsonArrayBuilder createSimpleArray(Object myObject) throws ClassNotFoundException, IllegalAccessException {
 
         var aB = Json.createArrayBuilder();
 
@@ -86,182 +96,132 @@ public class MyGson {
             case ("long"):
                 aB.add((Long) myObject);
                 break;
-
-            default: {
-                var jO = Json.createObjectBuilder();
-
-                // поля объекта
-                for (var field : myObject.getClass().getDeclaredFields()) {
-
-
-                    field.setAccessible(true);
-
-                    if (field.get(myObject) == null) {
-                        continue;
-                    }
-
-                    switch (String.valueOf(field.getType())) {
-
-                        case ("int"):
-                            jO.add(field.getName(), field.getInt(myObject));
-                            break;
-
-                        case ("class java.lang.String"):
-                            jO.add(field.getName(), String.valueOf(field.get(myObject)));
-                            break;
-
-                        case ("class java.lang.Integer"):
-                            jO.add(field.getName(), Integer.parseInt(field.get(myObject).toString()));
-                            break;
-
-                        case ("class java.lang.Boolean"):
-                            jO.add(field.getName(), (Boolean) field.get(myObject));
-                            break;
-
-                        case ("char"):
-                            jO.add(field.getName(), String.valueOf(field.get(myObject)));
-                            break;
-
-                        case ("class java.lang.Double"):
-                            jO.add(field.getName(), (Double) field.get(myObject));
-                            break;
-
-                        case ("class java.lang.Float"):
-                            jO.add(field.getName(), Double.valueOf(field.get(myObject).toString()));
-                            break;
-
-                        case ("class java.lang.Short"):
-                            jO.add(field.getName(), (Short) field.get(myObject));
-                            break;
-
-                        case ("class java.lang.Long"):
-                            jO.add(field.getName(), (Long) field.get(myObject));
-                            break;
-
-                        case ("long"):
-                            jO.add(field.getName(), (Long) field.get(myObject));
-                            break;
-
-                        default:
-                            jO.add(field.getName(), createSimple(field.get(myObject)));
-                    }
-                }
-                return jO;
-            }
         }
         return aB;
     }
 
-    public JsonObjectBuilder createSimple(Object myObject) throws ClassNotFoundException, IllegalAccessException {
+    public JsonObjectBuilder createSimpleObject(Object myObject) throws ClassNotFoundException, IllegalAccessException {
 
-        var aB = Json.createArrayBuilder();
 
-        switch (String.valueOf(myObject.getClass())) {
+        var jO = Json.createObjectBuilder();
+
+        // поля объекта
+        for (var field : myObject.getClass().getDeclaredFields()) {
+
+
+            field.setAccessible(true);
+
+            if (field.get(myObject) == null) {
+                continue;
+            }
+
+            switch (String.valueOf(field.getType())) {
+
+                case ("int"):
+                    jO.add(field.getName(), field.getInt(myObject));
+                    break;
+
+                case ("class java.lang.String"):
+                    jO.add(field.getName(), String.valueOf(field.get(myObject)));
+                    break;
+
+                case ("class java.lang.Integer"):
+                    jO.add(field.getName(), Integer.parseInt(field.get(myObject).toString()));
+                    break;
+
+                case ("class java.lang.Boolean"):
+                    jO.add(field.getName(), (Boolean) field.get(myObject));
+                    break;
+
+                case ("char"):
+                    jO.add(field.getName(), String.valueOf(field.get(myObject)));
+                    break;
+
+                case ("class java.lang.Double"):
+                    jO.add(field.getName(), (Double) field.get(myObject));
+                    break;
+
+                case ("class java.lang.Float"):
+                    jO.add(field.getName(), Double.valueOf(field.get(myObject).toString()));
+                    break;
+
+                case ("class java.lang.Short"):
+                    jO.add(field.getName(), (Short) field.get(myObject));
+                    break;
+
+                case ("class java.lang.Long"):
+                    jO.add(field.getName(), (Long) field.get(myObject));
+                    break;
+
+                case ("long"):
+                    jO.add(field.getName(), (Long) field.get(myObject));
+                    break;
+
+                default:
+                    try {
+                        jO.add(field.getName(), (JsonObjectBuilder) insert(field.get(myObject)));
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                    try {
+                        jO.add(field.getName(), (JsonArrayBuilder) insert(field.get(myObject)));
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+
+            }
+        }
+        return jO;
+    }
+
+    boolean isSimple(Object myObject) {
+        boolean retValue = false;
+
+        switch (String.valueOf(myObject)) {
             case ("int"):
-                aB.add((int) myObject);
+                retValue = true;
                 break;
 
             case ("class java.lang.String"):
-                aB.add(String.valueOf(myObject));
+                retValue = true;
                 break;
 
             case ("class java.lang.Integer"):
-                aB.add(Integer.parseInt(myObject.toString()));
+                retValue = true;
                 break;
 
             case ("class java.lang.Boolean"):
-                aB.add((Boolean) myObject);
+                retValue = true;
                 break;
 
             case ("char"):
-                aB.add(String.valueOf(myObject));
+                retValue = true;
                 break;
 
             case ("class java.lang.Double"):
-                aB.add((Double) myObject);
+                retValue = true;
                 break;
 
             case ("class java.lang.Float"):
-                aB.add(Double.valueOf(myObject.toString()));
+                retValue = true;
                 break;
 
             case ("class java.lang.Short"):
-                aB.add((Short) myObject);
+                retValue = true;
                 break;
 
             case ("class java.lang.Long"):
-                aB.add((Long) myObject);
+                retValue = true;
                 break;
 
             case ("long"):
-                aB.add((Long) myObject);
+                retValue = true;
                 break;
-
-            default: {
-                var jO = Json.createObjectBuilder();
-
-                // поля объекта
-                for (var field : myObject.getClass().getDeclaredFields()) {
-
-
-                    field.setAccessible(true);
-
-                    if (field.get(myObject) == null) {
-                        continue;
-                    }
-
-                    switch (String.valueOf(field.getType())) {
-
-                        case ("int"):
-                            jO.add(field.getName(), field.getInt(myObject));
-                            break;
-
-                        case ("class java.lang.String"):
-                            jO.add(field.getName(), String.valueOf(field.get(myObject)));
-                            break;
-
-                        case ("class java.lang.Integer"):
-                            jO.add(field.getName(), Integer.parseInt(field.get(myObject).toString()));
-                            break;
-
-                        case ("class java.lang.Boolean"):
-                            jO.add(field.getName(), (Boolean) field.get(myObject));
-                            break;
-
-                        case ("char"):
-                            jO.add(field.getName(), String.valueOf(field.get(myObject)));
-                            break;
-
-                        case ("class java.lang.Double"):
-                            jO.add(field.getName(), (Double) field.get(myObject));
-                            break;
-
-                        case ("class java.lang.Float"):
-                            jO.add(field.getName(), Double.valueOf(field.get(myObject).toString()));
-                            break;
-
-                        case ("class java.lang.Short"):
-                            jO.add(field.getName(), (Short) field.get(myObject));
-                            break;
-
-                        case ("class java.lang.Long"):
-                            jO.add(field.getName(), (Long) field.get(myObject));
-                            break;
-
-                        case ("long"):
-                            jO.add(field.getName(), (Long) field.get(myObject));
-                            break;
-
-                        default:
-                            jO.add(field.getName(), createSimple(field.get(myObject)));
-                    }
-                }
-                return jO;
-            }
         }
-        return aB;
+        return retValue;
     }
 }
+
 
        /*
         case (): {
