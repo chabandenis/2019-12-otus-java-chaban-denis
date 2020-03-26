@@ -8,8 +8,6 @@ import java.util.Set;
 
 public class MyGson {
 
-    //private JsonArrayBuilder jsonArray;
-
     // метод формирования строки JSON
     public String create(Object myObject) throws ClassNotFoundException, IllegalAccessException {
         //jsonArray = Json.createArrayBuilder();
@@ -32,27 +30,54 @@ public class MyGson {
             var aB = Json.createArrayBuilder();
 
             for (var item : (List) myObject) {
-                aB.add((JsonArrayBuilder) insert(item));
-                aB.add((JsonObjectBuilder) insert(item));
+                if (isSimple(myObject)) {
+                    aB.add(createSimpleArray(item));
+                } else {
+                    aB.add(createSimpleObject(item));
+                }
             }
 
             return aB.build().toString();
         } else {
-            return createSimpleObject(myObject).build().toString();
+            if (isSimple(myObject)) {
+                return createSimpleArray(myObject).build().toString();
+            } else {
+                return createSimpleObject(myObject).build().toString();
+            }
         }
         //return "";
+    }
+
+    createComplexObject(Object myObject) {
+        if (myObject.getClass().toString().contains("interface java.util.List")
+                || myObject.getClass().toString().contains("class java.util.ArrayList")
+        ) {
+            var aB = Json.createArrayBuilder();
+
+            for (var item : (List) myObject) {
+                if (isSimple(myObject)) {
+                    aB.add(createSimpleArray(item));
+                } else {
+                    aB.add(createSimpleObject(item));
+                }
+            }
+            jO.add(aB);
+            return jO;
+
+        }
+        //перевызвать простой обход
     }
 
     Object insert(Object myObject) throws IllegalAccessException, ClassNotFoundException {
         if (isSimple(myObject)) {
             return createSimpleArray(myObject);
-
         } else {
             return createSimpleObject(myObject);
         }
     }
 
-    public JsonArrayBuilder createSimpleArray(Object myObject) throws ClassNotFoundException, IllegalAccessException {
+    public JsonArrayBuilder createSimpleArray(Object myObject) throws
+            ClassNotFoundException, IllegalAccessException {
 
         var aB = Json.createArrayBuilder();
 
@@ -100,14 +125,16 @@ public class MyGson {
         return aB;
     }
 
-    public JsonObjectBuilder createSimpleObject(Object myObject) throws ClassNotFoundException, IllegalAccessException {
-
+    public JsonObjectBuilder createSimpleObject(Object myObject) throws
+            ClassNotFoundException, IllegalAccessException {
 
         var jO = Json.createObjectBuilder();
 
         // поля объекта
-        for (var field : myObject.getClass().getDeclaredFields()) {
+        for (
+                var field : myObject.getClass().
 
+                getDeclaredFields()) {
 
             field.setAccessible(true);
 
@@ -158,21 +185,17 @@ public class MyGson {
                     break;
 
                 default:
-                    try {
-                        jO.add(field.getName(), (JsonObjectBuilder) insert(field.get(myObject)));
-                    } catch (Exception e) {
-                        System.out.println(e);
+                    if (isSimple(field.get(myObject))) {
+                        jO.add(field.getName(), createSimpleArray(field.get(myObject)));
+                    } else {
+                        jO.add(field.getName(), createSimpleObject(field.get(myObject)));
                     }
-                    try {
-                        jO.add(field.getName(), (JsonArrayBuilder) insert(field.get(myObject)));
-                    } catch (Exception e) {
-                        System.out.println(e);
-                    }
-
             }
         }
         return jO;
     }
+
+}
 
     boolean isSimple(Object myObject) {
         boolean retValue = false;
