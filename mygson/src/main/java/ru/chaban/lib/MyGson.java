@@ -42,30 +42,33 @@ public class MyGson {
             if (isSimple(myObject)) {
                 return createSimpleArray(myObject).build().toString();
             } else {
-                return createSimpleObject(myObject).build().toString();
+                // сложный объект
+                if (isComplexObject(myObject)){
+                    return createComplexObject(myObject).build().toString();
+                }
+                else{
+                    return createSimpleObject(myObject).build().toString();
+                }
             }
         }
-        //return "";
     }
 
-    createComplexObject(Object myObject) {
-        if (myObject.getClass().toString().contains("interface java.util.List")
-                || myObject.getClass().toString().contains("class java.util.ArrayList")
-        ) {
-            var aB = Json.createArrayBuilder();
+    JsonArrayBuilder createComplexObject(Object myObject) throws IllegalAccessException, ClassNotFoundException {
+        JsonObjectBuilder jO = Json.createObjectBuilder();
+        var aB = Json.createArrayBuilder();
 
+        if (myObject.getClass().toString().contains("interface java.util.List")
+                || myObject.getClass().toString().contains("class java.util.ArrayList")) {
             for (var item : (List) myObject) {
-                if (isSimple(myObject)) {
+                if (isSimple(item)) {
                     aB.add(createSimpleArray(item));
                 } else {
                     aB.add(createSimpleObject(item));
                 }
             }
-            jO.add(aB);
-            return jO;
-
         }
-        //перевызвать простой обход
+        return aB;
+
     }
 
     Object insert(Object myObject) throws IllegalAccessException, ClassNotFoundException {
@@ -131,10 +134,7 @@ public class MyGson {
         var jO = Json.createObjectBuilder();
 
         // поля объекта
-        for (
-                var field : myObject.getClass().
-
-                getDeclaredFields()) {
+        for (var field : myObject.getClass().getDeclaredFields()) {
 
             field.setAccessible(true);
 
@@ -188,19 +188,30 @@ public class MyGson {
                     if (isSimple(field.get(myObject))) {
                         jO.add(field.getName(), createSimpleArray(field.get(myObject)));
                     } else {
-                        jO.add(field.getName(), createSimpleObject(field.get(myObject)));
+                        if (isComplexObject(field.get(myObject))){
+                            jO.add(field.getName(), createComplexObject(field.get(myObject)));
+                        }
+                        else {
+                            jO.add(field.getName(), createSimpleObject(field.get(myObject)));
+                        }
                     }
             }
         }
         return jO;
     }
 
-}
+    boolean isComplexObject(Object myObject) {
+        if (myObject.getClass().toString().contains("interface java.util.List")
+                || myObject.getClass().toString().contains("class java.util.ArrayList")) {
+            return true;
+        }
+        return false;
+    }
 
     boolean isSimple(Object myObject) {
         boolean retValue = false;
 
-        switch (String.valueOf(myObject)) {
+        switch (String.valueOf(myObject.getClass())) {
             case ("int"):
                 retValue = true;
                 break;
