@@ -41,6 +41,9 @@ class MyGsonTest {
 
         myList.setList(tmpList);
 
+        System.out.println("gson: " + new Gson().toJson(tmpList));
+        System.out.println("my gson: " + myGson.create(tmpList));
+
         System.out.println("gson: " + new Gson().toJson(myList));
         System.out.println("my gson: " + myGson.create(myList));
         assertEquals(new Gson().toJson(myList), myGson.create(myList));
