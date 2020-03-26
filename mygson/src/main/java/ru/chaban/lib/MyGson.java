@@ -15,7 +15,7 @@ public class MyGson {
         return jsonArray.build().toString();
     }
 
-    public Object create2(Object myObject) throws ClassNotFoundException, IllegalAccessException {
+    public String create2(Object myObject) throws ClassNotFoundException, IllegalAccessException {
         //var aB = Json.createArrayBuilder();
         var jO = Json.createObjectBuilder();
 
