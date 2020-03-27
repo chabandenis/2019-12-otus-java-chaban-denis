@@ -67,7 +67,7 @@ public class MyGson {
         }
         return aB;
     }
-
+/*
     Object insert(Object myObject) throws IllegalAccessException, ClassNotFoundException {
         if (isSimple(myObject)) {
             return createSimpleArray(myObject);
@@ -75,7 +75,7 @@ public class MyGson {
             return createSimpleObject(myObject);
         }
     }
-
+*/
     public JsonArrayBuilder createSimpleArray(JsonArrayBuilder aB, Object myObject) throws
             ClassNotFoundException, IllegalAccessException {
 
@@ -181,7 +181,7 @@ public class MyGson {
 
                 default:
                     if (isSimple(field.get(myObject))) {
-                        jO.add(field.getName(), createSimpleArray(field.get(myObject)));
+                        jO.add(field.getName(), createSimpleArray(Json.createArrayBuilder(), field.get(myObject)));
                     } else {
                         if (isComplexObject(field.get(myObject))) {
                             jO.add(field.getName(), createComplexObject(field.get(myObject)));
