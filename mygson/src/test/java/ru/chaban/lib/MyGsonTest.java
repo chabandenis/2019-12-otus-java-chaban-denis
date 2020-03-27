@@ -41,25 +41,8 @@ class MyGsonTest {
 
         myList.setList(tmpList);
 
-//       System.out.println("gson: " + new Gson().toJson(tmpList));
-//        System.out.println("my gson: " + myGson.create(tmpList));
-
-        System.out.println("gson: " + new Gson().toJson(myList));
-        System.out.println("my gson: " + myGson.create(myList));
-        assertEquals(new Gson().toJson(myList), myGson.create(myList));
-    }
-
-    @Test
-    void myMap() throws ClassNotFoundException, IllegalAccessException {
-        MyGson myGson = new MyGson();
-        MyMap myList = new MyMap();
-
-        Map<String, String> myMap = new HashMap<>();
-        myMap.put("name", "Denis");
-        myMap.put("age", "19");
-        myMap.put("sex", "male");
-
-        myList.setMap(myMap);
+       System.out.println("gson: " + new Gson().toJson(tmpList));
+        System.out.println("my gson: " + myGson.create(tmpList));
 
         System.out.println("gson: " + new Gson().toJson(myList));
         System.out.println("my gson: " + myGson.create(myList));

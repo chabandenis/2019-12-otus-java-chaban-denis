@@ -15,7 +15,17 @@ public class MyGson {
     }
 
     public String create2(Object myObject) throws ClassNotFoundException, IllegalAccessException {
-
+        if (isSimple(myObject)) {
+            return createSimpleArray(Json.createArrayBuilder(), myObject).build().toString();
+        } else {
+            // сложный объект
+            if (isComplexObject(myObject)) {
+                return createComplexObject(myObject).build().toString();
+            } else {
+                return createSimpleObject(Json.createObjectBuilder(), Json.createArrayBuilder(), myObject).build().toString();
+            }
+        }
+/*
         if (myObject.getClass().toString().contains("interface java.util.Set")
                 || myObject.getClass().toString().contains("class java.util.HashSet")) {
             var aB = Json.createArrayBuilder();
@@ -50,10 +60,13 @@ public class MyGson {
                 }
             }
         }
+
+ */
     }
 
     JsonArrayBuilder createComplexObject(Object myObject) throws IllegalAccessException, ClassNotFoundException {
         JsonArrayBuilder aB = Json.createArrayBuilder();
+        JsonObjectBuilder jO =Json.createObjectBuilder();
 
         if (myObject.getClass().toString().contains("interface java.util.List")
                 || myObject.getClass().toString().contains("class java.util.ArrayList")) {
@@ -61,21 +74,34 @@ public class MyGson {
                 if (isSimple(item)) {
                     createSimpleArray(aB, item);
                 } else {
-                    aB.add(createSimpleObject(item));
+                    aB.add(createSimpleObject(Json.createObjectBuilder(), Json.createArrayBuilder(), item));
                 }
             }
-        }
+        } else  if (myObject.getClass().toString().contains("interface java.util.Set")
+                || myObject.getClass().toString().contains("class java.util.HashSet")) {
+
+                for (var item : (Set) myObject) {
+                    //aB.add(createSimpleObject(Json.createArrayBuilder(), item));
+                    if (isSimple(item)) {
+                        createSimpleArray(aB, item);
+                    } else {
+                        createSimpleObject(jO, aB, item);
+                        aB.add(jO);
+                    }
+                }
+            }
         return aB;
     }
-/*
-    Object insert(Object myObject) throws IllegalAccessException, ClassNotFoundException {
-        if (isSimple(myObject)) {
-            return createSimpleArray(myObject);
-        } else {
-            return createSimpleObject(myObject);
+
+    /*
+        Object insert(Object myObject) throws IllegalAccessException, ClassNotFoundException {
+            if (isSimple(myObject)) {
+                return createSimpleArray(myObject);
+            } else {
+                return createSimpleObject(myObject);
+            }
         }
-    }
-*/
+    */
     public JsonArrayBuilder createSimpleArray(JsonArrayBuilder aB, Object myObject) throws
             ClassNotFoundException, IllegalAccessException {
 
@@ -123,10 +149,10 @@ public class MyGson {
         return aB;
     }
 
-    public JsonObjectBuilder createSimpleObject(Object myObject) throws
+    public JsonObjectBuilder createSimpleObject(JsonObjectBuilder jO, JsonArrayBuilder aB, Object myObject) throws
             ClassNotFoundException, IllegalAccessException {
 
-        var jO = Json.createObjectBuilder();
+        //var jO = Json.createObjectBuilder();
 
         // поля объекта
         for (var field : myObject.getClass().getDeclaredFields()) {
@@ -186,11 +212,12 @@ public class MyGson {
                         if (isComplexObject(field.get(myObject))) {
                             jO.add(field.getName(), createComplexObject(field.get(myObject)));
                         } else {
-                            jO.add(field.getName(), createSimpleObject(field.get(myObject)));
+                            jO.add(field.getName(), createSimpleObject(Json.createObjectBuilder(), aB, field.get(myObject)));
                         }
                     }
             }
         }
+
         return jO;
     }
 
@@ -198,7 +225,13 @@ public class MyGson {
         if (myObject.getClass().toString().contains("interface java.util.List")
                 || myObject.getClass().toString().contains("class java.util.ArrayList")) {
             return true;
+        } else if (myObject.getClass().toString().contains("interface java.util.Set")
+                || myObject.getClass().toString().contains("class java.util.HashSet")) {
+            return true;
+        } else if (myObject.getClass().toString().contains("interface java.util.Map")) {
+            return true;
         }
+
         return false;
     }
 
