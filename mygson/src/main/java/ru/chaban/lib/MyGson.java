@@ -18,50 +18,12 @@ public class MyGson {
         if (isSimple(myObject)) {
             return createSimpleArray(Json.createArrayBuilder(), myObject).build().toString();
         } else {
-            // сложный объект
             if (isComplexObject(myObject)) {
                 return createComplexObject(myObject).build().toString();
             } else {
                 return createSimpleObject(Json.createObjectBuilder(), Json.createArrayBuilder(), myObject).build().toString();
             }
         }
-/*
-        if (myObject.getClass().toString().contains("interface java.util.Set")
-                || myObject.getClass().toString().contains("class java.util.HashSet")) {
-            var aB = Json.createArrayBuilder();
-            for (var item : (Set) myObject) {
-                aB.add(createSimpleObject(item));
-            }
-            return aB.build().toString();
-
-        } else if (myObject.getClass().toString().contains("interface java.util.List")
-                || myObject.getClass().toString().contains("class java.util.ArrayList")
-        ) {
-            var aB = Json.createArrayBuilder();
-
-            for (var item : (List) myObject) {
-                if (isSimple(myObject)) {
-                    aB.add(createSimpleArray(aB, item));
-                } else {
-                    aB.add(createSimpleObject(item));
-                }
-            }
-
-            return aB.build().toString();
-        } else {
-            if (isSimple(myObject)) {
-                return createSimpleArray(Json.createArrayBuilder(), myObject).build().toString();
-            } else {
-                // сложный объект
-                if (isComplexObject(myObject)) {
-                    return createComplexObject(myObject).build().toString();
-                } else {
-                    return createSimpleObject(myObject).build().toString();
-                }
-            }
-        }
-
- */
     }
 
     JsonArrayBuilder createComplexObject(Object myObject) throws IllegalAccessException, ClassNotFoundException {
@@ -81,7 +43,6 @@ public class MyGson {
                 || myObject.getClass().toString().contains("class java.util.HashSet")) {
 
             for (var item : (Set) myObject) {
-                //aB.add(createSimpleObject(Json.createArrayBuilder(), item));
                 if (isSimple(item)) {
                     createSimpleArray(aB, item);
                 } else {
@@ -93,15 +54,6 @@ public class MyGson {
         return aB;
     }
 
-    /*
-        Object insert(Object myObject) throws IllegalAccessException, ClassNotFoundException {
-            if (isSimple(myObject)) {
-                return createSimpleArray(myObject);
-            } else {
-                return createSimpleObject(myObject);
-            }
-        }
-    */
     public JsonArrayBuilder createSimpleArray(JsonArrayBuilder aB, Object myObject) throws
             ClassNotFoundException, IllegalAccessException {
 
@@ -151,8 +103,6 @@ public class MyGson {
 
     public JsonObjectBuilder createSimpleObject(JsonObjectBuilder jO, JsonArrayBuilder aB, Object myObject) throws
             ClassNotFoundException, IllegalAccessException {
-
-        //var jO = Json.createObjectBuilder();
 
         // поля объекта
         for (var field : myObject.getClass().getDeclaredFields()) {
@@ -282,61 +232,3 @@ public class MyGson {
         return retValue;
     }
 }
-
-
-       /*
-        case (): {
-            var jsonArrayBuilder = Json.createArrayBuilder();
-
-            for (var item : (Set) field.get(myObject)) {
-                //((Set) field.get(myObject)).size()
-                jsonArrayBuilder.add(item.toString());
-            }
-
-            jO.add(field.getName(), jsonArrayBuilder);
-            break;
-        }
-
-        case ("interface java.util.List"): {
-            var jsonArrayBuilder = Json.createArrayBuilder();
-
-            for (var item : (List) field.get(myObject)) {
-                jsonArrayBuilder.add(item.toString());
-            }
-
-            jO.add(field.getName(), jsonArrayBuilder);
-
-            break;
-        }
-
-        case ("interface java.util.Map"): {
-            var jsonArrayBuilder = Json.createArrayBuilder();
-            var jsonObjectBuilder = Json.createObjectBuilder();
-
-            Map tmpMap = (Map) field.get(myObject);
-
-            for (var item : tmpMap.keySet()) {
-                jsonObjectBuilder.add(item.toString(), tmpMap.get(item).toString());
-            }
-            //jsonArrayBuilder.add(jsonObjectBuilder);
-            jO.add(field.getName(), jsonObjectBuilder);
-
-            break;
-        }
-
-        case ("interfsace java.util.Map"): {
-            var jsonArrayBuilder = Json.createArrayBuilder();
-            var jsonObjectBuilder = Json.createObjectBuilder();
-
-            Map tmpMap = (Map) field.get(myObject);
-
-            for (var item : tmpMap.keySet()) {
-                jsonObjectBuilder.add(item.toString(), tmpMap.get(item).toString());
-            }
-            jsonArrayBuilder.add(jsonObjectBuilder);
-            jO.add(field.getName(), jsonArrayBuilder);
-
-            break;
-        }
-
-         */
