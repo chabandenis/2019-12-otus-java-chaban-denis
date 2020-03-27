@@ -59,7 +59,7 @@ public class MyGson {
                 || myObject.getClass().toString().contains("class java.util.ArrayList")) {
             for (var item : (List) myObject) {
                 if (isSimple(item)) {
-                    aB.add(createSimpleArray(aB, item));
+                    createSimpleArray(aB, item);
                 } else {
                     aB.add(createSimpleObject(item));
                 }
