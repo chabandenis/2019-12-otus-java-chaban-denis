@@ -143,7 +143,6 @@ class MyGsonTest {
         System.out.println("my gson: " + myGson.create(a));
         assertEquals(new Gson().toJson(a), myGson.create(a));
     }
-
 }
 
 class A {
