@@ -66,7 +66,7 @@ public class MyGson {
 
     JsonArrayBuilder createComplexObject(Object myObject) throws IllegalAccessException, ClassNotFoundException {
         JsonArrayBuilder aB = Json.createArrayBuilder();
-        JsonObjectBuilder jO =Json.createObjectBuilder();
+        JsonObjectBuilder jO = Json.createObjectBuilder();
 
         if (myObject.getClass().toString().contains("interface java.util.List")
                 || myObject.getClass().toString().contains("class java.util.ArrayList")) {
@@ -77,19 +77,19 @@ public class MyGson {
                     aB.add(createSimpleObject(Json.createObjectBuilder(), Json.createArrayBuilder(), item));
                 }
             }
-        } else  if (myObject.getClass().toString().contains("interface java.util.Set")
+        } else if (myObject.getClass().toString().contains("interface java.util.Set")
                 || myObject.getClass().toString().contains("class java.util.HashSet")) {
 
-                for (var item : (Set) myObject) {
-                    //aB.add(createSimpleObject(Json.createArrayBuilder(), item));
-                    if (isSimple(item)) {
-                        createSimpleArray(aB, item);
-                    } else {
-                        createSimpleObject(jO, aB, item);
-                        aB.add(jO);
-                    }
+            for (var item : (Set) myObject) {
+                //aB.add(createSimpleObject(Json.createArrayBuilder(), item));
+                if (isSimple(item)) {
+                    createSimpleArray(aB, item);
+                } else {
+                    createSimpleObject(jO, aB, item);
+                    aB.add(jO);
                 }
             }
+        }
         return aB;
     }
 

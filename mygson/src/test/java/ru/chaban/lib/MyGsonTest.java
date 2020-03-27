@@ -3,11 +3,13 @@ package ru.chaban.lib;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 import ru.chaban.examples.MyList;
-import ru.chaban.examples.MyMap;
 import ru.chaban.examples.MySet;
 import ru.chaban.examples.Simple;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -41,7 +43,7 @@ class MyGsonTest {
 
         myList.setList(tmpList);
 
-       System.out.println("gson: " + new Gson().toJson(tmpList));
+        System.out.println("gson: " + new Gson().toJson(tmpList));
         System.out.println("my gson: " + myGson.create(tmpList));
 
         System.out.println("gson: " + new Gson().toJson(myList));

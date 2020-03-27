@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Simple {
-    public Set<MySet>  mySets = new HashSet<>();
+    public Set<MySet> mySets = new HashSet<>();
 
     public int i;
     public String str;
