@@ -4,6 +4,7 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import java.io.StringWriter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -32,7 +33,23 @@ public class MyGson {
         JsonArrayBuilder aB = Json.createArrayBuilder();
         JsonObjectBuilder jO = Json.createObjectBuilder();
 
-        if (myObject.getClass().toString().contains("interface java.util.List")
+        if (myObject.getClass().toString().contains("class [I")) {
+            for (var item : (int[]) myObject) {
+                createSimpleArray(aB, item);
+            }
+        } else if (myObject.getClass().toString().contains("class java.util.Collections")) {
+            for (var item : (List) myObject) {
+                if (isSimple(item)) {
+                    createSimpleArray(aB, item);
+                } else {
+                    aB.add(createSimpleObject(Json.createObjectBuilder(), Json.createArrayBuilder(), item));
+                }
+            }
+        } else if (myObject.getClass().toString().contains("class java.util.ImmutableCollections$ListN")) {
+            for (var item : (List) myObject) {
+                createSimpleArray(aB, item);
+            }
+        } else if (myObject.getClass().toString().contains("interface java.util.List")
                 || myObject.getClass().toString().contains("class java.util.ArrayList")) {
             for (var item : (List) myObject) {
                 if (isSimple(item)) {
@@ -114,6 +131,10 @@ public class MyGson {
 
         switch (String.valueOf(myObject.getClass())) {
 
+            case ("class java.lang.Character"):
+                retVal = "\"" + String.valueOf((Character) myObject) + "\"";
+                break;
+
             case ("class java.lang.Byte"):
                 retVal = String.valueOf((Byte) myObject);
                 break;
@@ -123,7 +144,7 @@ public class MyGson {
                 break;
 
             case ("class java.lang.String"):
-                retVal = "\""+myObject.toString() + "\"";
+                retVal = "\"" + myObject.toString() + "\"";
                 break;
 
             case ("class java.lang.Integer"):
@@ -164,7 +185,6 @@ public class MyGson {
     public JsonObjectBuilder createSimpleObject(JsonObjectBuilder jO, JsonArrayBuilder aB, Object myObject) throws
             ClassNotFoundException, IllegalAccessException {
 
-        // поля объекта
         for (var field : myObject.getClass().getDeclaredFields()) {
 
             field.setAccessible(true);
@@ -240,6 +260,12 @@ public class MyGson {
             return true;
         } else if (myObject.getClass().toString().contains("interface java.util.Map")) {
             return true;
+        } else if (myObject.getClass().toString().contains("class [I")) {
+            return true;
+        } else if (myObject.getClass().toString().contains("class java.util.ImmutableCollections$ListN")) {
+            return true;
+        } else if (myObject.getClass().toString().contains("class java.util.Collections$SingletonList")) {
+            return true;
         }
 
         return false;
@@ -249,6 +275,11 @@ public class MyGson {
         boolean retValue = false;
 
         switch (String.valueOf(myObject.getClass())) {
+
+            case ("class java.lang.Character"):
+                retValue = true;
+                break;
+
             case ("class java.lang.Byte"):
                 retValue = true;
                 break;
