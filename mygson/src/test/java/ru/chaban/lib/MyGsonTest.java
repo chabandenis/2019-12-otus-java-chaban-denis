@@ -16,21 +16,20 @@ class MyGsonTest {
     void newTest() throws IllegalAccessException, ClassNotFoundException {
         var gson = new Gson();
         MyGson serializer = new MyGson();
-/*
+
         assertEquals(gson.toJson(null), serializer.create(null));
-        assertEquals(gson.toJson((byte)1), serializer.create((byte)1));
-        assertEquals(gson.toJson((short)1f), serializer.create((short)1f));
+        assertEquals(gson.toJson((byte) 1), serializer.create((byte) 1));
+        assertEquals(gson.toJson((short) 1f), serializer.create((short) 1f));
         assertEquals(gson.toJson(1), serializer.create(1));
         assertEquals(gson.toJson(1L), serializer.create(1L));
         assertEquals(gson.toJson(1f), serializer.create(1f));
         assertEquals(gson.toJson(1d), serializer.create(1d));
         assertEquals(gson.toJson("aaa"), serializer.create("aaa"));
         assertEquals(gson.toJson('a'), serializer.create('a'));
-*/
-        assertEquals(gson.toJson(new int[] {1, 2, 3}), serializer.create(new int[] {1, 2, 3}));
-/*        assertEquals(gson.toJson(List.of(1, 2 ,3)), serializer.create(List.of(1, 2 ,3)));
+        assertEquals(gson.toJson(new int[]{1, 2, 3}), serializer.create(new int[]{1, 2, 3}));
+        assertEquals(gson.toJson(List.of(1, 2, 3)), serializer.create(List.of(1, 2, 3)));
         assertEquals(gson.toJson(Collections.singletonList(1)), serializer.create(Collections.singletonList(1)));
- */
+
     }
 
     @Test

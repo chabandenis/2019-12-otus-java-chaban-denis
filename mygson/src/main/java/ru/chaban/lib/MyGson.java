@@ -5,6 +5,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import java.io.StringWriter;
 import java.lang.reflect.Array;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -39,12 +40,8 @@ public class MyGson {
             for (int i = 0; i < length; i++) {
                 createSimpleArray(aB, Array.get(myObject, i));
             }
-        } else if (myObject.getClass().toString().contains("class java.util.Collections")
-                || myObject.getClass().toString().contains("interface java.util.Collections")
-                || (myObject.getClass().toString().contains("interface java.util.List")
-                || myObject.getClass().toString().contains("class java.util.ArrayList"))
-        ) {
-            for (var item : (List) myObject) {
+        } else if (myObject instanceof Collection) {
+            for (var item : (Collection) myObject) {
                 if (isSimple(item)) {
                     createSimpleArray(aB, item);
                 } else {
@@ -268,10 +265,6 @@ public class MyGson {
             retVal = true;
         }
 
-        if ((retVal != myObject.getClass().isArray())) {
-            System.out.println("@ " + myObject.getClass().getComponentType() + " @ ; " + retVal + "; " + myObject.getClass().isArray() + "; " + myObject + "; " + myObject.getClass().toString());
-        }
-
         return retVal;
     }
 
@@ -319,12 +312,6 @@ public class MyGson {
             case ("class java.lang.Long"):
                 retValue = true;
                 break;
-        }
-
-        if (myObject.getClass().isPrimitive() != retValue) {
-            System.out.println("! " + myObject.getClass().isPrimitive()
-                    + "; " + retValue + "; " + myObject.toString() + "; "
-                    + myObject.getClass().getComponentType());
         }
 
         return retValue;
