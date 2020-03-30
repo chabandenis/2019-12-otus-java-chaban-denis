@@ -4,7 +4,6 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import java.io.StringWriter;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -19,7 +18,7 @@ public class MyGson {
         }
         if (isSimple(myObject)) {
             return createSimple(myObject);
-            //!!!!!!//return createSimpleArray(Json.createArrayBuilder(), myObject).build().toString();
+            //!!!return createSimpleArray(Json.createArrayBuilder(), myObject).build().toString();
         } else {
             if (isComplexObject(myObject)) {
                 return createComplexObject(myObject).build().toString();
@@ -53,7 +52,7 @@ public class MyGson {
             for (var item : (List) myObject) {
                 createSimpleArray(aB, item);
             }
-        }  else if (myObject.getClass().toString().contains("interface java.util.Set")
+        } else if (myObject.getClass().toString().contains("interface java.util.Set")
                 || myObject.getClass().toString().contains("class java.util.HashSet")) {
 
             for (var item : (Set) myObject) {
