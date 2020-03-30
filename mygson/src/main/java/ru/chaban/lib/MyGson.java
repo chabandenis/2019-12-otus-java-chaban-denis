@@ -16,7 +16,7 @@ public class MyGson {
             writer.append(null);
             return writer.toString();
         }
-        if (isSimple(myObject)) {
+        if (myObject.getClass().isPrimitive()) {
             return createSimple(myObject);
             //!!!return createSimpleArray(Json.createArrayBuilder(), myObject).build().toString();
         } else {
@@ -42,7 +42,7 @@ public class MyGson {
                 || myObject.getClass().toString().contains("class java.util.ArrayList"))
         ) {
             for (var item : (List) myObject) {
-                if (isSimple(item)) {
+                if (item.getClass().isPrimitive()) {
                     createSimpleArray(aB, item);
                 } else {
                     aB.add(createSimpleObject(Json.createObjectBuilder(), Json.createArrayBuilder(), item));
@@ -56,7 +56,7 @@ public class MyGson {
                 || myObject.getClass().toString().contains("class java.util.HashSet")) {
 
             for (var item : (Set) myObject) {
-                if (isSimple(item)) {
+                if (item.getClass().isPrimitive()) {
                     createSimpleArray(aB, item);
                 } else {
                     createSimpleObject(jO, aB, item);
@@ -230,7 +230,7 @@ public class MyGson {
                     break;
 
                 default:
-                    if (isSimple(field.get(myObject))) {
+                    if ((field.get(myObject)).getClass().isPrimitive()) {
                         jO.add(field.getName(), createSimpleArray(Json.createArrayBuilder(), field.get(myObject)));
                     } else {
                         if (isComplexObject(field.get(myObject))) {
@@ -263,61 +263,5 @@ public class MyGson {
         }
 
         return false;
-    }
-
-    boolean isSimple(Object myObject) {
-        boolean retValue = false;
-
-        switch (String.valueOf(myObject.getClass())) {
-
-            case ("class java.lang.Character"):
-                retValue = true;
-                break;
-
-            case ("class java.lang.Byte"):
-                retValue = true;
-                break;
-
-            case ("int"):
-                retValue = true;
-                break;
-
-            case ("class java.lang.String"):
-                retValue = true;
-                break;
-
-            case ("class java.lang.Integer"):
-                retValue = true;
-                break;
-
-            case ("class java.lang.Boolean"):
-                retValue = true;
-                break;
-
-            case ("char"):
-                retValue = true;
-                break;
-
-            case ("class java.lang.Double"):
-                retValue = true;
-                break;
-
-            case ("class java.lang.Float"):
-                retValue = true;
-                break;
-
-            case ("class java.lang.Short"):
-                retValue = true;
-                break;
-
-            case ("class java.lang.Long"):
-                retValue = true;
-                break;
-
-            case ("long"):
-                retValue = true;
-                break;
-        }
-        return retValue;
     }
 }
