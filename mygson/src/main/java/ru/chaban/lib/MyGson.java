@@ -37,7 +37,11 @@ public class MyGson {
             for (var item : (int[]) myObject) {
                 createSimpleArray(aB, item);
             }
-        } else if (myObject.getClass().toString().contains("class java.util.Collections")) {
+        } else if (myObject.getClass().toString().contains("class java.util.Collections")
+                || myObject.getClass().toString().contains("interface java.util.Collections")
+                || (myObject.getClass().toString().contains("interface java.util.List")
+                || myObject.getClass().toString().contains("class java.util.ArrayList"))
+        ) {
             for (var item : (List) myObject) {
                 if (isSimple(item)) {
                     createSimpleArray(aB, item);
@@ -49,16 +53,7 @@ public class MyGson {
             for (var item : (List) myObject) {
                 createSimpleArray(aB, item);
             }
-        } else if (myObject.getClass().toString().contains("interface java.util.List")
-                || myObject.getClass().toString().contains("class java.util.ArrayList")) {
-            for (var item : (List) myObject) {
-                if (isSimple(item)) {
-                    createSimpleArray(aB, item);
-                } else {
-                    aB.add(createSimpleObject(Json.createObjectBuilder(), Json.createArrayBuilder(), item));
-                }
-            }
-        } else if (myObject.getClass().toString().contains("interface java.util.Set")
+        }  else if (myObject.getClass().toString().contains("interface java.util.Set")
                 || myObject.getClass().toString().contains("class java.util.HashSet")) {
 
             for (var item : (Set) myObject) {
