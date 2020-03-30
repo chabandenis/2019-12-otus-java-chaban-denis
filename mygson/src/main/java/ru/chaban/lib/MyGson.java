@@ -16,6 +16,7 @@ public class MyGson {
             writer.append(null);
             return writer.toString();
         }
+
         if (isSimple(myObject)) {
             return createSimple(myObject);
             //!!!return createSimpleArray(Json.createArrayBuilder(), myObject).build().toString();
@@ -246,27 +247,39 @@ public class MyGson {
     }
 
     boolean isComplexObject(Object myObject) {
+
+        boolean retVal = false;
+
         if (myObject.getClass().toString().contains("interface java.util.List")
                 || myObject.getClass().toString().contains("class java.util.ArrayList")) {
-            return true;
+            retVal = true;
         } else if (myObject.getClass().toString().contains("interface java.util.Set")
                 || myObject.getClass().toString().contains("class java.util.HashSet")) {
-            return true;
+            retVal = true;
         } else if (myObject.getClass().toString().contains("interface java.util.Map")) {
-            return true;
+            retVal = true;
         } else if (myObject.getClass().toString().contains("class [I")) {
-            return true;
+            retVal = true;
         } else if (myObject.getClass().toString().contains("class java.util.ImmutableCollections$ListN")) {
-            return true;
+            retVal = true;
         } else if (myObject.getClass().toString().contains("class java.util.Collections$SingletonList")) {
-            return true;
+            retVal = true;
         }
 
-        return false;
+        if ((retVal != myObject.getClass().isArray())) {
+            System.out.println("@ "+  myObject.getClass().getComponentType() +" @ ; " + retVal + "; " + myObject.getClass().isArray() + "; " + myObject + "; " +myObject.getClass().toString());
+        }
+
+        return retVal;
     }
 
     boolean isSimple(Object myObject) {
         boolean retValue = false;
+
+        if (myObject.getClass().isPrimitive()) {
+            return true;
+        }
+
 
         switch (String.valueOf(myObject.getClass())) {
 
@@ -275,10 +288,6 @@ public class MyGson {
                 break;
 
             case ("class java.lang.Byte"):
-                retValue = true;
-                break;
-
-            case ("int"):
                 retValue = true;
                 break;
 
@@ -291,10 +300,6 @@ public class MyGson {
                 break;
 
             case ("class java.lang.Boolean"):
-                retValue = true;
-                break;
-
-            case ("char"):
                 retValue = true;
                 break;
 
@@ -313,11 +318,13 @@ public class MyGson {
             case ("class java.lang.Long"):
                 retValue = true;
                 break;
-
-            case ("long"):
-                retValue = true;
-                break;
         }
+
+        if (myObject.getClass().isPrimitive() != retValue) {
+            System.out.println("! " + myObject.getClass().isPrimitive()
+                    + "; " + retValue + "; " + myObject.toString() + "; " +  myObject.getClass().getComponentType() );
+        }
+
         return retValue;
     }
 }
