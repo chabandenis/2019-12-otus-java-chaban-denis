@@ -26,10 +26,11 @@ class MyGsonTest {
         assertEquals(gson.toJson(1d), serializer.create(1d));
         assertEquals(gson.toJson("aaa"), serializer.create("aaa"));
         assertEquals(gson.toJson('a'), serializer.create('a'));
+*/
         assertEquals(gson.toJson(new int[] {1, 2, 3}), serializer.create(new int[] {1, 2, 3}));
-        assertEquals(gson.toJson(List.of(1, 2 ,3)), serializer.create(List.of(1, 2 ,3)));
- */
+/*        assertEquals(gson.toJson(List.of(1, 2 ,3)), serializer.create(List.of(1, 2 ,3)));
         assertEquals(gson.toJson(Collections.singletonList(1)), serializer.create(Collections.singletonList(1)));
+ */
     }
 
     @Test

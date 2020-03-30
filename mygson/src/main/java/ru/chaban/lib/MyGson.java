@@ -4,6 +4,7 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import java.io.StringWriter;
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Set;
 
@@ -33,9 +34,10 @@ public class MyGson {
         JsonArrayBuilder aB = Json.createArrayBuilder();
         JsonObjectBuilder jO = Json.createObjectBuilder();
 
-        if (myObject.getClass().toString().contains("class [I")) {
-            for (var item : (int[]) myObject) {
-                createSimpleArray(aB, item);
+        if (myObject.getClass().isArray()) {
+            int length = Array.getLength(myObject);
+            for (int i = 0; i < length; i++) {
+                createSimpleArray(aB, Array.get(myObject, i));
             }
         } else if (myObject.getClass().toString().contains("class java.util.Collections")
                 || myObject.getClass().toString().contains("interface java.util.Collections")
@@ -258,7 +260,7 @@ public class MyGson {
             retVal = true;
         } else if (myObject.getClass().toString().contains("interface java.util.Map")) {
             retVal = true;
-        } else if (myObject.getClass().toString().contains("class [I")) {
+        } else if (myObject.getClass().isArray()) {
             retVal = true;
         } else if (myObject.getClass().toString().contains("class java.util.ImmutableCollections$ListN")) {
             retVal = true;
@@ -267,7 +269,7 @@ public class MyGson {
         }
 
         if ((retVal != myObject.getClass().isArray())) {
-            System.out.println("@ "+  myObject.getClass().getComponentType() +" @ ; " + retVal + "; " + myObject.getClass().isArray() + "; " + myObject + "; " +myObject.getClass().toString());
+            System.out.println("@ " + myObject.getClass().getComponentType() + " @ ; " + retVal + "; " + myObject.getClass().isArray() + "; " + myObject + "; " + myObject.getClass().toString());
         }
 
         return retVal;
@@ -279,7 +281,6 @@ public class MyGson {
         if (myObject.getClass().isPrimitive()) {
             return true;
         }
-
 
         switch (String.valueOf(myObject.getClass())) {
 
@@ -322,7 +323,8 @@ public class MyGson {
 
         if (myObject.getClass().isPrimitive() != retValue) {
             System.out.println("! " + myObject.getClass().isPrimitive()
-                    + "; " + retValue + "; " + myObject.toString() + "; " +  myObject.getClass().getComponentType() );
+                    + "; " + retValue + "; " + myObject.toString() + "; "
+                    + myObject.getClass().getComponentType());
         }
 
         return retValue;
