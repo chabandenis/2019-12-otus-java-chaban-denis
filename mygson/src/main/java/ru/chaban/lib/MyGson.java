@@ -3,6 +3,7 @@ package ru.chaban.lib;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.Set;
 
@@ -10,13 +11,14 @@ public class MyGson {
 
     // метод формирования строки JSON
     public String create(Object myObject) throws ClassNotFoundException, IllegalAccessException {
-        //jsonArray = Json.createArrayBuilder();
-        return create2(myObject);
-    }
-
-    public String create2(Object myObject) throws ClassNotFoundException, IllegalAccessException {
+        if (myObject == null) {
+            StringWriter writer = new StringWriter();
+            writer.append(null);
+            return writer.toString();
+        }
         if (isSimple(myObject)) {
-            return createSimpleArray(Json.createArrayBuilder(), myObject).build().toString();
+            return createSimple(myObject);
+            //!!!!!!//return createSimpleArray(Json.createArrayBuilder(), myObject).build().toString();
         } else {
             if (isComplexObject(myObject)) {
                 return createComplexObject(myObject).build().toString();
@@ -58,6 +60,11 @@ public class MyGson {
             ClassNotFoundException, IllegalAccessException {
 
         switch (String.valueOf(myObject.getClass())) {
+
+            case ("class java.lang.Byte"):
+                aB.add((Byte) myObject);
+                break;
+
             case ("int"):
                 aB.add((int) myObject);
                 break;
@@ -99,6 +106,59 @@ public class MyGson {
                 break;
         }
         return aB;
+    }
+
+    public String createSimple(Object myObject) throws
+            ClassNotFoundException, IllegalAccessException {
+        String retVal = "";
+
+        switch (String.valueOf(myObject.getClass())) {
+
+            case ("class java.lang.Byte"):
+                retVal = String.valueOf((Byte) myObject);
+                break;
+
+            case ("int"):
+                retVal = String.valueOf((int) myObject);
+                break;
+
+            case ("class java.lang.String"):
+                retVal = "\""+myObject.toString() + "\"";
+                break;
+
+            case ("class java.lang.Integer"):
+                retVal = String.valueOf(Integer.parseInt(myObject.toString()));
+                break;
+
+            case ("class java.lang.Boolean"):
+                retVal = String.valueOf((Boolean) myObject);
+                break;
+
+            case ("char"):
+                retVal = String.valueOf(myObject);
+                break;
+
+            case ("class java.lang.Double"):
+                retVal = String.valueOf((Double) myObject);
+                break;
+
+            case ("class java.lang.Float"):
+                retVal = String.valueOf(Double.valueOf(myObject.toString()));
+                break;
+
+            case ("class java.lang.Short"):
+                retVal = String.valueOf((Short) myObject);
+                break;
+
+            case ("class java.lang.Long"):
+                retVal = String.valueOf((Long) myObject);
+                break;
+
+            case ("long"):
+                retVal = String.valueOf((Long) myObject);
+                break;
+        }
+        return retVal;
     }
 
     public JsonObjectBuilder createSimpleObject(JsonObjectBuilder jO, JsonArrayBuilder aB, Object myObject) throws
@@ -189,6 +249,10 @@ public class MyGson {
         boolean retValue = false;
 
         switch (String.valueOf(myObject.getClass())) {
+            case ("class java.lang.Byte"):
+                retValue = true;
+                break;
+
             case ("int"):
                 retValue = true;
                 break;
