@@ -246,22 +246,10 @@ public class MyGson {
     }
 
     boolean isComplexObject(Object myObject) {
-
         boolean retVal = false;
 
-        if (myObject.getClass().toString().contains("interface java.util.List")
-                || myObject.getClass().toString().contains("class java.util.ArrayList")) {
-            retVal = true;
-        } else if (myObject.getClass().toString().contains("interface java.util.Set")
-                || myObject.getClass().toString().contains("class java.util.HashSet")) {
-            retVal = true;
-        } else if (myObject.getClass().toString().contains("interface java.util.Map")) {
-            retVal = true;
-        } else if (myObject.getClass().isArray()) {
-            retVal = true;
-        } else if (myObject.getClass().toString().contains("class java.util.ImmutableCollections$ListN")) {
-            retVal = true;
-        } else if (myObject.getClass().toString().contains("class java.util.Collections$SingletonList")) {
+        if (myObject instanceof Collection
+                || myObject.getClass().isArray()  ){
             retVal = true;
         }
 
