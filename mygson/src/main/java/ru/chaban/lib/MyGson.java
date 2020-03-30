@@ -249,7 +249,7 @@ public class MyGson {
         boolean retVal = false;
 
         if (myObject instanceof Collection
-                || myObject.getClass().isArray()  ){
+                || myObject.getClass().isArray()) {
             retVal = true;
         }
 
