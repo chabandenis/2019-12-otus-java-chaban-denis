@@ -10,12 +10,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Demo {
-    private static final String URL = "jdbc:h2:./test";
+    private static final String URL = "jdbc:h2:mem:";
     private static Logger logger = LoggerFactory.getLogger(Demo.class);
     private final Connection connection;
 
     public Demo() throws SQLException {
-        this.connection = DriverManager.getConnection(URL, "sa", "");
+        this.connection = DriverManager.getConnection(URL);
         this.connection.setAutoCommit(false);
     }
 
