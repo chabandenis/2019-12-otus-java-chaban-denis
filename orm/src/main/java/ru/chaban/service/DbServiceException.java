@@ -1,4 +1,4 @@
-package ru.otus.core.service;
+package ru.chaban.service;
 
 public class DbServiceException extends RuntimeException {
   public DbServiceException(Exception e) {

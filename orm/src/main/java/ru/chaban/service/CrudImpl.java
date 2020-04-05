@@ -1,24 +1,29 @@
-package ru.otus.core.service;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import ru.otus.core.dao.UserDao;
-import ru.otus.core.model.User;
-import ru.otus.core.sessionmanager.SessionManager;
+package ru.chaban.service;
 
 import java.util.Optional;
+import ru.chaban.service.Crud;
 
-public class DbServiceUserImpl implements DBServiceUser {
-  private static Logger logger = LoggerFactory.getLogger(DbServiceUserImpl.class);
+public class CrudImpl implements Crud {
 
-  private final UserDao userDao;
-
-  public DbServiceUserImpl(UserDao userDao) {
-    this.userDao = userDao;
+  @Override
+  public long save(Object userObject) {
+    return 0;
   }
 
   @Override
+  public void delete(Object userObject) {
+
+  }
+
+  @Override
+  public Optional get(Object userObject) {
+    return Optional.empty();
+  }
+
+/*
+  @Override
   public long saveUser(User user) {
+
     try (SessionManager sessionManager = userDao.getSessionManager()) {
       sessionManager.beginSession();
       try {
@@ -34,7 +39,6 @@ public class DbServiceUserImpl implements DBServiceUser {
       }
     }
   }
-
 
   @Override
   public Optional<User> getUser(long id) {
@@ -52,5 +56,7 @@ public class DbServiceUserImpl implements DBServiceUser {
       return Optional.empty();
     }
   }
+   */
+
 
 }
