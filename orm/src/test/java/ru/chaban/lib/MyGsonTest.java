@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import ru.chaban.examples.MyList;
 import ru.chaban.examples.MySet;
 import ru.chaban.examples.Simple;
+import ru.chaban.service.FieldsForDbImpl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,7 +18,7 @@ class MyGsonTest {
 
     @Test
     void mySet() throws ClassNotFoundException, IllegalAccessException {
-        MyGson myGson = new MyGson();
+        FieldsForDbImpl myGson = new FieldsForDbImpl();
         MySet mySet = new MySet();
 
         Set<String> str = new HashSet<>();
@@ -33,7 +34,7 @@ class MyGsonTest {
 
     @Test
     void myList() throws ClassNotFoundException, IllegalAccessException {
-        MyGson myGson = new MyGson();
+        FieldsForDbImpl myGson = new FieldsForDbImpl();
         MyList myList = new MyList();
 
         List tmpList = new ArrayList();
@@ -55,7 +56,7 @@ class MyGsonTest {
     void mySimple() throws ClassNotFoundException, IllegalAccessException {
         Simple simple = new Simple();
 
-        MyGson myGson = new MyGson();
+        FieldsForDbImpl myGson = new FieldsForDbImpl();
 
         System.out.println("gson: " + new Gson().toJson(simple));
         System.out.println("my gson: " + myGson.create(simple));
@@ -120,7 +121,7 @@ class MyGsonTest {
         c.b.y = 2;
         c.z = 3;
 
-        MyGson myGson = new MyGson();
+        FieldsForDbImpl myGson = new FieldsForDbImpl();
 
         System.out.println("gson: " + new Gson().toJson(c));
         System.out.println("my gson: " + myGson.create(c));
@@ -137,7 +138,7 @@ class MyGsonTest {
         myA2.x = 66;
         a.add(myA2);
 
-        MyGson myGson = new MyGson();
+        FieldsForDbImpl myGson = new FieldsForDbImpl();
 
         System.out.println("gson: " + new Gson().toJson(a));
         System.out.println("my gson: " + myGson.create(a));

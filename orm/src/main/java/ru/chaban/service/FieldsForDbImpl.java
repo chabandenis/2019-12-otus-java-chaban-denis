@@ -1,4 +1,7 @@
-package ru.chaban.lib;
+/*
+    Над объектом возвращает список полей с данными для БД
+ */
+package ru.chaban.service;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -6,7 +9,7 @@ import javax.json.JsonObjectBuilder;
 import java.util.List;
 import java.util.Set;
 
-public class MyGson {
+public class FieldsForDbImpl implements FieldsForDb {
 
     // метод формирования строки JSON
     public String create(Object myObject) throws ClassNotFoundException, IllegalAccessException {
