@@ -1,34 +1,46 @@
 package ru.chaban.model;
 
 public class Account {
-  private final long no;
-  private final String typeVal;
-  private final double rest;
+    private final Long no;
+    private String typeVal;
+    private Double rest;
 
-  public Account(long no, String typeVal, double rest) {
-    this.no = no;
-    this.rest = rest;
-    this.typeVal = typeVal;
-  }
+    public Account(Long no) {
+        this.no = no;
+    }
 
-  public long getNo() {
-    return no;
-  }
+    public Account(Long no, String typeVal, Double rest) {
+        this.no = no;
+        this.typeVal = typeVal;
+        this.rest = rest;
+    }
 
-  public String getTypeVal() {
-    return typeVal;
-  }
+    public Long getNo() {
+        return no;
+    }
 
-  public double getRest() {
-    return rest;
-  }
+    public String getTypeVal() {
+        return typeVal;
+    }
 
-  @Override
-  public String toString() {
-    return "Account{" +
-            "no=" + no +
-            ", typeVal='" + typeVal + '\'' +
-            ", rest=" + rest +
-            '}';
-  }
+    public void setTypeVal(String typeVal) {
+        this.typeVal = typeVal;
+    }
+
+    public Double getRest() {
+        return rest;
+    }
+
+    public void setRest(Double rest) {
+        this.rest = rest;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "no=" + no +
+                ", typeVal='" + typeVal + '\'' +
+                ", rest=" + rest +
+                '}';
+    }
 }

@@ -1,7 +1,7 @@
 package ru.chaban.jdbc.dao;
 
 
-public class UserDaoJdbc/* implements UserDao */{
+public class UserDaoJdbc/* implements UserDao */ {
   /*
   private static Logger logger = LoggerFactory.getLogger(UserDaoJdbc.class);
 

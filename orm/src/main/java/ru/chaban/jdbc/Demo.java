@@ -25,7 +25,7 @@ public class Demo {
     }
 
     private void close() throws SQLException {
-       this.connection.close();
+        this.connection.close();
     }
 
     private void createTable() throws SQLException {
@@ -57,10 +57,10 @@ public class Demo {
         try (PreparedStatement preparedStatement =
                      this.connection.prepareStatement("select name from test where id = ?")) {
             preparedStatement.setInt(1, id);
-            try(ResultSet rs = preparedStatement.executeQuery()){
+            try (ResultSet rs = preparedStatement.executeQuery()) {
                 StringBuilder ourString = new StringBuilder();
-                ourString.append("name: " );
-                if (rs.next()){
+                ourString.append("name: ");
+                if (rs.next()) {
                     ourString.append(rs.getString("name"));
                 }
                 logger.info(ourString.toString());

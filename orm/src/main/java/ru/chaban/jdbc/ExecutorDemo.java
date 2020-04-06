@@ -12,10 +12,10 @@ import java.sql.SQLException;
  * created on 03.02.19.
  */
 public class ExecutorDemo {
-  private static final String URL = "jdbc:h2:mem:";
-  private static Logger logger = LoggerFactory.getLogger(ExecutorDemo.class);
+    private static final String URL = "jdbc:h2:mem:";
+    private static Logger logger = LoggerFactory.getLogger(ExecutorDemo.class);
 
-  public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException {
     /*
     ExecutorDemo demo = new ExecutorDemo();
 
@@ -42,13 +42,13 @@ public class ExecutorDemo {
     }
 
      */
-  }
-
-
-  private void createTable(Connection connection) throws SQLException {
-    try (PreparedStatement pst = connection.prepareStatement("create table user(id long auto_increment, name varchar(50))")) {
-      pst.executeUpdate();
     }
-  }
+
+
+    private void createTable(Connection connection) throws SQLException {
+        try (PreparedStatement pst = connection.prepareStatement("create table user(id long auto_increment, name varchar(50))")) {
+            pst.executeUpdate();
+        }
+    }
 
 }

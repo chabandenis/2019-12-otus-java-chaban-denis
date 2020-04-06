@@ -1,24 +1,23 @@
 package ru.chaban.service;
 
 import java.util.Optional;
-import ru.chaban.service.Crud;
 
-public class CrudImpl implements Crud {
+public class CrudImpl<T> implements Crud<T> {
 
-  @Override
-  public long save(Object userObject) {
-    return 0;
-  }
+    @Override
+    public long save(T userObject) {
+        return 0;
+    }
 
-  @Override
-  public void delete(Object userObject) {
+    @Override
+    public void delete(T userObject) {
 
-  }
+    }
 
-  @Override
-  public Optional get(Object userObject) {
-    return Optional.empty();
-  }
+    @Override
+    public Optional get(T userObject) {
+        return Optional.empty();
+    }
 
 /*
   @Override
