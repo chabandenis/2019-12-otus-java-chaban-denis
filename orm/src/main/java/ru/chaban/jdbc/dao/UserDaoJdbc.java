@@ -1,21 +1,8 @@
-package ru.otus.jdbc.dao;
+package ru.chaban.jdbc.dao;
 
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Collections;
-import java.util.Optional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import ru.otus.core.dao.UserDao;
-import ru.otus.core.dao.UserDaoException;
-import ru.otus.jdbc.DbExecutor;
-import ru.otus.core.model.User;
-import ru.otus.core.sessionmanager.SessionManager;
-import ru.otus.jdbc.sessionmanager.SessionManagerJdbc;
-
-public class UserDaoJdbc implements UserDao {
+public class UserDaoJdbc/* implements UserDao */{
+  /*
   private static Logger logger = LoggerFactory.getLogger(UserDaoJdbc.class);
 
   private final SessionManagerJdbc sessionManager;
@@ -65,4 +52,6 @@ public class UserDaoJdbc implements UserDao {
   private Connection getConnection() {
     return sessionManager.getCurrentSession().getConnection();
   }
+
+   */
 }

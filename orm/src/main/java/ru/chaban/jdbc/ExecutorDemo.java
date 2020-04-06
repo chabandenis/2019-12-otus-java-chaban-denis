@@ -1,15 +1,11 @@
-package ru.otus.jdbc;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Collections;
-import java.util.Optional;
+package ru.chaban.jdbc;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.core.model.User;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  * @author sergey
@@ -20,6 +16,7 @@ public class ExecutorDemo {
   private static Logger logger = LoggerFactory.getLogger(ExecutorDemo.class);
 
   public static void main(String[] args) throws SQLException {
+    /*
     ExecutorDemo demo = new ExecutorDemo();
 
     try (Connection connection = DriverManager.getConnection(URL)) {
@@ -43,6 +40,8 @@ public class ExecutorDemo {
       });
       System.out.println(user);
     }
+
+     */
   }
 
 
@@ -51,6 +50,5 @@ public class ExecutorDemo {
       pst.executeUpdate();
     }
   }
-
 
 }
