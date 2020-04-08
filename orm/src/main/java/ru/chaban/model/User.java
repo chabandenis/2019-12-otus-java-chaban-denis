@@ -4,6 +4,7 @@ public class User {
     private final Long id;
     private String name;
     private Integer age;
+    private int ver;
 
     public User(Long id) {
         this.id = id;
@@ -13,6 +14,7 @@ public class User {
         this.id = id;
         this.name = name;
         this.age = age;
+        this.ver = 1;
     }
 
     public Long getId() {
@@ -41,6 +43,7 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +
+                ", ver=" + ver +
                 '}';
     }
 }

@@ -4,9 +4,11 @@ public class Account {
     private final Long no;
     private String typeVal;
     private Double rest;
+    private int ver;
 
     public Account(Long no) {
         this.no = no;
+        ver = 1;
     }
 
     public Account(Long no, String typeVal, Double rest) {
@@ -41,6 +43,7 @@ public class Account {
                 "no=" + no +
                 ", typeVal='" + typeVal + '\'' +
                 ", rest=" + rest +
+                ", ver=" + ver +
                 '}';
     }
 }
