@@ -5,8 +5,11 @@ import java.util.Optional;
 public class CrudImpl<T> implements Crud<T> {
 
     @Override
-    public long save(T userObject) {
-        return 0;
+    public void save(T userObject) {
+        FieldsForDb fieldsForDb = new FieldsForDbImpl();
+        fieldsForDb.getFieldsAndValues(userObject);
+
+
     }
 
     @Override

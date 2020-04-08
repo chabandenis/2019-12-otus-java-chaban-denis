@@ -6,7 +6,7 @@ public interface Crud<T> {
     /*
       захотелось работать с объектами без id в качестве параметра
      */
-    long save(T userObject);
+    void save(T userObject);
 
     void delete(T userObject);
 

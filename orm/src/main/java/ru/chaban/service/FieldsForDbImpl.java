@@ -1,25 +1,45 @@
-/*
-    Над объектом возвращает список полей с данными для БД
- */
 package ru.chaban.service;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
+import java.io.StringWriter;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+/*
+    Над объектом возвращает список полей с данными для БД
+ */
 public class FieldsForDbImpl implements FieldsForDb {
 
-    // метод формирования строки JSON
-    public List<Field> create(Object myObject) throws ClassNotFoundException, IllegalAccessException {
-        //jsonArray = Json.createArrayBuilder();
-        return create2(myObject);
+    private List<FieldsInfo> fieldsInfo = new ArrayList<>();
+
+    @Override
+    public List<FieldsInfo> getFieldsAndValues(Object object) {
+        try {
+            create(object);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return fieldsInfo;
     }
 
-    public String create2(Object myObject) throws ClassNotFoundException, IllegalAccessException {
+    // метод формирования строки JSON
+    public String create(Object myObject) throws ClassNotFoundException, IllegalAccessException {
+        if (myObject == null) {
+            StringWriter writer = new StringWriter();
+            writer.append(null);
+            return writer.toString();
+        }
+
         if (isSimple(myObject)) {
-            return createSimpleArray(Json.createArrayBuilder(), myObject).build().toString();
+            return createSimple(myObject);
+            //!!!return createSimpleArray(Json.createArrayBuilder(), myObject).build().toString();
         } else {
             if (isComplexObject(myObject)) {
                 return createComplexObject(myObject).build().toString();
@@ -33,14 +53,22 @@ public class FieldsForDbImpl implements FieldsForDb {
         JsonArrayBuilder aB = Json.createArrayBuilder();
         JsonObjectBuilder jO = Json.createObjectBuilder();
 
-        if (myObject.getClass().toString().contains("interface java.util.List")
-                || myObject.getClass().toString().contains("class java.util.ArrayList")) {
-            for (var item : (List) myObject) {
+        if (myObject.getClass().isArray()) {
+            int length = Array.getLength(myObject);
+            for (int i = 0; i < length; i++) {
+                createSimpleArray(aB, Array.get(myObject, i));
+            }
+        } else if (myObject instanceof Collection) {
+            for (var item : (Collection) myObject) {
                 if (isSimple(item)) {
                     createSimpleArray(aB, item);
                 } else {
                     aB.add(createSimpleObject(Json.createObjectBuilder(), Json.createArrayBuilder(), item));
                 }
+            }
+        } else if (myObject.getClass().toString().contains("class java.util.ImmutableCollections$ListN")) {
+            for (var item : (List) myObject) {
+                createSimpleArray(aB, item);
             }
         } else if (myObject.getClass().toString().contains("interface java.util.Set")
                 || myObject.getClass().toString().contains("class java.util.HashSet")) {
@@ -61,6 +89,11 @@ public class FieldsForDbImpl implements FieldsForDb {
             ClassNotFoundException, IllegalAccessException {
 
         switch (String.valueOf(myObject.getClass())) {
+
+            case ("class java.lang.Byte"):
+                aB.add((Byte) myObject);
+                break;
+
             case ("int"):
                 aB.add((int) myObject);
                 break;
@@ -104,10 +137,66 @@ public class FieldsForDbImpl implements FieldsForDb {
         return aB;
     }
 
+    public String createSimple(Object myObject) throws
+            ClassNotFoundException, IllegalAccessException {
+        String retVal = "";
+
+        switch (String.valueOf(myObject.getClass())) {
+
+            case ("class java.lang.Character"):
+                retVal = "\"" + String.valueOf((Character) myObject) + "\"";
+                break;
+
+            case ("class java.lang.Byte"):
+                retVal = String.valueOf((Byte) myObject);
+                break;
+
+            case ("int"):
+                retVal = String.valueOf((int) myObject);
+                break;
+
+            case ("class java.lang.String"):
+                retVal = "\"" + myObject.toString() + "\"";
+                break;
+
+            case ("class java.lang.Integer"):
+                retVal = String.valueOf(Integer.parseInt(myObject.toString()));
+                break;
+
+            case ("class java.lang.Boolean"):
+                retVal = String.valueOf((Boolean) myObject);
+                break;
+
+            case ("char"):
+                retVal = String.valueOf(myObject);
+                break;
+
+            case ("class java.lang.Double"):
+                retVal = String.valueOf((Double) myObject);
+                break;
+
+            case ("class java.lang.Float"):
+                retVal = String.valueOf(Double.valueOf(myObject.toString()));
+                break;
+
+            case ("class java.lang.Short"):
+                retVal = String.valueOf((Short) myObject);
+                break;
+
+            case ("class java.lang.Long"):
+                retVal = String.valueOf((Long) myObject);
+                break;
+
+            case ("long"):
+                retVal = String.valueOf((Long) myObject);
+                break;
+        }
+        return retVal;
+    }
+
     public JsonObjectBuilder createSimpleObject(JsonObjectBuilder jO, JsonArrayBuilder aB, Object myObject) throws
             ClassNotFoundException, IllegalAccessException {
 
-        // поля объекта
         for (var field : myObject.getClass().getDeclaredFields()) {
 
             field.setAccessible(true);
@@ -120,6 +209,7 @@ public class FieldsForDbImpl implements FieldsForDb {
 
                 case ("int"):
                     jO.add(field.getName(), field.getInt(myObject));
+                    fieldsInfo.add(new FieldsInfo())
                     break;
 
                 case ("class java.lang.String"):
@@ -175,24 +265,30 @@ public class FieldsForDbImpl implements FieldsForDb {
     }
 
     boolean isComplexObject(Object myObject) {
-        if (myObject.getClass().toString().contains("interface java.util.List")
-                || myObject.getClass().toString().contains("class java.util.ArrayList")) {
-            return true;
-        } else if (myObject.getClass().toString().contains("interface java.util.Set")
-                || myObject.getClass().toString().contains("class java.util.HashSet")) {
-            return true;
-        } else if (myObject.getClass().toString().contains("interface java.util.Map")) {
-            return true;
+        boolean retVal = false;
+
+        if (myObject instanceof Collection
+                || myObject.getClass().isArray()) {
+            retVal = true;
         }
 
-        return false;
+        return retVal;
     }
 
     boolean isSimple(Object myObject) {
         boolean retValue = false;
 
+        if (myObject.getClass().isPrimitive()) {
+            return true;
+        }
+
         switch (String.valueOf(myObject.getClass())) {
-            case ("int"):
+
+            case ("class java.lang.Character"):
+                retValue = true;
+                break;
+
+            case ("class java.lang.Byte"):
                 retValue = true;
                 break;
 
@@ -205,10 +301,6 @@ public class FieldsForDbImpl implements FieldsForDb {
                 break;
 
             case ("class java.lang.Boolean"):
-                retValue = true;
-                break;
-
-            case ("char"):
                 retValue = true;
                 break;
 
@@ -227,11 +319,8 @@ public class FieldsForDbImpl implements FieldsForDb {
             case ("class java.lang.Long"):
                 retValue = true;
                 break;
-
-            case ("long"):
-                retValue = true;
-                break;
         }
+
         return retValue;
     }
 }
