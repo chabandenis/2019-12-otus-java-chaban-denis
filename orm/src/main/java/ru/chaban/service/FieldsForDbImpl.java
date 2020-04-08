@@ -208,44 +208,83 @@ public class FieldsForDbImpl implements FieldsForDb {
             switch (String.valueOf(field.getType())) {
 
                 case ("int"):
-                    jO.add(field.getName(), field.getInt(myObject));
-                    fieldsInfo.add(new FieldsInfo())
+                    //jO.add(field.getName(), field.getInt(myObject));
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf(field.getInt(myObject))));
                     break;
 
                 case ("class java.lang.String"):
-                    jO.add(field.getName(), String.valueOf(field.get(myObject)));
+                    //jO.add(field.getName(), String.valueOf(field.get(myObject)));
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf(String.valueOf(field.get(myObject)))));
                     break;
 
                 case ("class java.lang.Integer"):
-                    jO.add(field.getName(), Integer.parseInt(field.get(myObject).toString()));
+                    //jO.add(field.getName(), Integer.parseInt(field.get(myObject).toString()));
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf(Integer.parseInt(field.get(myObject).toString()))));
                     break;
 
                 case ("class java.lang.Boolean"):
-                    jO.add(field.getName(), (Boolean) field.get(myObject));
+                    //jO.add(field.getName(), (Boolean) field.get(myObject));
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf((Boolean) field.get(myObject))));
                     break;
 
                 case ("char"):
-                    jO.add(field.getName(), String.valueOf(field.get(myObject)));
+                    //jO.add(field.getName(), String.valueOf(field.get(myObject)));
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf(String.valueOf(field.get(myObject)))));
                     break;
 
                 case ("class java.lang.Double"):
-                    jO.add(field.getName(), (Double) field.get(myObject));
+                    //jO.add(field.getName(), (Double) field.get(myObject));
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf((Double) field.get(myObject))));
                     break;
 
                 case ("class java.lang.Float"):
-                    jO.add(field.getName(), Double.valueOf(field.get(myObject).toString()));
+                    //jO.add(field.getName(), Double.valueOf(field.get(myObject).toString()));
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf(Double.valueOf(field.get(myObject).toString()))));
                     break;
 
                 case ("class java.lang.Short"):
-                    jO.add(field.getName(), (Short) field.get(myObject));
+                    //jO.add(field.getName(), (Short) field.get(myObject));
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf((Short) field.get(myObject))));
                     break;
 
                 case ("class java.lang.Long"):
-                    jO.add(field.getName(), (Long) field.get(myObject));
+                    //jO.add(field.getName(), (Long) field.get(myObject));
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf((Long) field.get(myObject))));
                     break;
 
                 case ("long"):
-                    jO.add(field.getName(), (Long) field.get(myObject));
+                    //jO.add(field.getName(), (Long) field.get(myObject));
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf((Long) field.get(myObject))));
                     break;
 
                 default:
