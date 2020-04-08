@@ -4,19 +4,17 @@
 
 package ru.chaban.service;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class Conformity {
-    private Map conf = new HashMap();
+    private Map<String, String> conf = new HashMap<>();
 
-/*
-    Conformity() {
-        typeString,
-                typeDouble,
-                typeInteger;
+    public Conformity() {
+        conf.put("String", "char(256");
     }
 
- */
+    public Map getConf() {
+        return conf;
+    }
 }

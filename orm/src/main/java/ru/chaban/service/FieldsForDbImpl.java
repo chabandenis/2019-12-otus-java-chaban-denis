@@ -12,7 +12,7 @@ import java.util.Set;
 public class FieldsForDbImpl implements FieldsForDb {
 
     // метод формирования строки JSON
-    public String create(Object myObject) throws ClassNotFoundException, IllegalAccessException {
+    public List<Field> create(Object myObject) throws ClassNotFoundException, IllegalAccessException {
         //jsonArray = Json.createArrayBuilder();
         return create2(myObject);
     }
