@@ -272,13 +272,6 @@ public class FieldsForDbImpl implements FieldsForDb {
                     break;
 
                 case ("class java.lang.Long"):
-                    //jO.add(field.getName(), (Long) field.get(myObject));
-                    fieldsInfo.add(new FieldsInfo(
-                            field.getName(),
-                            String.valueOf(field.getType()),
-                            String.valueOf((Long) field.get(myObject))));
-                    break;
-
                 case ("long"):
                     //jO.add(field.getName(), (Long) field.get(myObject));
                     fieldsInfo.add(new FieldsInfo(
