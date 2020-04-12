@@ -1,4 +1,4 @@
-package ru.otus.core.sessionmanager;
+package ru.chaban.core.sessionmanager;
 
 public interface DatabaseSession {
 }

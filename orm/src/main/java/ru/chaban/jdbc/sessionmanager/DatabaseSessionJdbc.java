@@ -1,6 +1,6 @@
-package ru.otus.jdbc.sessionmanager;
+package ru.chaban.jdbc.sessionmanager;
 
-import ru.otus.core.sessionmanager.DatabaseSession;
+import ru.chaban.core.sessionmanager.DatabaseSession;
 
 import java.sql.Connection;
 

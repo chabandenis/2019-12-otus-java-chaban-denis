@@ -4,12 +4,14 @@ import org.junit.jupiter.api.Test;
 import ru.chaban.service.Crud;
 import ru.chaban.service.CrudImpl;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AccountTest {
 
     @Test
-    void myTest() {
+    void myTest() throws SQLException {
         Account account = new Account(Long.valueOf(1), "222", 33.333);
         Crud crud = new CrudImpl();
 

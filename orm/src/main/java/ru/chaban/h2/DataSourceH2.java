@@ -1,4 +1,4 @@
-package ru.otus.h2;
+package ru.chaban.h2;
 
 import javax.sql.DataSource;
 import java.io.PrintWriter;
@@ -7,10 +7,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
-/**
- * @author sergey
- * created on 03.02.19.
- */
 public class DataSourceH2 implements DataSource {
     private static final String URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
 
