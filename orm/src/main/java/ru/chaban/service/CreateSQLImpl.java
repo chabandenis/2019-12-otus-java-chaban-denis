@@ -17,9 +17,11 @@ public class CreateSQLImpl implements CreateSQL {
 
         StringBuilder retValue = new StringBuilder();
         retValue.append("CREATE TABLE ");
-        String[] spl = object.getClass().getName().split(".");
+        String str = object.getClass().getName();
+        String[] spl = str.split("\\.");
 
-        retValue.append(spl[spl.length] + " ");
+
+        retValue.append(spl[spl.length-1] + " ");
         retValue.append("(");
 
         retValue.append(fieldsInfoList

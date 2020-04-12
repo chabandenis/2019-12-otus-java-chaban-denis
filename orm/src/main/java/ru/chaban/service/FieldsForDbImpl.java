@@ -21,7 +21,7 @@ public class FieldsForDbImpl implements FieldsForDb {
             e.printStackTrace();
         }
 
-        fieldsInfo.forEach(x -> System.out.println(x));
+        //fieldsInfo.forEach(x -> System.out.println(x));
         return fieldsInfo;
     }
 
