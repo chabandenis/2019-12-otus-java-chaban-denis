@@ -10,12 +10,11 @@ public class Conformity {
     private Map<String, String> conf = new HashMap<>();
 
     public Conformity() {
-
-        conf.put("class java.lang.String", "char(256)");
-        conf.put("class java.lang.Long", "number");
-        conf.put("class java.lang.Integer", "number");
-        conf.put("int", "number");
-        conf.put("long", "number");
+        conf.put("class java.lang.String", "char(256)".toUpperCase());
+        conf.put("class java.lang.Long", "number".toUpperCase());
+        conf.put("class java.lang.Integer", "number".toUpperCase());
+        conf.put("int", "number".toUpperCase());
+        conf.put("long", "number".toUpperCase());
 
     }
 

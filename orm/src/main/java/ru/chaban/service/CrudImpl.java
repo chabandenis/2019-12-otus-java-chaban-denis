@@ -9,6 +9,9 @@ public class CrudImpl<T> implements Crud<T> {
     @Override
     public void save(T userObject) {
         createSQL.createTableSQL(userObject);
+        createSQL.deleteTableSQL(userObject);
+        createSQL.insertTableSQL(userObject);
+        createSQL.updateTableSQL(userObject);
 
 
     }

@@ -1,6 +1,9 @@
 package ru.chaban.model;
 
+import ru.chaban.service.Id;
+
 public class User {
+    @Id
     private final Long id;
     private String name;
     private Integer age;

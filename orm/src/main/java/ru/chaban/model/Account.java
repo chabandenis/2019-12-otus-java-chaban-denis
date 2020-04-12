@@ -1,6 +1,9 @@
 package ru.chaban.model;
 
+import ru.chaban.service.Id;
+
 public class Account {
+    @Id
     private final Long no;
     private String typeVal;
     private Double rest;

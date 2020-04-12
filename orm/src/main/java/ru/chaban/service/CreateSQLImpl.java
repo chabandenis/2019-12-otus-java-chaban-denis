@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CreateSQLImpl implements CreateSQL {
-    private FieldsForDb fieldsForDb = new FieldsForDbImpl();
     private Conformity conformity = new Conformity();
 
     @Override
     public String createTableSQL(Object object) {
+        FieldsForDb fieldsForDb = new FieldsForDbImpl();
         List<FieldsInfo> fieldsInfoList = fieldsForDb.getFieldsAndValues(object);
 
         if (fieldsInfoList.size() == 0) {
@@ -17,11 +17,10 @@ public class CreateSQLImpl implements CreateSQL {
 
         StringBuilder retValue = new StringBuilder();
         retValue.append("CREATE TABLE ");
-        String str = object.getClass().getName();
-        String[] spl = str.split("\\.");
 
+        String[] spl = object.getClass().getName().split("\\.");
 
-        retValue.append(spl[spl.length-1] + " ");
+        retValue.append("T_" + (spl[spl.length - 1] + " ").toUpperCase());
         retValue.append("(");
 
         retValue.append(fieldsInfoList
@@ -33,26 +32,87 @@ public class CreateSQLImpl implements CreateSQL {
         System.out.println(retValue);
 
         return retValue.toString();
-
     }
 
     @Override
     public String insertTableSQL(Object object) {
-        fieldsForDb.getFieldsAndValues(object);
+        FieldsForDb fieldsForDb = new FieldsForDbImpl();
+        List<FieldsInfo> fieldsInfoList = fieldsForDb.getFieldsAndValues(object);
 
-        return null;
+        if (fieldsInfoList.size() == 0) {
+            return null;
+        }
+
+        StringBuilder retValue = new StringBuilder();
+        retValue.append("CREATE TABLE ");
+
+        String[] spl = object.getClass().getName().split("\\.");
+
+        retValue.append("T_" + (spl[spl.length - 1] + " ").toUpperCase());
+        retValue.append("(");
+
+        retValue.append(fieldsInfoList
+                .stream().map(x -> x.getName().toUpperCase() + " " + conformity.get(x.getType()).toUpperCase())
+                .collect(Collectors.joining(", ")));
+
+        retValue.append(");");
+
+        System.out.println(retValue);
+
+        return retValue.toString();
     }
 
     @Override
     public String updateTableSQL(Object object) {
-        fieldsForDb.getFieldsAndValues(object);
-        return null;
+        FieldsForDb fieldsForDb = new FieldsForDbImpl();
+        List<FieldsInfo> fieldsInfoList = fieldsForDb.getFieldsAndValues(object);
+
+        if (fieldsInfoList.size() == 0) {
+            return null;
+        }
+
+        StringBuilder retValue = new StringBuilder();
+        retValue.append("CREATE TABLE ");
+
+        String[] spl = object.getClass().getName().split("\\.");
+
+        retValue.append("T_" + (spl[spl.length - 1] + " ").toUpperCase());
+        retValue.append("(");
+
+        retValue.append(fieldsInfoList
+                .stream().map(x -> x.getName().toUpperCase() + " " + conformity.get(x.getType()).toUpperCase())
+                .collect(Collectors.joining(", ")));
+
+        retValue.append(");");
+
+        System.out.println(retValue);
+
+        return retValue.toString();
     }
 
     @Override
     public String deleteTableSQL(Object object) {
-        fieldsForDb.getFieldsAndValues(object);
+        FieldsForDb fieldsForDb = new FieldsForDbImpl();
+        List<FieldsInfo> fieldsInfoList = fieldsForDb.getFieldsAndValues(object);
 
-        return null;
+        if (fieldsInfoList.size() == 0) {
+            return null;
+        }
+
+        StringBuilder retValue = new StringBuilder();
+        retValue.append("DELETE FROM TABLE ");
+
+        String[] spl = object.getClass().getName().split("\\.");
+
+        retValue.append("T_" + (spl[spl.length - 1] + " ").toUpperCase());
+        retValue.append(" WHERE ");
+
+        retValue.append(fieldsInfoList.stream().filter(x-> x.getKey()==true).map(x->x.getName() +"=" + x.getValue()).collect(Collectors.joining()));
+
+        retValue.append(" ;");
+
+        System.out.println(retValue);
+
+        return retValue.toString();
     }
 }

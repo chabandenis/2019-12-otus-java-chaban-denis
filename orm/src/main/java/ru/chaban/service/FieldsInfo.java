@@ -7,11 +7,21 @@ public class FieldsInfo {
     private String name;
     private String type;
     private String value;
+    private Boolean key;
 
-    public FieldsInfo(String name, String type, String value) {
+    public FieldsInfo(String name, String type, String value, Boolean key) {
         this.name = name;
         this.type = type;
         this.value = value;
+        this.key = key;
+    }
+
+    public Boolean getKey() {
+        return key;
+    }
+
+    public void setKey(Boolean key) {
+        this.key = key;
     }
 
     public String getName() {
@@ -44,6 +54,7 @@ public class FieldsInfo {
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", value='" + value + '\'' +
+                ", key=" + key +
                 '}';
     }
 }
