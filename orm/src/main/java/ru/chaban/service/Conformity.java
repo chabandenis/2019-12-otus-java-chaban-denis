@@ -1,4 +1,5 @@
 package ru.chaban.service;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public class Conformity {
 
     }
 
-    public String get(String from){
+    public String get(String from) {
         return conf.get(from);
     }
 }

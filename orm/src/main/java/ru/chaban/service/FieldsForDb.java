@@ -6,5 +6,5 @@ import java.util.List;
     Соответствие
  */
 public interface FieldsForDb {
-    List<FieldsInfo> getFieldsAndValues(Object object) ;
+    List<FieldsInfo> getFieldsAndValues(Object object);
 }
