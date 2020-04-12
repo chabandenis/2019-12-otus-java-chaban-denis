@@ -17,7 +17,7 @@ class AccountTest {
         crud.save(account);
 
         Account accountFromDb = new Account(Long.valueOf(1));
-        crud.get(String.valueOf(accountFromDb.getNo()));
+        crud.get(accountFromDb.getNo());
 
         assertEquals(account.getNo(), accountFromDb.getNo());
         assertEquals(account.getRest(), accountFromDb.getRest());
@@ -28,14 +28,14 @@ class AccountTest {
         // найдем существующую запись и изменим значение
         crud.save(account);
 
-        crud.get(String.valueOf(accountFromDb));
+        crud.get(accountFromDb);
 
         assertEquals(account.getNo(), accountFromDb.getNo());
         assertEquals(account.getRest(), accountFromDb.getRest());
         assertEquals(account.getTypeVal(), accountFromDb.getTypeVal());
 
         // удалим
-        crud.delete(String.valueOf(account.getNo()));
+        crud.delete(account);
         assertEquals(Long.valueOf(-1), account.getNo());
         assertEquals(null, account.getRest());
         assertEquals(null, account.getTypeVal());

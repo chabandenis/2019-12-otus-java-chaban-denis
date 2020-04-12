@@ -9,22 +9,19 @@ public class CrudImpl<T> implements Crud<T> {
     @Override
     public void save(T userObject) {
         createSQL.createTableSQL(userObject);
-        createSQL.deleteTableSQL(userObject);
         createSQL.insertTableSQL(userObject);
         createSQL.updateTableSQL(userObject);
+    }
 
+    @Override
+    public void delete(T userObject) {
+        createSQL.deleteTableSQL(userObject);
 
     }
 
     @Override
-    public void delete(String id) {
-
-
-    }
-
-    @Override
-    public Optional get(String id) {
-
+    public Optional get(T userObject) {
+        createSQL.selectTableSQL(userObject);
         return Optional.empty();
     }
 

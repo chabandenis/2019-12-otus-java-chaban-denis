@@ -7,6 +7,35 @@ public class CreateSQLImpl implements CreateSQL {
     private Conformity conformity = new Conformity();
 
     @Override
+    public String selectTableSQL(Object object) {
+        FieldsForDb fieldsForDb = new FieldsForDbImpl();
+        List<FieldsInfo> fieldsInfoList = fieldsForDb.getFieldsAndValues(object);
+
+        if (fieldsInfoList.size() == 0) {
+            return null;
+        }
+
+        StringBuilder retValue = new StringBuilder();
+        retValue.append("SELECT ");
+
+        retValue.append(fieldsInfoList
+                .stream().map(x -> x.getName())
+                .collect(Collectors.joining(", ")));
+
+        String[] spl = object.getClass().getName().split("\\.");
+
+        retValue.append("FROM T_" + (spl[spl.length - 1] + " ").toUpperCase());
+
+        retValue.append(" WHERE ");
+
+        retValue.append(fieldsInfoList.stream().filter(x -> x.getKey() == true).map(x -> x.getName() + "=" + x.getValue()).collect(Collectors.joining()));
+
+        System.out.println(retValue);
+
+        return retValue.toString();
+    }
+
+    @Override
     public String createTableSQL(Object object) {
         FieldsForDb fieldsForDb = new FieldsForDbImpl();
         List<FieldsInfo> fieldsInfoList = fieldsForDb.getFieldsAndValues(object);
@@ -89,7 +118,7 @@ public class CreateSQLImpl implements CreateSQL {
 
         retValue.append(fieldsInfoList
                 .stream()
-                .filter(x->x.getKey()==false)
+                .filter(x -> x.getKey() == false)
                 .map(x -> x.getName())
                 .collect(Collectors.joining(", ")));
 
@@ -98,7 +127,7 @@ public class CreateSQLImpl implements CreateSQL {
 
         retValue.append(fieldsInfoList
                 .stream()
-                .filter(x->x.getKey()==false)
+                .filter(x -> x.getKey() == false)
                 .map(
                         x -> x.getName() + "=" + ((conformity.get(x.getType()).contains("CHAR")) ? "'" + x.getValue() + "'" : x.getValue()))
                 .collect(Collectors.joining(", ")));

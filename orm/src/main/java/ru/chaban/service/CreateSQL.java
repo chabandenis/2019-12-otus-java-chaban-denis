@@ -9,4 +9,6 @@ public interface CreateSQL {
     String updateTableSQL(Object object);
 
     String deleteTableSQL(Object object);
+
+    String selectTableSQL(Object object);
 }

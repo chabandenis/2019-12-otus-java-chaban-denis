@@ -8,7 +8,7 @@ public interface Crud<T> {
      */
     void save(T userObject);
 
-    void delete(String id);
+    void delete(T userObject);
 
-    Optional<T> get(String id);
+    Optional<T> get(T userObject);
 }
