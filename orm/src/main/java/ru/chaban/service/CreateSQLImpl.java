@@ -80,7 +80,7 @@ public class CreateSQLImpl implements CreateSQL {
         }
 
         StringBuilder retValue = new StringBuilder();
-        retValue.append("CREATE TABLE ");
+        retValue.append("UPDATE ");
 
         String[] spl = object.getClass().getName().split("\\.");
 
@@ -88,10 +88,28 @@ public class CreateSQLImpl implements CreateSQL {
         retValue.append("(");
 
         retValue.append(fieldsInfoList
-                .stream().map(x -> x.getName().toUpperCase() + " " + conformity.get(x.getType()).toUpperCase())
+                .stream()
+                .filter(x->x.getKey()==false)
+                .map(x -> x.getName())
                 .collect(Collectors.joining(", ")));
 
-        retValue.append(");");
+        retValue.append(") VALUES (");
+
+
+        retValue.append(fieldsInfoList
+                .stream()
+                .filter(x->x.getKey()==false)
+                .map(
+                        x -> x.getName() + "=" + ((conformity.get(x.getType()).contains("CHAR")) ? "'" + x.getValue() + "'" : x.getValue()))
+                .collect(Collectors.joining(", ")));
+
+        retValue.append(")");
+
+        retValue.append(" WHERE ");
+
+        retValue.append(fieldsInfoList.stream().filter(x -> x.getKey() == true).map(x -> x.getName() + "=" + x.getValue()).collect(Collectors.joining()));
+
+        retValue.append(";");
 
         System.out.println(retValue);
 
