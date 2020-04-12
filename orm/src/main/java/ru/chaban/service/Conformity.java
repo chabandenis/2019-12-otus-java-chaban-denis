@@ -9,10 +9,16 @@ public class Conformity {
     private Map<String, String> conf = new HashMap<>();
 
     public Conformity() {
-        conf.put("String", "char(256");
+
+        conf.put("class java.lang.String", "char(256)");
+        conf.put("class java.lang.Long", "number");
+        conf.put("class java.lang.Integer", "number");
+        conf.put("int", "number");
+        conf.put("long", "number");
+
     }
 
-    public Map getConf() {
-        return conf;
+    public String get(String from){
+        return conf.get(from);
     }
 }

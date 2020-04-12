@@ -5,6 +5,8 @@ public class User {
     private String name;
     private Integer age;
     private int ver;
+    private Long testLong;
+    private long test_long;
 
     public User(Long id) {
         this.id = id;
@@ -15,6 +17,8 @@ public class User {
         this.name = name;
         this.age = age;
         this.ver = 1;
+        this.testLong = 2L;
+        this.test_long = 3L;
     }
 
     public Long getId() {
@@ -37,6 +41,30 @@ public class User {
         this.age = age;
     }
 
+    public int getVer() {
+        return ver;
+    }
+
+    public void setVer(int ver) {
+        this.ver = ver;
+    }
+
+    public Long getTestLong() {
+        return testLong;
+    }
+
+    public void setTestLong(Long testLong) {
+        this.testLong = testLong;
+    }
+
+    public long getTest_long() {
+        return test_long;
+    }
+
+    public void setTest_long(long test_long) {
+        this.test_long = test_long;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -44,6 +72,8 @@ public class User {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", ver=" + ver +
+                ", testLong=" + testLong +
+                ", test_long=" + test_long +
                 '}';
     }
 }

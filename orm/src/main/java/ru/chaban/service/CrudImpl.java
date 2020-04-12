@@ -4,21 +4,24 @@ import java.util.Optional;
 
 public class CrudImpl<T> implements Crud<T> {
 
+    private CreateSQL createSQL = new CreateSQLImpl();
+
     @Override
     public void save(T userObject) {
-        FieldsForDb fieldsForDb = new FieldsForDbImpl();
-        fieldsForDb.getFieldsAndValues(userObject);
+        createSQL.createTableSQL(userObject);
 
 
     }
 
     @Override
-    public void delete(T userObject) {
+    public void delete(String id) {
+
 
     }
 
     @Override
-    public Optional get(T userObject) {
+    public Optional get(String id) {
+
         return Optional.empty();
     }
 

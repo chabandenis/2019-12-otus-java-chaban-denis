@@ -17,7 +17,7 @@ class UserTest {
         crud.save(user);
 
         User userFromDb = new User(Long.valueOf(1));
-        crud.get(userFromDb);
+        crud.get(String.valueOf(userFromDb.getId()));
 
         assertEquals(user.getId(), userFromDb.getId());
         assertEquals(user.getName(), userFromDb.getName());
@@ -28,14 +28,14 @@ class UserTest {
         // найдем существующую запись и изменим значение
         crud.save(user);
 
-        crud.get(userFromDb);
+        crud.get(String.valueOf(userFromDb));
 
         assertEquals(user.getId(), userFromDb.getId());
         assertEquals(user.getName(), userFromDb.getName());
         assertEquals(user.getAge(), userFromDb.getAge());
 
         // удалим
-        crud.delete(user);
+        crud.delete(String.valueOf(user));
         assertEquals(-1, user.getId());
         assertEquals(null, user.getName());
         assertEquals(null, user.getAge());
