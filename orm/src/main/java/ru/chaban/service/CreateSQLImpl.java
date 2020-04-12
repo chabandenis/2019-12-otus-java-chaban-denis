@@ -44,7 +44,7 @@ public class CreateSQLImpl implements CreateSQL {
         }
 
         StringBuilder retValue = new StringBuilder();
-        retValue.append("CREATE TABLE ");
+        retValue.append("INSERT INTO ");
 
         String[] spl = object.getClass().getName().split("\\.");
 
@@ -52,7 +52,15 @@ public class CreateSQLImpl implements CreateSQL {
         retValue.append("(");
 
         retValue.append(fieldsInfoList
-                .stream().map(x -> x.getName().toUpperCase() + " " + conformity.get(x.getType()).toUpperCase())
+                .stream().map(x -> x.getName())
+                .collect(Collectors.joining(", ")));
+
+        retValue.append(") VALUES (");
+
+
+        retValue.append(fieldsInfoList
+                .stream().map(
+                        x -> (conformity.get(x.getType()).contains("CHAR")) ? "'" + x.getValue() + "'" : x.getValue())
                 .collect(Collectors.joining(", ")));
 
         retValue.append(");");
@@ -107,9 +115,9 @@ public class CreateSQLImpl implements CreateSQL {
         retValue.append("T_" + (spl[spl.length - 1] + " ").toUpperCase());
         retValue.append(" WHERE ");
 
-        retValue.append(fieldsInfoList.stream().filter(x-> x.getKey()==true).map(x->x.getName() +"=" + x.getValue()).collect(Collectors.joining()));
+        retValue.append(fieldsInfoList.stream().filter(x -> x.getKey() == true).map(x -> x.getName() + "=" + x.getValue()).collect(Collectors.joining()));
 
-        retValue.append(" ;");
+        retValue.append(";");
 
         System.out.println(retValue);
 
