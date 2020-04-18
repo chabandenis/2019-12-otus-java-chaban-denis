@@ -9,6 +9,7 @@ import ru.chaban.jdbc.sessionmanager.SessionManagerJdbc;
 
 import javax.sql.DataSource;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -64,79 +65,98 @@ public class CrudImpl<T> implements Crud<T> {
                         limit(1).
                         collect(Collectors.toList()).get(0).getValueStr(),
                 resultSet -> {
-                    Class cl = null;
-
                     try {
-                        cl = Class.forName(userObject.getClass().getName());
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                        return null;
-                    }
+                        if (resultSet.next()) {
 
-                    Object obj = null;
+                            Class cl = null;
 
-                    try {
-                        obj = cl.getConstructor().newInstance();
-                    } catch (InstantiationException e) {
-                        e.printStackTrace();
-                        return null;
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                        return null;
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                        return null;
-                    } catch (NoSuchMethodException e) {
-                        e.printStackTrace();
-                        return null;
-                    }
+                            try {
+                                cl = Class.forName(userObject.getClass().getName());
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                                return null;
+                            }
 
-                    for (var field : new FieldsForDbImpl().getFieldsAndValues(userObject)) {
+                            Object obj = null;
 
-                        String methodName = field.getNameInClass().substring(0, 1).toUpperCase() +
-                                field.getNameInClass().substring(1);
+                            try {
+                                obj = cl.getConstructor().newInstance();
+                            } catch (InstantiationException e) {
+                                e.printStackTrace();
+                                return null;
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                                return null;
+                            } catch (InvocationTargetException e) {
+                                e.printStackTrace();
+                                return null;
+                            } catch (NoSuchMethodException e) {
+                                e.printStackTrace();
+                                return null;
+                            }
 
-                        try {
-                            if (field.getType().contains("int")) {
+                            for (var field : new FieldsForDbImpl().getFieldsAndValues(userObject)) {
+
+                                String methodName = field.getNameInClass().substring(0, 1).toUpperCase() +
+                                        field.getNameInClass().substring(1);
+
                                 try {
-                                    cl.getMethod("set" + methodName,
-                                            new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
-                                            invoke(obj, ((Integer) resultSet.getInt(field.getNameInClass())).intValue());
-                                } catch (SQLException throwables) {
-                                    throwables.printStackTrace();
-                                }
+                                    if (field.getType().contains("int")) {
+                                        try {
+                                            cl.getMethod("set" + methodName,
+                                                    new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                                    invoke(obj, ((Integer) resultSet.getInt(field.getNameInClass())).intValue());
+                                        } catch (SQLException throwables) {
+                                            throwables.printStackTrace();
+                                        }
 
-                            } else if (field.getType().contains("long")) {
-                                try {
-                                    cl.getMethod("set" + methodName,
-                                            new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
-                                            invoke(obj, ((Long) resultSet.getLong(field.getNameInClass())).longValue());
-                                } catch (SQLException throwables) {
-                                    throwables.printStackTrace();
-                                }
-                            } else {
-                                try {
-                                    cl.getMethod("set" + methodName,
-                                            new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
-                                            invoke(obj, resultSet.getObject(field.getNameInClass())); //field.getValue()
-                                } catch (SQLException throwables) {
-                                    throwables.printStackTrace();
+                                    } else if (field.getType().contains("long")) {
+                                        try {
+                                            cl.getMethod("set" + methodName,
+                                                    new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                                    invoke(obj, ((Long) resultSet.getLong(field.getNameInClass())).longValue());
+                                        } catch (SQLException throwables) {
+                                            throwables.printStackTrace();
+                                        }
+                                    } else {
+
+                                        try {
+
+                                            if (resultSet.getObject(field.getNameInClass()).getClass().getName().contains("BigDecimal")) {
+                                                cl.getMethod("set" + methodName,
+                                                        new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                                        invoke(obj,
+                                                                ((BigDecimal) (resultSet.getObject(field.getNameInClass()))).longValue()); //field.getValue()
+                                            } else {
+                                                cl.getMethod("set" + methodName,
+                                                        new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                                        invoke(obj, resultSet.getObject(field.getNameInClass())); //field.getValue()
+
+                                            }
+
+                                        } catch (SQLException throwables) {
+                                            throwables.printStackTrace();
+                                        }
+                                    }
+
+                                } catch (IllegalAccessException e) {
+                                    e.printStackTrace();
+                                    return null;
+                                } catch (InvocationTargetException e) {
+                                    e.printStackTrace();
+                                    return null;
+                                } catch (NoSuchMethodException e) {
+                                    e.printStackTrace();
+                                    return null;
                                 }
                             }
 
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                            return null;
-                        } catch (InvocationTargetException e) {
-                            e.printStackTrace();
-                            return null;
-                        } catch (NoSuchMethodException e) {
-                            e.printStackTrace();
-                            return null;
+                            return (T) obj;
                         }
+                    } catch (SQLException e) {
+                        logger.error(e.getMessage(), e);
                     }
-
-                    return (T)obj;
+                    return null;
 
                 });
 
