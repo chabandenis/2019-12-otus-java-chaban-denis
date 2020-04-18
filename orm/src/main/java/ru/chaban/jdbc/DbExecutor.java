@@ -31,7 +31,7 @@ public class DbExecutor<T> {
 
     public Optional<T> selectRecord(Connection connection, String sql, String id, Function<ResultSet, T> rsHandler) throws SQLException {
         try (PreparedStatement pst = connection.prepareStatement(sql)) {
-            pst.setLong(1, id);
+            //pst.setString(1, id);  // вернуть при работе как с параметрами
             try (ResultSet rs = pst.executeQuery()) {
                 return Optional.ofNullable(rsHandler.apply(rs));
             }

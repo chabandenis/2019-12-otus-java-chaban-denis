@@ -28,7 +28,7 @@ class UserTest {
 
         // прочитаю из базы с id=1
         User userFromDb = new User(Long.valueOf(1));
-        userFromDb = (User)crud.get(userFromDb);
+        userFromDb = (User) crud.get(userFromDb).get();
 
         assertEquals(user.getId(), userFromDb.getId());
         assertEquals(user.getName(), userFromDb.getName());

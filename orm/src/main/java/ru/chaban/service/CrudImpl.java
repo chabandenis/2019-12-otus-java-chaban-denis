@@ -37,7 +37,7 @@ public class CrudImpl<T> implements Crud<T> {
         logger.info("Сохраняю значения для: {}", userObject);
         sessionManagerJdbc.beginSession();
         executeSQL(sessionManagerJdbc.getCurrentSession().getConnection(), createSQL.insertTableSQL(userObject));
-        executeSQL(sessionManagerJdbc.getCurrentSession().getConnection(), createSQL.updateTableSQL(userObject));
+//        executeSQL(sessionManagerJdbc.getCurrentSession().getConnection(), createSQL.updateTableSQL(userObject));
         sessionManagerJdbc.commitSession();
         logger.info("Значения успешно сохранены");
     }
@@ -62,8 +62,7 @@ public class CrudImpl<T> implements Crud<T> {
                 new FieldsForDbImpl().getFieldsAndValues(userObject).stream().
                         filter(x -> x.getKey() == true).
                         limit(1).
-                        collect(Collectors.toList()).get(0).
-                        toString(),
+                        collect(Collectors.toList()).get(0).getValue(),
                 resultSet -> {
                     Class cl = null;
 

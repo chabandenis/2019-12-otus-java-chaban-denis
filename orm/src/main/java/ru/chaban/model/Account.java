@@ -4,10 +4,13 @@ import ru.chaban.service.Id;
 
 public class Account {
     @Id
-    private final Long no;
+    private Long no;
     private String typeVal;
     private Double rest;
     private int ver;
+
+    public Account() {
+    }
 
     public Account(Long no) {
         this.no = no;

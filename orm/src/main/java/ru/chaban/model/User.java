@@ -4,12 +4,15 @@ import ru.chaban.service.Id;
 
 public class User {
     @Id
-    private final Long id;
+    private Long id;
     private String name;
     private Integer age;
     private int ver;
     private Long testLong;
     private long test_long;
+
+    public User() {
+    }
 
     public User(Long id) {
         this.id = id;

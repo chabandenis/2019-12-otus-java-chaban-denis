@@ -24,7 +24,7 @@ public class CreateSQLImpl implements CreateSQL {
 
         String[] spl = object.getClass().getName().split("\\.");
 
-        retValue.append("FROM T_" + (spl[spl.length - 1] + " ").toUpperCase());
+        retValue.append(" FROM T_" + (spl[spl.length - 1] + " ").toUpperCase());
 
         retValue.append(" WHERE ");
 
