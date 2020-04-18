@@ -12,6 +12,10 @@ public class Account {
     public Account() {
     }
 
+    public void setNo(Long no) {
+        this.no = no;
+    }
+
     public Account(Long no) {
         this.no = no;
         ver = 1;

@@ -14,6 +14,10 @@ public class User {
     public User() {
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public User(Long id) {
         this.id = id;
     }

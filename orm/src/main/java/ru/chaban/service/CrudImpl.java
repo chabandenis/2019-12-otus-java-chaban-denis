@@ -94,7 +94,7 @@ public class CrudImpl<T> implements Crud<T> {
                     for (var field : new FieldsForDbImpl().getFieldsAndValues(userObject)) {
                         try {
                             cl.getMethod(
-                                    "get" + field.getName(),
+                                    "set" + field.getName(),
                                     new Class[]{Object.class}).invoke(obj, field.getValue());
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
