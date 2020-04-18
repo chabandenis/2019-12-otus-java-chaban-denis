@@ -44,16 +44,18 @@ public class FieldsForDbImpl implements FieldsForDb {
 
                 case ("int"):
                     fieldsInfo.add(new FieldsInfo(
-                            field.getName().toUpperCase(),
+                            field.getName(),
                             String.valueOf(field.getType()),
                             String.valueOf(field.getInt(myObject)),
-                            field.isAnnotationPresent(Id.class)));
+                            field.isAnnotationPresent(Id.class)),
+
+                            );
                     break;
 
                 case ("class java.lang.String"):
                 case ("char"):
                     fieldsInfo.add(new FieldsInfo(
-                            field.getName().toUpperCase(),
+                            field.getName(),
                             String.valueOf(field.getType()),
                             String.valueOf(String.valueOf(field.get(myObject))),
                             field.isAnnotationPresent(Id.class)
@@ -62,7 +64,7 @@ public class FieldsForDbImpl implements FieldsForDb {
 
                 case ("class java.lang.Integer"):
                     fieldsInfo.add(new FieldsInfo(
-                            field.getName().toUpperCase(),
+                            field.getName(),
                             String.valueOf(field.getType()),
                             String.valueOf(Integer.parseInt(field.get(myObject).toString())),
                             field.isAnnotationPresent(Id.class)));
@@ -70,7 +72,7 @@ public class FieldsForDbImpl implements FieldsForDb {
 
                 case ("class java.lang.Boolean"):
                     fieldsInfo.add(new FieldsInfo(
-                            field.getName().toUpperCase(),
+                            field.getName(),
                             String.valueOf(field.getType()),
                             String.valueOf((Boolean) field.get(myObject)),
                             field.isAnnotationPresent(Id.class)));
@@ -78,7 +80,7 @@ public class FieldsForDbImpl implements FieldsForDb {
 
                 case ("class java.lang.Double"):
                     fieldsInfo.add(new FieldsInfo(
-                            field.getName().toUpperCase(),
+                            field.getName(),
                             String.valueOf(field.getType()),
                             String.valueOf((Double) field.get(myObject)),
                             field.isAnnotationPresent(Id.class)));
@@ -86,7 +88,7 @@ public class FieldsForDbImpl implements FieldsForDb {
 
                 case ("class java.lang.Float"):
                     fieldsInfo.add(new FieldsInfo(
-                            field.getName().toUpperCase(),
+                            field.getName(),
                             String.valueOf(field.getType()),
                             String.valueOf(Double.valueOf(field.get(myObject).toString())),
                             field.isAnnotationPresent(Id.class)));
@@ -94,7 +96,7 @@ public class FieldsForDbImpl implements FieldsForDb {
 
                 case ("class java.lang.Short"):
                     fieldsInfo.add(new FieldsInfo(
-                            field.getName().toUpperCase(),
+                            field.getName(),
                             String.valueOf(field.getType()),
                             String.valueOf((Short) field.get(myObject)),
                             field.isAnnotationPresent(Id.class)));
@@ -103,7 +105,7 @@ public class FieldsForDbImpl implements FieldsForDb {
                 case ("class java.lang.Long"):
                 case ("long"):
                     fieldsInfo.add(new FieldsInfo(
-                            field.getName().toUpperCase(),
+                            field.getName(),
                             String.valueOf(field.getType()),
                             String.valueOf((Long) field.get(myObject)),
                             field.isAnnotationPresent(Id.class)));

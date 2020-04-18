@@ -6,18 +6,20 @@ package ru.chaban.service;
 public class FieldsInfo {
     private String name;
     private String type;
-    private String value;
+    private String valueStr;
     private Boolean key;
+    private Object value;
 
-    public FieldsInfo(String name, String type, String value, Boolean key) {
+    public FieldsInfo(String name, String type, String valueStr, Boolean key, Object value) {
         if (!name.toUpperCase().equals("ID")) {
             this.name = "C_" + name;
         } else {
             this.name = name;
         }
         this.type = type;
-        this.value = value;
+        this.valueStr = valueStr;
         this.key = key;
+        this.value = value;
     }
 
     public Boolean getKey() {
@@ -29,6 +31,10 @@ public class FieldsInfo {
     }
 
     public String getName() {
+        return name.toUpperCase();
+    }
+
+    public String getNameInClass() {
         return name;
     }
 
@@ -44,12 +50,12 @@ public class FieldsInfo {
         this.type = type;
     }
 
-    public String getValue() {
-        return value;
+    public String getValueStr() {
+        return valueStr;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setValueStr(String valueStr) {
+        this.valueStr = valueStr;
     }
 
     @Override
@@ -57,7 +63,7 @@ public class FieldsInfo {
         return "FieldsInfo{" +
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
-                ", value='" + value + '\'' +
+                ", value='" + valueStr + '\'' +
                 ", key=" + key +
                 '}';
     }

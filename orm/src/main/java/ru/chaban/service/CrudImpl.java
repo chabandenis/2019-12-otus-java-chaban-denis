@@ -62,7 +62,7 @@ public class CrudImpl<T> implements Crud<T> {
                 new FieldsForDbImpl().getFieldsAndValues(userObject).stream().
                         filter(x -> x.getKey() == true).
                         limit(1).
-                        collect(Collectors.toList()).get(0).getValue(),
+                        collect(Collectors.toList()).get(0).getValueStr(),
                 resultSet -> {
                     Class cl = null;
 
@@ -92,10 +92,14 @@ public class CrudImpl<T> implements Crud<T> {
                     }
 
                     for (var field : new FieldsForDbImpl().getFieldsAndValues(userObject)) {
+
+                        String methodName = field.getNameInClass().substring(0, 1).toUpperCase() +
+                                field.getNameInClass().substring(1);
+
                         try {
-                            cl.getMethod(
-                                    "set" + field.getName(),
-                                    new Class[]{Object.class}).invoke(obj, field.getValue());
+                            cl.getMethod("set" + methodName,
+                                    new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                    invoke(obj, field.getValueStr());
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                             return null;

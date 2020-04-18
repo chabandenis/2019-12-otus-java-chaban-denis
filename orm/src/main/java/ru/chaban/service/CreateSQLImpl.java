@@ -28,7 +28,7 @@ public class CreateSQLImpl implements CreateSQL {
 
         retValue.append(" WHERE ");
 
-        retValue.append(fieldsInfoList.stream().filter(x -> x.getKey() == true).map(x -> x.getName() + "=" + x.getValue()).collect(Collectors.joining()));
+        retValue.append(fieldsInfoList.stream().filter(x -> x.getKey() == true).map(x -> x.getName() + "=" + x.getValueStr()).collect(Collectors.joining()));
 
         return retValue.toString();
     }
@@ -85,7 +85,7 @@ public class CreateSQLImpl implements CreateSQL {
 
         retValue.append(fieldsInfoList
                 .stream().map(
-                        x -> (conformity.get(x.getType()).contains("CHAR")) ? "'" + x.getValue() + "'" : x.getValue())
+                        x -> (conformity.get(x.getType()).contains("CHAR")) ? "'" + x.getValueStr() + "'" : x.getValueStr())
                 .collect(Collectors.joining(", ")));
 
         retValue.append(");");
@@ -114,12 +114,12 @@ public class CreateSQLImpl implements CreateSQL {
                 .stream()
                 .filter(x -> x.getKey() == false)
                 .map(
-                        x -> x.getName() + "=" + ((conformity.get(x.getType()).contains("CHAR")) ? "'" + x.getValue() + "'" : x.getValue()))
+                        x -> x.getName() + "=" + ((conformity.get(x.getType()).contains("CHAR")) ? "'" + x.getValueStr() + "'" : x.getValueStr()))
                 .collect(Collectors.joining(", ")));
 
         retValue.append(" WHERE ");
 
-        retValue.append(fieldsInfoList.stream().filter(x -> x.getKey() == true).map(x -> x.getName() + "=" + x.getValue()).collect(Collectors.joining()));
+        retValue.append(fieldsInfoList.stream().filter(x -> x.getKey() == true).map(x -> x.getName() + "=" + x.getValueStr()).collect(Collectors.joining()));
 
         retValue.append(";");
 
@@ -143,7 +143,7 @@ public class CreateSQLImpl implements CreateSQL {
         retValue.append("T_" + (spl[spl.length - 1] + " ").toUpperCase());
         retValue.append(" WHERE ");
 
-        retValue.append(fieldsInfoList.stream().filter(x -> x.getKey() == true).map(x -> x.getName() + "=" + x.getValue()).collect(Collectors.joining()));
+        retValue.append(fieldsInfoList.stream().filter(x -> x.getKey() == true).map(x -> x.getName() + "=" + x.getValueStr()).collect(Collectors.joining()));
 
         retValue.append(";");
 
