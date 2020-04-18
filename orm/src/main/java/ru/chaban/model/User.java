@@ -14,10 +14,6 @@ public class User {
     public User() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public User(Long id) {
         this.id = id;
     }
@@ -33,6 +29,10 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

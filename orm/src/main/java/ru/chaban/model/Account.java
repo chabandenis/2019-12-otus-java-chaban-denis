@@ -12,10 +12,6 @@ public class Account {
     public Account() {
     }
 
-    public void setNo(Long no) {
-        this.no = no;
-    }
-
     public Account(Long no) {
         this.no = no;
         ver = 1;
@@ -37,6 +33,10 @@ public class Account {
 
     public Long getNo() {
         return no;
+    }
+
+    public void setNo(Long no) {
+        this.no = no;
     }
 
     public String getTypeVal() {

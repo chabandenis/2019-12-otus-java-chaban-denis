@@ -97,9 +97,21 @@ public class CrudImpl<T> implements Crud<T> {
                                 field.getNameInClass().substring(1);
 
                         try {
-                            cl.getMethod("set" + methodName,
-                                    new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
-                                    invoke(obj, field.getValueStr());
+                            if (field.getType().contains("int")) {
+                                cl.getMethod("set" + methodName,
+                                        new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                        invoke(obj, ((Integer) field.getValue()).intValue());
+
+                            } else if (field.getType().contains("long")) {
+                                cl.getMethod("set" + methodName,
+                                        new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                        invoke(obj, ((Long) field.getValue()).longValue());
+                            } else {
+                                cl.getMethod("set" + methodName,
+                                        new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                        invoke(obj, field.getValue());
+                            }
+
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                             return null;
@@ -112,11 +124,11 @@ public class CrudImpl<T> implements Crud<T> {
                         }
                     }
 
-                    return null;
+                    return (T)obj;
 
                 });
 
-        logger.info("Значения успешно выбраны");
+        logger.info("Значения успешно выбраны: {}", tmpObject.get());
         return tmpObject;
     }
 

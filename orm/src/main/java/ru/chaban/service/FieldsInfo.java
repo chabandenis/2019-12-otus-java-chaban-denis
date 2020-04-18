@@ -11,14 +11,18 @@ public class FieldsInfo {
     private Object value;
 
     public FieldsInfo(String name, String type, String valueStr, Boolean key, Object value) {
-        if (!name.toUpperCase().equals("ID")) {
-            this.name = "C_" + name;
-        } else {
-            this.name = name;
-        }
+        this.name = name;
         this.type = type;
         this.valueStr = valueStr;
         this.key = key;
+        this.value = value;
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
         this.value = value;
     }
 
@@ -31,7 +35,11 @@ public class FieldsInfo {
     }
 
     public String getName() {
-        return name.toUpperCase();
+        if (!name.toUpperCase().equals("ID")) {
+            return ("C_" + name).toUpperCase();
+        } else {
+            return name.toUpperCase();
+        }
     }
 
     public String getNameInClass() {

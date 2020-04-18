@@ -47,9 +47,8 @@ public class FieldsForDbImpl implements FieldsForDb {
                             field.getName(),
                             String.valueOf(field.getType()),
                             String.valueOf(field.getInt(myObject)),
-                            field.isAnnotationPresent(Id.class)),
-
-                            );
+                            field.isAnnotationPresent(Id.class),
+                            field.get(myObject)));
                     break;
 
                 case ("class java.lang.String"):
@@ -58,8 +57,8 @@ public class FieldsForDbImpl implements FieldsForDb {
                             field.getName(),
                             String.valueOf(field.getType()),
                             String.valueOf(String.valueOf(field.get(myObject))),
-                            field.isAnnotationPresent(Id.class)
-                    ));
+                            field.isAnnotationPresent(Id.class),
+                            field.get(myObject)));
                     break;
 
                 case ("class java.lang.Integer"):
@@ -67,7 +66,8 @@ public class FieldsForDbImpl implements FieldsForDb {
                             field.getName(),
                             String.valueOf(field.getType()),
                             String.valueOf(Integer.parseInt(field.get(myObject).toString())),
-                            field.isAnnotationPresent(Id.class)));
+                            field.isAnnotationPresent(Id.class),
+                            field.get(myObject)));
                     break;
 
                 case ("class java.lang.Boolean"):
@@ -75,7 +75,8 @@ public class FieldsForDbImpl implements FieldsForDb {
                             field.getName(),
                             String.valueOf(field.getType()),
                             String.valueOf((Boolean) field.get(myObject)),
-                            field.isAnnotationPresent(Id.class)));
+                            field.isAnnotationPresent(Id.class),
+                            field.get(myObject)));
                     break;
 
                 case ("class java.lang.Double"):
@@ -83,7 +84,8 @@ public class FieldsForDbImpl implements FieldsForDb {
                             field.getName(),
                             String.valueOf(field.getType()),
                             String.valueOf((Double) field.get(myObject)),
-                            field.isAnnotationPresent(Id.class)));
+                            field.isAnnotationPresent(Id.class),
+                            field.get(myObject)));
                     break;
 
                 case ("class java.lang.Float"):
@@ -91,7 +93,8 @@ public class FieldsForDbImpl implements FieldsForDb {
                             field.getName(),
                             String.valueOf(field.getType()),
                             String.valueOf(Double.valueOf(field.get(myObject).toString())),
-                            field.isAnnotationPresent(Id.class)));
+                            field.isAnnotationPresent(Id.class),
+                            field.get(myObject)));
                     break;
 
                 case ("class java.lang.Short"):
@@ -99,7 +102,8 @@ public class FieldsForDbImpl implements FieldsForDb {
                             field.getName(),
                             String.valueOf(field.getType()),
                             String.valueOf((Short) field.get(myObject)),
-                            field.isAnnotationPresent(Id.class)));
+                            field.isAnnotationPresent(Id.class),
+                            field.get(myObject)));
                     break;
 
                 case ("class java.lang.Long"):
@@ -108,7 +112,8 @@ public class FieldsForDbImpl implements FieldsForDb {
                             field.getName(),
                             String.valueOf(field.getType()),
                             String.valueOf((Long) field.get(myObject)),
-                            field.isAnnotationPresent(Id.class)));
+                            field.isAnnotationPresent(Id.class),
+                            field.get(myObject)));
                     break;
             }
         }
