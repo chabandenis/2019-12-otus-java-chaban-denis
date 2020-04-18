@@ -15,7 +15,10 @@ class UserTest {
         User user = new User(Long.valueOf(1), "222", 4);
         Crud crud = new CrudImpl();
 
-        // создадим таблицу, вставим
+        // создадим таблицу
+        crud.create(user);
+
+        // сохраним
         crud.save(user);
 
         User userFromDb = new User(Long.valueOf(1));

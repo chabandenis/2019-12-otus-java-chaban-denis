@@ -30,7 +30,7 @@ public class CreateSQLImpl implements CreateSQL {
 
         retValue.append(fieldsInfoList.stream().filter(x -> x.getKey() == true).map(x -> x.getName() + "=" + x.getValue()).collect(Collectors.joining()));
 
-        System.out.println(retValue);
+        //System.out.println(retValue);
 
         return retValue.toString();
     }
@@ -58,7 +58,7 @@ public class CreateSQLImpl implements CreateSQL {
 
         retValue.append(");");
 
-        System.out.println(retValue);
+        //System.out.println(retValue);
 
         return retValue.toString();
     }
@@ -94,7 +94,7 @@ public class CreateSQLImpl implements CreateSQL {
 
         retValue.append(");");
 
-        System.out.println(retValue);
+        //System.out.println(retValue);
 
         return retValue.toString();
     }
@@ -140,7 +140,7 @@ public class CreateSQLImpl implements CreateSQL {
 
         retValue.append(";");
 
-        System.out.println(retValue);
+        //System.out.println(retValue);
 
         return retValue.toString();
     }
@@ -166,7 +166,7 @@ public class CreateSQLImpl implements CreateSQL {
 
         retValue.append(";");
 
-        System.out.println(retValue);
+        //System.out.println(retValue);
 
         return retValue.toString();
     }

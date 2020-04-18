@@ -7,10 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-/**
- * @author sergey
- * created on 03.02.19.
- */
 public class ExecutorDemo {
     private static final String URL = "jdbc:h2:mem:";
     private static Logger logger = LoggerFactory.getLogger(ExecutorDemo.class);

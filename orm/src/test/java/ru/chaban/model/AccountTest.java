@@ -9,13 +9,15 @@ import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AccountTest {
-
     @Test
     void myTest() throws SQLException {
         Account account = new Account(Long.valueOf(1), "222", 33.333);
         Crud crud = new CrudImpl();
 
-        // создадим таблицу, вставим
+        // создадим таблицу
+        crud.create(account);
+
+        // сохраним
         crud.save(account);
 
         Account accountFromDb = new Account(Long.valueOf(1));

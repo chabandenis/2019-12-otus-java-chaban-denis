@@ -16,12 +16,22 @@ public class CrudImpl<T> implements Crud<T> {
     private static CreateSQL createSQL = new CreateSQLImpl();
 
     @Override
+    public void create(T userObject) throws SQLException {
+        try (Connection connection = DriverManager.getConnection(URL)) {
+            connection.setAutoCommit(false);
+            executeSQL(connection, createSQL.createTableSQL(userObject));
+            connection.commit();
+        }
+    }
+
+    @Override
     public void save(T userObject) throws SQLException {
         ExecutorDemo demo = new ExecutorDemo();
 
         try (Connection connection = DriverManager.getConnection(URL)) {
             connection.setAutoCommit(false);
-            createTable(connection, createSQL.createTableSQL(userObject));
+            executeSQL(connection, createSQL.createTableSQL(userObject));
+            connection.commit();
 
             /*
             DbExecutor<T> executor = new DbExecutor<>();
@@ -48,7 +58,8 @@ public class CrudImpl<T> implements Crud<T> {
 
     }
 
-    private void createTable(Connection connection, String sql) throws SQLException {
+    private void executeSQL(Connection connection, String sql) throws SQLException {
+        logger.info("Выполняю SQL:{}", sql);
         try (PreparedStatement pst = connection.prepareStatement(sql)) {
             pst.executeUpdate();
         }
