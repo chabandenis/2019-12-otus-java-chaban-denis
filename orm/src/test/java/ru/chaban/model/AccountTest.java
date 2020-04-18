@@ -25,8 +25,9 @@ class AccountTest {
         // сохраним
         crud.save(account);
 
+        // прочитаю из базы с id=1
         Account accountFromDb = new Account(Long.valueOf(1));
-        crud.get(accountFromDb.getNo());
+        crud.get(accountFromDb);
 
         assertEquals(account.getNo(), accountFromDb.getNo());
         assertEquals(account.getRest(), accountFromDb.getRest());

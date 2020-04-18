@@ -29,7 +29,7 @@ public class DbExecutor<T> {
         }
     }
 
-    public Optional<T> selectRecord(Connection connection, String sql, long id, Function<ResultSet, T> rsHandler) throws SQLException {
+    public Optional<T> selectRecord(Connection connection, String sql, String id, Function<ResultSet, T> rsHandler) throws SQLException {
         try (PreparedStatement pst = connection.prepareStatement(sql)) {
             pst.setLong(1, id);
             try (ResultSet rs = pst.executeQuery()) {

@@ -3,15 +3,17 @@ package ru.chaban.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.chaban.h2.DataSourceH2;
+import ru.chaban.jdbc.DbExecutor;
 import ru.chaban.jdbc.ExecutorDemo;
 import ru.chaban.jdbc.sessionmanager.SessionManagerJdbc;
 
 import javax.sql.DataSource;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class CrudImpl<T> implements Crud<T> {
     private static final String URL = "jdbc:h2:mem:";
@@ -37,19 +39,82 @@ public class CrudImpl<T> implements Crud<T> {
         executeSQL(sessionManagerJdbc.getCurrentSession().getConnection(), createSQL.insertTableSQL(userObject));
         executeSQL(sessionManagerJdbc.getCurrentSession().getConnection(), createSQL.updateTableSQL(userObject));
         sessionManagerJdbc.commitSession();
-        logger.info("Значения успешно схоранены");
+        logger.info("Значения успешно сохранены");
     }
 
     @Override
-    public void delete(T userObject) {
-        createSQL.deleteTableSQL(userObject);
-
+    public void delete(T userObject) throws SQLException {
+        logger.info("Удаляю значения для: {}", userObject);
+        executeSQL(sessionManagerJdbc.getCurrentSession().getConnection(), createSQL.deleteTableSQL(userObject));
+        logger.info("Значения успешно удалены");
     }
 
     @Override
-    public Optional get(T userObject) {
-        createSQL.selectTableSQL(userObject);
-        return Optional.empty();
+    public Optional<T> get(T userObject) throws SQLException {
+        logger.info("Выбрать значения для: {}", userObject);
+        //userObject = createSQL.selectTableSQL(userObject);
+
+        DbExecutor<T> executor = new DbExecutor<>();
+
+        Optional<T> tmpObject = executor.selectRecord(
+                sessionManagerJdbc.getCurrentSession().getConnection(),
+                createSQL.selectTableSQL(userObject),
+                new FieldsForDbImpl().getFieldsAndValues(userObject).stream().
+                        filter(x -> x.getKey() == true).
+                        limit(1).
+                        collect(Collectors.toList()).get(0).
+                        toString(),
+                resultSet -> {
+                    Class cl = null;
+
+                    try {
+                        cl = Class.forName(userObject.getClass().getName());
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+
+                    Object obj = null;
+
+                    try {
+                        obj = cl.getConstructor().newInstance();
+                    } catch (InstantiationException e) {
+                        e.printStackTrace();
+                        return null;
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                        return null;
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                        return null;
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+
+                    for (var field : new FieldsForDbImpl().getFieldsAndValues(userObject)) {
+                        try {
+                            cl.getMethod(
+                                    "get" + field.getName(),
+                                    new Class[]{Object.class}).invoke(obj, field.getValue());
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                            return null;
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                            return null;
+                        } catch (NoSuchMethodException e) {
+                            e.printStackTrace();
+                            return null;
+                        }
+                    }
+
+                    return null;
+
+                });
+
+        logger.info("Значения успешно выбраны");
+        return tmpObject;
     }
 
              /*

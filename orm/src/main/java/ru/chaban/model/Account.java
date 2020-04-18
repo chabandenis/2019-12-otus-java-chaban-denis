@@ -20,6 +20,14 @@ public class Account {
         this.rest = rest;
     }
 
+    public int getVer() {
+        return ver;
+    }
+
+    public void setVer(int ver) {
+        this.ver = ver;
+    }
+
     public Long getNo() {
         return no;
     }
