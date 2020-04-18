@@ -98,18 +98,30 @@ public class CrudImpl<T> implements Crud<T> {
 
                         try {
                             if (field.getType().contains("int")) {
-                                cl.getMethod("set" + methodName,
-                                        new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
-                                        invoke(obj, ((Integer) field.getValue()).intValue());
+                                try {
+                                    cl.getMethod("set" + methodName,
+                                            new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                            invoke(obj, ((Integer) resultSet.getInt(field.getNameInClass())).intValue());
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
 
                             } else if (field.getType().contains("long")) {
-                                cl.getMethod("set" + methodName,
-                                        new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
-                                        invoke(obj, ((Long) field.getValue()).longValue());
+                                try {
+                                    cl.getMethod("set" + methodName,
+                                            new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                            invoke(obj, ((Long) resultSet.getLong(field.getNameInClass())).longValue());
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
                             } else {
-                                cl.getMethod("set" + methodName,
-                                        new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
-                                        invoke(obj, field.getValue());
+                                try {
+                                    cl.getMethod("set" + methodName,
+                                            new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                            invoke(obj, resultSet.getObject(field.getNameInClass())); //field.getValue()
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
                             }
 
                         } catch (IllegalAccessException e) {
