@@ -5,7 +5,6 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /*
     Над объектом возвращает список полей с данными для БД

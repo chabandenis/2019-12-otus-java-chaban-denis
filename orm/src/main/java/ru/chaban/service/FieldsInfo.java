@@ -10,7 +10,11 @@ public class FieldsInfo {
     private Boolean key;
 
     public FieldsInfo(String name, String type, String value, Boolean key) {
-        this.name = name;
+        if (!name.toUpperCase().equals("ID")) {
+            this.name = "C_" + name;
+        } else {
+            this.name = name;
+        }
         this.type = type;
         this.value = value;
         this.key = key;

@@ -20,6 +20,11 @@ class AccountTest {
         // сохраним
         crud.save(account);
 
+        account.setRest(33.336);
+
+        // сохраним
+        crud.save(account);
+
         Account accountFromDb = new Account(Long.valueOf(1));
         crud.get(accountFromDb.getNo());
 

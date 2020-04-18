@@ -2,8 +2,11 @@ package ru.chaban.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.chaban.h2.DataSourceH2;
 import ru.chaban.jdbc.ExecutorDemo;
+import ru.chaban.jdbc.sessionmanager.SessionManagerJdbc;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,25 +18,41 @@ public class CrudImpl<T> implements Crud<T> {
     private static Logger logger = LoggerFactory.getLogger(ExecutorDemo.class);
     private static CreateSQL createSQL = new CreateSQLImpl();
 
+    private static DataSource dataSource = new DataSourceH2();
+    private static SessionManagerJdbc sessionManagerJdbc = new SessionManagerJdbc(dataSource);
+
     @Override
     public void create(T userObject) throws SQLException {
-        try (Connection connection = DriverManager.getConnection(URL)) {
-            connection.setAutoCommit(false);
-            executeSQL(connection, createSQL.createTableSQL(userObject));
-            connection.commit();
-        }
+        logger.info("Создаю таблицу для: {}", userObject);
+        sessionManagerJdbc.beginSession();
+        executeSQL(sessionManagerJdbc.getCurrentSession().getConnection(), createSQL.createTableSQL(userObject));
+        sessionManagerJdbc.commitSession();
+        logger.info("Таблица создана успешно");
     }
 
     @Override
     public void save(T userObject) throws SQLException {
-        ExecutorDemo demo = new ExecutorDemo();
+        logger.info("Сохраняю значения для: {}", userObject);
+        sessionManagerJdbc.beginSession();
+        executeSQL(sessionManagerJdbc.getCurrentSession().getConnection(), createSQL.insertTableSQL(userObject));
+        executeSQL(sessionManagerJdbc.getCurrentSession().getConnection(), createSQL.updateTableSQL(userObject));
+        sessionManagerJdbc.commitSession();
+        logger.info("Значения успешно схоранены");
+    }
 
-        try (Connection connection = DriverManager.getConnection(URL)) {
-            connection.setAutoCommit(false);
-            executeSQL(connection, createSQL.createTableSQL(userObject));
-            connection.commit();
+    @Override
+    public void delete(T userObject) {
+        createSQL.deleteTableSQL(userObject);
 
-            /*
+    }
+
+    @Override
+    public Optional get(T userObject) {
+        createSQL.selectTableSQL(userObject);
+        return Optional.empty();
+    }
+
+             /*
             DbExecutor<T> executor = new DbExecutor<>();
             long userId = executor.insertRecord(connection, "insert into user(name) values (?)", Collections.singletonList("testUserName"));
             logger.info("created user:{}", userId);
@@ -51,12 +70,11 @@ public class CrudImpl<T> implements Crud<T> {
             });
             System.out.println(user);
              */
-        }
 
-        createSQL.insertTableSQL(userObject);
-        createSQL.updateTableSQL(userObject);
 
-    }
+//        createSQL.insertTableSQL(userObject);
+//        createSQL.updateTableSQL(userObject);
+
 
     private void executeSQL(Connection connection, String sql) throws SQLException {
         logger.info("Выполняю SQL:{}", sql);
@@ -65,18 +83,6 @@ public class CrudImpl<T> implements Crud<T> {
         }
     }
 
-
-    @Override
-    public void delete(T userObject) {
-        createSQL.deleteTableSQL(userObject);
-
-    }
-
-    @Override
-    public Optional get(T userObject) {
-        createSQL.selectTableSQL(userObject);
-        return Optional.empty();
-    }
 
 /*
   @Override

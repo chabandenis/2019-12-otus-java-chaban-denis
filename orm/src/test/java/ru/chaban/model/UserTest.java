@@ -21,6 +21,11 @@ class UserTest {
         // сохраним
         crud.save(user);
 
+        user.setAge(6);
+
+        // сохраним
+        crud.save(user);
+
         User userFromDb = new User(Long.valueOf(1));
         crud.get(userFromDb.getId());
 

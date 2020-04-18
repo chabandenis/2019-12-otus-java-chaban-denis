@@ -30,8 +30,6 @@ public class CreateSQLImpl implements CreateSQL {
 
         retValue.append(fieldsInfoList.stream().filter(x -> x.getKey() == true).map(x -> x.getName() + "=" + x.getValue()).collect(Collectors.joining()));
 
-        //System.out.println(retValue);
-
         return retValue.toString();
     }
 
@@ -57,8 +55,6 @@ public class CreateSQLImpl implements CreateSQL {
                 .collect(Collectors.joining(", ")));
 
         retValue.append(");");
-
-        //System.out.println(retValue);
 
         return retValue.toString();
     }
@@ -94,8 +90,6 @@ public class CreateSQLImpl implements CreateSQL {
 
         retValue.append(");");
 
-        //System.out.println(retValue);
-
         return retValue.toString();
     }
 
@@ -114,16 +108,7 @@ public class CreateSQLImpl implements CreateSQL {
         String[] spl = object.getClass().getName().split("\\.");
 
         retValue.append("T_" + (spl[spl.length - 1] + " ").toUpperCase());
-        retValue.append("(");
-
-        retValue.append(fieldsInfoList
-                .stream()
-                .filter(x -> x.getKey() == false)
-                .map(x -> x.getName())
-                .collect(Collectors.joining(", ")));
-
-        retValue.append(") VALUES (");
-
+        retValue.append("SET ");
 
         retValue.append(fieldsInfoList
                 .stream()
@@ -132,15 +117,11 @@ public class CreateSQLImpl implements CreateSQL {
                         x -> x.getName() + "=" + ((conformity.get(x.getType()).contains("CHAR")) ? "'" + x.getValue() + "'" : x.getValue()))
                 .collect(Collectors.joining(", ")));
 
-        retValue.append(")");
-
         retValue.append(" WHERE ");
 
         retValue.append(fieldsInfoList.stream().filter(x -> x.getKey() == true).map(x -> x.getName() + "=" + x.getValue()).collect(Collectors.joining()));
 
         retValue.append(";");
-
-        //System.out.println(retValue);
 
         return retValue.toString();
     }
@@ -165,8 +146,6 @@ public class CreateSQLImpl implements CreateSQL {
         retValue.append(fieldsInfoList.stream().filter(x -> x.getKey() == true).map(x -> x.getName() + "=" + x.getValue()).collect(Collectors.joining()));
 
         retValue.append(";");
-
-        //System.out.println(retValue);
 
         return retValue.toString();
     }
