@@ -112,38 +112,49 @@ public class CrudImpl<T> implements Crud<T> {
                         if (field.getType().contains("int")) {
                             try {
                                 logger.info("Реквизит/Значение: {}", methodName + "/" +
-                                        ((Integer) resultSet.getInt(field.getNameInClass())).intValue());
+                                        ((Integer) resultSet.getInt(field.getNameLowCase())).intValue());
                                 cl.getMethod("set" + methodName,
                                         new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
-                                        invoke(obj, ((Integer) resultSet.getInt(field.getNameInClass())).intValue());
+                                        invoke(obj, ((Integer) resultSet.getInt(field.getNameLowCase())).intValue());
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
                             }
                         } else if (field.getType().contains("long")) {
                             try {
                                 logger.info("Реквизит/Значение: {}", methodName + "/" +
-                                        ((Long) resultSet.getLong(field.getNameInClass())).longValue());
+                                        ((Long) resultSet.getLong(field.getNameLowCase())).longValue());
                                 cl.getMethod("set" + methodName,
                                         new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
-                                        invoke(obj, ((Long) resultSet.getLong(field.getNameInClass())).longValue());
+                                        invoke(obj, ((Long) resultSet.getLong(field.getNameLowCase())).longValue());
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
                             }
                         } else {
                             try {
-                                if (resultSet.getObject(field.getNameInClass()).getClass().getName().contains("BigDecimal")) {
-                                    logger.info("Реквизит/Значение: {}", methodName + "/" +
-                                            ((BigDecimal) (resultSet.getObject(field.getNameInClass()))).longValue());
-                                    cl.getMethod("set" + methodName,
-                                            new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
-                                            invoke(obj,
-                                                    ((BigDecimal) (resultSet.getObject(field.getNameInClass()))).longValue()); //field.getValue()
+                                // в базе одно значение, в типе с данными другое, нужны комбинации
+                                if (resultSet.getObject(field.getNameLowCase()).getClass().getName().contains("BigDecimal")) {
+                                    if (field.getType().contains("ong")) {
+                                        logger.info("Реквизит/Значение: {}", methodName + "/" +
+                                                ((BigDecimal) (resultSet.getObject(field.getNameLowCase()))).longValue());
+                                        cl.getMethod("set" + methodName,
+                                                new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                                invoke(obj,
+                                                        ((BigDecimal) (resultSet.getObject(field.getNameLowCase()))).longValue()); //field.getValue()
+                                    }else {
+                                        logger.info("Реквизит/Значение: {}", methodName + "/" +
+                                                ((BigDecimal) (resultSet.getObject(field.getNameLowCase()))).longValue());
+                                        cl.getMethod("set" + methodName,
+                                                new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                                invoke(obj,
+                                                        ((BigDecimal) (resultSet.getObject(field.getNameLowCase()))).intValue()); //field.getValue()
+
+                                    }
                                 } else {
                                     logger.info("Реквизит/Значение: {}", methodName + "/" +
-                                            resultSet.getObject(field.getNameInClass()));
+                                            resultSet.getObject(field.getNameLowCase()));
                                     cl.getMethod("set" + methodName,
                                             new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
-                                            invoke(obj, resultSet.getObject(field.getNameInClass())); //field.getValue()
+                                            invoke(obj, resultSet.getObject(field.getNameLowCase())); //field.getValue()
 
                                 }
                             } catch (SQLException throwables) {

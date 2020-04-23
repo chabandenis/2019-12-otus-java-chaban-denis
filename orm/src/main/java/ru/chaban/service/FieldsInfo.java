@@ -55,7 +55,7 @@ public class FieldsInfo {
 
     public String getNameLowCase() {
         if (!name.toUpperCase().equals("ID")) {
-            return ("C_" + name);
+            return ("c_" + name);
         } else {
             return name;
         }
