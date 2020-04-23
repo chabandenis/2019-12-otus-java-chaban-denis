@@ -7,5 +7,6 @@ import java.util.List;
  */
 public interface FieldsForDb {
     List<FieldsInfo> getFieldsAndValues(Object object);
+
     List<FieldsInfo> getFieldsWithoutValues(Object object);
 }

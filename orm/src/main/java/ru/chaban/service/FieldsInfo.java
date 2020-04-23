@@ -49,6 +49,10 @@ public class FieldsInfo {
         }
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getNameInClass() {
         return name;
     }
@@ -59,10 +63,6 @@ public class FieldsInfo {
         } else {
             return name;
         }
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getType() {
