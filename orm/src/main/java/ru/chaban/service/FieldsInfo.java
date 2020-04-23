@@ -10,12 +10,19 @@ public class FieldsInfo {
     private Boolean key;
     private Object value;
 
+
     public FieldsInfo(String name, String type, String valueStr, Boolean key, Object value) {
         this.name = name;
         this.type = type;
         this.valueStr = valueStr;
         this.key = key;
         this.value = value;
+    }
+
+    public FieldsInfo(String name, String type, Boolean key) {
+        this.name = name;
+        this.type = type;
+        this.key = key;
     }
 
     public Object getValue() {

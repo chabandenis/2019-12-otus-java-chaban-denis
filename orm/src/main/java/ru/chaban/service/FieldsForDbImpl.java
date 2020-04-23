@@ -1,8 +1,5 @@
 package ru.chaban.service;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,23 +11,31 @@ public class FieldsForDbImpl implements FieldsForDb {
     private List<FieldsInfo> fieldsInfo = new ArrayList<>();
 
     @Override
+    public List<FieldsInfo> getFieldsWithoutValues(Object object) {
+        try {
+            createFieldsWithoutValues(object);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return fieldsInfo;
+    }
+
+    @Override
     public List<FieldsInfo> getFieldsAndValues(Object object) {
         try {
             create(object);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-
-        //fieldsInfo.forEach(x -> System.out.println(x));
         return fieldsInfo;
     }
 
     // метод формирования строки JSON
     public void create(Object myObject) throws IllegalAccessException {
-        createSimpleObject(Json.createObjectBuilder(), Json.createArrayBuilder(), myObject);
+        createSimpleObject(myObject);
     }
 
-    public void createSimpleObject(JsonObjectBuilder jO, JsonArrayBuilder aB, Object myObject) throws IllegalAccessException {
+    public void createSimpleObject(Object myObject) throws IllegalAccessException {
 
         for (var field : myObject.getClass().getDeclaredFields()) {
 
@@ -41,7 +46,6 @@ public class FieldsForDbImpl implements FieldsForDb {
             }
 
             switch (String.valueOf(field.getType())) {
-
                 case ("int"):
                     fieldsInfo.add(new FieldsInfo(
                             field.getName(),
@@ -115,6 +119,27 @@ public class FieldsForDbImpl implements FieldsForDb {
                             field.isAnnotationPresent(Id.class),
                             field.get(myObject)));
                     break;
+            }
+        }
+    }
+
+    public void createFieldsWithoutValues(Object myObject) throws IllegalAccessException {
+        for (var field : myObject.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+
+            // для id нужно значение
+            if (field.isAnnotationPresent(Id.class)) {
+                fieldsInfo.add(new FieldsInfo(
+                        field.getName(),
+                        String.valueOf(field.getType()),
+                        String.valueOf((Long) field.get(myObject)),
+                        field.isAnnotationPresent(Id.class),
+                        field.get(myObject)));
+            } else {
+                fieldsInfo.add(new FieldsInfo(
+                        field.getName(),
+                        String.valueOf(field.getType()),
+                        field.isAnnotationPresent(Id.class)));
             }
         }
     }

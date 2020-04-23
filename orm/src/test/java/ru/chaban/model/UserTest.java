@@ -21,10 +21,10 @@ class UserTest {
         // сохраним
         crud.save(user);
 
-        user.setAge(6);
+//!!        user.setAge(6);
 
         // сохраним
-        crud.save(user);
+//!!        crud.save(user);
 
         // прочитаю из базы с id=1
         User userFromDb = new User(Long.valueOf(1));

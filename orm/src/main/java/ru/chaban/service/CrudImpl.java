@@ -10,10 +10,7 @@ import ru.chaban.jdbc.sessionmanager.SessionManagerJdbc;
 import javax.sql.DataSource;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -58,6 +55,8 @@ public class CrudImpl<T> implements Crud<T> {
 
         DbExecutor<T> executor = new DbExecutor<>();
 
+        logger.info("Запрос в БД: {}", createSQL.selectTableSQL(userObject));
+
         Optional<T> tmpObject = executor.selectRecord(
                 sessionManagerJdbc.getCurrentSession().getConnection(),
                 createSQL.selectTableSQL(userObject),
@@ -98,7 +97,13 @@ public class CrudImpl<T> implements Crud<T> {
                     e.printStackTrace();
                     return null;
                 }
-                for (var field : new FieldsForDbImpl().getFieldsAndValues(userObject)) {
+                for (var field : new FieldsForDbImpl().getFieldsWithoutValues(userObject)) {
+
+                    try {
+                        int i = resultSet.findColumn(field.getNameInClass());
+                    } catch (SQLSyntaxErrorException e) {
+                        continue;
+                    }
 
                     String methodName = field.getNameInClass().substring(0, 1).toUpperCase() +
                             field.getNameInClass().substring(1);
@@ -106,6 +111,8 @@ public class CrudImpl<T> implements Crud<T> {
                     try {
                         if (field.getType().contains("int")) {
                             try {
+                                logger.info("Реквизит/Значение: {}", methodName + "/" +
+                                        ((Integer) resultSet.getInt(field.getNameInClass())).intValue());
                                 cl.getMethod("set" + methodName,
                                         new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
                                         invoke(obj, ((Integer) resultSet.getInt(field.getNameInClass())).intValue());
@@ -114,6 +121,8 @@ public class CrudImpl<T> implements Crud<T> {
                             }
                         } else if (field.getType().contains("long")) {
                             try {
+                                logger.info("Реквизит/Значение: {}", methodName + "/" +
+                                        ((Long) resultSet.getLong(field.getNameInClass())).longValue());
                                 cl.getMethod("set" + methodName,
                                         new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
                                         invoke(obj, ((Long) resultSet.getLong(field.getNameInClass())).longValue());
@@ -122,19 +131,23 @@ public class CrudImpl<T> implements Crud<T> {
                             }
                         } else {
                             try {
-
                                 if (resultSet.getObject(field.getNameInClass()).getClass().getName().contains("BigDecimal")) {
+                                    logger.info("Реквизит/Значение: {}", methodName + "/" +
+                                            ((BigDecimal) (resultSet.getObject(field.getNameInClass()))).longValue());
                                     cl.getMethod("set" + methodName,
                                             new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
                                             invoke(obj,
                                                     ((BigDecimal) (resultSet.getObject(field.getNameInClass()))).longValue()); //field.getValue()
                                 } else {
+                                    logger.info("Реквизит/Значение: {}", methodName + "/" +
+                                            resultSet.getObject(field.getNameInClass()));
                                     cl.getMethod("set" + methodName,
                                             new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
                                             invoke(obj, resultSet.getObject(field.getNameInClass())); //field.getValue()
 
                                 }
                             } catch (SQLException throwables) {
+                                logger.error("Проблема для реквизита: {}", methodName);
                                 throwables.printStackTrace();
                             }
                         }

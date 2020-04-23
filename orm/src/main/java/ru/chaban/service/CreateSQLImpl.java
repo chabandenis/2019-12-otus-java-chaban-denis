@@ -9,7 +9,7 @@ public class CreateSQLImpl implements CreateSQL {
     @Override
     public String selectTableSQL(Object object) {
         FieldsForDb fieldsForDb = new FieldsForDbImpl();
-        List<FieldsInfo> fieldsInfoList = fieldsForDb.getFieldsAndValues(object);
+        List<FieldsInfo> fieldsInfoList = fieldsForDb.getFieldsWithoutValues(object);
 
         if (fieldsInfoList.size() == 0) {
             return null;
