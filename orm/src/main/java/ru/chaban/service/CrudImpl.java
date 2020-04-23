@@ -150,7 +150,7 @@ public class CrudImpl<T> implements Crud<T> {
                                                         ((BigDecimal) (resultSet.getObject(field.getNameLowCase()))).longValue());
                                     } else if (field.getType().contains("ouble")) {
                                         logger.info("Реквизит/Значение: {}", methodName + "/" +
-                                                ((BigDecimal) (resultSet.getObject(field.getNameLowCase()))).longValue());
+                                                ((BigDecimal) (resultSet.getObject(field.getNameLowCase()))).doubleValue());
                                         cl.getMethod("set" + methodName,
                                                 new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
                                                 invoke(obj,
