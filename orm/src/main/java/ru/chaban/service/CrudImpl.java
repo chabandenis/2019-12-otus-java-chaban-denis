@@ -12,6 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -64,104 +65,96 @@ public class CrudImpl<T> implements Crud<T> {
                         filter(x -> x.getKey() == true).
                         limit(1).
                         collect(Collectors.toList()).get(0).getValueStr(),
-                resultSet -> {
-                    try {
-                        if (resultSet.next()) {
-
-                            Class cl = null;
-
-                            try {
-                                cl = Class.forName(userObject.getClass().getName());
-                            } catch (ClassNotFoundException e) {
-                                e.printStackTrace();
-                                return null;
-                            }
-
-                            Object obj = null;
-
-                            try {
-                                obj = cl.getConstructor().newInstance();
-                            } catch (InstantiationException e) {
-                                e.printStackTrace();
-                                return null;
-                            } catch (IllegalAccessException e) {
-                                e.printStackTrace();
-                                return null;
-                            } catch (InvocationTargetException e) {
-                                e.printStackTrace();
-                                return null;
-                            } catch (NoSuchMethodException e) {
-                                e.printStackTrace();
-                                return null;
-                            }
-
-                            for (var field : new FieldsForDbImpl().getFieldsAndValues(userObject)) {
-
-                                String methodName = field.getNameInClass().substring(0, 1).toUpperCase() +
-                                        field.getNameInClass().substring(1);
-
-                                try {
-                                    if (field.getType().contains("int")) {
-                                        try {
-                                            cl.getMethod("set" + methodName,
-                                                    new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
-                                                    invoke(obj, ((Integer) resultSet.getInt(field.getNameInClass())).intValue());
-                                        } catch (SQLException throwables) {
-                                            throwables.printStackTrace();
-                                        }
-
-                                    } else if (field.getType().contains("long")) {
-                                        try {
-                                            cl.getMethod("set" + methodName,
-                                                    new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
-                                                    invoke(obj, ((Long) resultSet.getLong(field.getNameInClass())).longValue());
-                                        } catch (SQLException throwables) {
-                                            throwables.printStackTrace();
-                                        }
-                                    } else {
-
-                                        try {
-
-                                            if (resultSet.getObject(field.getNameInClass()).getClass().getName().contains("BigDecimal")) {
-                                                cl.getMethod("set" + methodName,
-                                                        new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
-                                                        invoke(obj,
-                                                                ((BigDecimal) (resultSet.getObject(field.getNameInClass()))).longValue()); //field.getValue()
-                                            } else {
-                                                cl.getMethod("set" + methodName,
-                                                        new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
-                                                        invoke(obj, resultSet.getObject(field.getNameInClass())); //field.getValue()
-
-                                            }
-
-                                        } catch (SQLException throwables) {
-                                            throwables.printStackTrace();
-                                        }
-                                    }
-
-                                } catch (IllegalAccessException e) {
-                                    e.printStackTrace();
-                                    return null;
-                                } catch (InvocationTargetException e) {
-                                    e.printStackTrace();
-                                    return null;
-                                } catch (NoSuchMethodException e) {
-                                    e.printStackTrace();
-                                    return null;
-                                }
-                            }
-
-                            return (T) obj;
-                        }
-                    } catch (SQLException e) {
-                        logger.error(e.getMessage(), e);
-                    }
-                    return null;
-
-                });
+                resultSet -> (T) fillAttr(resultSet, userObject)
+        );
 
         logger.info("Значения успешно выбраны: {}", tmpObject.get());
         return tmpObject;
+    }
+
+    Object fillAttr(ResultSet resultSet, T userObject) {
+        try {
+            if (resultSet.next()) {
+                Class cl = null;
+                try {
+                    cl = Class.forName(userObject.getClass().getName());
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+                Object obj = null;
+                try {
+                    obj = cl.getConstructor().newInstance();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                    return null;
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    return null;
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                    return null;
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+                for (var field : new FieldsForDbImpl().getFieldsAndValues(userObject)) {
+
+                    String methodName = field.getNameInClass().substring(0, 1).toUpperCase() +
+                            field.getNameInClass().substring(1);
+
+                    try {
+                        if (field.getType().contains("int")) {
+                            try {
+                                cl.getMethod("set" + methodName,
+                                        new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                        invoke(obj, ((Integer) resultSet.getInt(field.getNameInClass())).intValue());
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
+                            }
+                        } else if (field.getType().contains("long")) {
+                            try {
+                                cl.getMethod("set" + methodName,
+                                        new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                        invoke(obj, ((Long) resultSet.getLong(field.getNameInClass())).longValue());
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
+                            }
+                        } else {
+                            try {
+
+                                if (resultSet.getObject(field.getNameInClass()).getClass().getName().contains("BigDecimal")) {
+                                    cl.getMethod("set" + methodName,
+                                            new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                            invoke(obj,
+                                                    ((BigDecimal) (resultSet.getObject(field.getNameInClass()))).longValue()); //field.getValue()
+                                } else {
+                                    cl.getMethod("set" + methodName,
+                                            new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                            invoke(obj, resultSet.getObject(field.getNameInClass())); //field.getValue()
+
+                                }
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
+                            }
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                        return null;
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                        return null;
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
+                return (T) obj;
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return null;
     }
 
              /*
