@@ -100,7 +100,7 @@ public class CrudImpl<T> implements Crud<T> {
                 for (var field : new FieldsForDbImpl().getFieldsWithoutValues(userObject)) {
 
                     try {
-                        int i = resultSet.findColumn(field.getNameInClass());
+                        int i = resultSet.findColumn(field.getNameLowCase());
                     } catch (SQLSyntaxErrorException e) {
                         continue;
                     }
