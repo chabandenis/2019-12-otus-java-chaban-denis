@@ -1,6 +1,5 @@
 package ru.chaban.service;
 
-
 public interface CreateSQL {
     String createTableSQL(Object object);
 
