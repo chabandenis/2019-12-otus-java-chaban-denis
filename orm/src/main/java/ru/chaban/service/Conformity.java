@@ -15,7 +15,7 @@ public class Conformity {
         conf.put("class java.lang.Integer", "number".toUpperCase());
         conf.put("int", "number".toUpperCase());
         conf.put("long", "number".toUpperCase());
-
+        conf.put("class java.lang.Double", "number".toUpperCase());
     }
 
     public String get(String from) {

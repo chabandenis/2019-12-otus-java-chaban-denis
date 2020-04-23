@@ -136,7 +136,7 @@ public class CreateSQLImpl implements CreateSQL {
         }
 
         StringBuilder retValue = new StringBuilder();
-        retValue.append("DELETE FROM TABLE ");
+        retValue.append("DELETE FROM ");
 
         String[] spl = object.getClass().getName().split("\\.");
 

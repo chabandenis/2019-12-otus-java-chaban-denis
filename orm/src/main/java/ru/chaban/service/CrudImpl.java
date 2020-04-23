@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.*;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -33,10 +34,17 @@ public class CrudImpl<T> implements Crud<T> {
 
     @Override
     public void save(T userObject) throws SQLException {
-        logger.info("Сохраняю значения для: {}", userObject);
         sessionManagerJdbc.beginSession();
-        executeSQL(sessionManagerJdbc.getCurrentSession().getConnection(), createSQL.insertTableSQL(userObject));
-//        executeSQL(sessionManagerJdbc.getCurrentSession().getConnection(), createSQL.updateTableSQL(userObject));
+
+        try {
+            Optional<T> tmp = get(userObject);
+            logger.info("ОБНОВЛЯЮ значения для: {}", userObject);
+            executeSQL(sessionManagerJdbc.getCurrentSession().getConnection(), createSQL.updateTableSQL(userObject));
+        } catch (NoSuchElementException e) {
+            logger.info("Сохраняю значения для: {}", userObject);
+            executeSQL(sessionManagerJdbc.getCurrentSession().getConnection(), createSQL.insertTableSQL(userObject));
+        }
+
         sessionManagerJdbc.commitSession();
         logger.info("Значения успешно сохранены");
     }
@@ -139,14 +147,21 @@ public class CrudImpl<T> implements Crud<T> {
                                         cl.getMethod("set" + methodName,
                                                 new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
                                                 invoke(obj,
-                                                        ((BigDecimal) (resultSet.getObject(field.getNameLowCase()))).longValue()); //field.getValue()
-                                    }else {
+                                                        ((BigDecimal) (resultSet.getObject(field.getNameLowCase()))).longValue());
+                                    } else if (field.getType().contains("ouble")) {
                                         logger.info("Реквизит/Значение: {}", methodName + "/" +
                                                 ((BigDecimal) (resultSet.getObject(field.getNameLowCase()))).longValue());
                                         cl.getMethod("set" + methodName,
                                                 new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
                                                 invoke(obj,
-                                                        ((BigDecimal) (resultSet.getObject(field.getNameLowCase()))).intValue()); //field.getValue()
+                                                        ((BigDecimal) (resultSet.getObject(field.getNameLowCase()))).doubleValue());
+                                    } else {
+                                        logger.info("Реквизит/Значение: {}", methodName + "/" +
+                                                ((BigDecimal) (resultSet.getObject(field.getNameLowCase()))).longValue());
+                                        cl.getMethod("set" + methodName,
+                                                new Class[]{cl.getMethod("get" + methodName).getReturnType()}).
+                                                invoke(obj,
+                                                        ((BigDecimal) (resultSet.getObject(field.getNameLowCase()))).intValue());
 
                                     }
                                 } else {

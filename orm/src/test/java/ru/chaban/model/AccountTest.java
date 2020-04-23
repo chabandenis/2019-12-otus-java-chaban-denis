@@ -33,21 +33,7 @@ class AccountTest {
         assertEquals(account.getRest(), accountFromDb.getRest());
         assertEquals(account.getTypeVal(), accountFromDb.getTypeVal());
 
-        account.setRest(33.334);
-
-        // найдем существующую запись и изменим значение
-        crud.save(account);
-
-        crud.get(accountFromDb);
-
-        assertEquals(account.getNo(), accountFromDb.getNo());
-        assertEquals(account.getRest(), accountFromDb.getRest());
-        assertEquals(account.getTypeVal(), accountFromDb.getTypeVal());
-
         // удалим
         crud.delete(account);
-        assertEquals(Long.valueOf(-1), account.getNo());
-        assertEquals(null, account.getRest());
-        assertEquals(null, account.getTypeVal());
     }
 }
