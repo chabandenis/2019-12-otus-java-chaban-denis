@@ -1,4 +1,4 @@
-package ru.chaban.model;
+package ru.chaban.core.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
