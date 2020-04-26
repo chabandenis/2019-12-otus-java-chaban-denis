@@ -2,9 +2,9 @@ package ru.chaban.core.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.core.dao.UserDao;
-import ru.otus.core.model.User;
-import ru.otus.core.sessionmanager.SessionManager;
+import ru.chaban.core.dao.UserDao;
+import ru.chaban.core.model.User;
+import ru.chaban.core.sessionmanager.SessionManager;
 
 import java.util.Optional;
 

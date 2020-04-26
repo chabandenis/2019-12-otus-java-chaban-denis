@@ -1,6 +1,6 @@
 package ru.chaban.core.service;
 
-import ru.otus.core.model.User;
+import ru.chaban.core.model.User;
 import java.util.Optional;
 
 public interface DBServiceUser {

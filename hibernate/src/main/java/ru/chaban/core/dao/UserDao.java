@@ -1,7 +1,7 @@
 package ru.chaban.core.dao;
 
-import ru.otus.core.model.User;
-import ru.otus.core.sessionmanager.SessionManager;
+import ru.chaban.core.model.User;
+import ru.chaban.core.sessionmanager.SessionManager;
 
 import java.util.Optional;
 

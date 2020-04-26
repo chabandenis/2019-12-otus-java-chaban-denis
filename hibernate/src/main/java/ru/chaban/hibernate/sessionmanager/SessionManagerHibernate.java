@@ -3,8 +3,8 @@ package ru.chaban.hibernate.sessionmanager;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import ru.otus.core.sessionmanager.SessionManager;
-import ru.otus.core.sessionmanager.SessionManagerException;
+import ru.chaban.core.sessionmanager.SessionManager;
+import ru.chaban.core.sessionmanager.SessionManagerException;
 
 public class SessionManagerHibernate implements SessionManager {
 

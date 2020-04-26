@@ -4,12 +4,12 @@ package ru.chaban.hibernate.dao;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.core.dao.UserDao;
-import ru.otus.core.dao.UserDaoException;
-import ru.otus.core.model.User;
-import ru.otus.core.sessionmanager.SessionManager;
-import ru.otus.hibernate.sessionmanager.DatabaseSessionHibernate;
-import ru.otus.hibernate.sessionmanager.SessionManagerHibernate;
+import ru.chaban.core.dao.UserDao;
+import ru.chaban.core.dao.UserDaoException;
+import ru.chaban.core.model.User;
+import ru.chaban.core.sessionmanager.SessionManager;
+import ru.chaban.hibernate.sessionmanager.DatabaseSessionHibernate;
+import ru.chaban.hibernate.sessionmanager.SessionManagerHibernate;
 
 import java.util.Optional;
 
