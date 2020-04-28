@@ -1,6 +1,7 @@
 package ru.chaban.core.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -14,12 +15,22 @@ public class User {
     @Column(name = "name")
     private String name;
 
+    @OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL)
+    @JoinColumn(name="addresses")
+    private Address addresses;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_id")
+    private List<Phone> phone;
+
     public User() {
     }
 
-    public User(long id, String name) {
+    public User(long id, String name, Address addresses, List<Phone> phone) {
         this.id = id;
         this.name = name;
+        this.addresses = addresses;
+        this.phone = phone;
     }
 
     public long getId() {
