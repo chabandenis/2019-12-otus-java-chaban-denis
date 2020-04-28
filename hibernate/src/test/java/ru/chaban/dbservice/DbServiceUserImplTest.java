@@ -1,4 +1,4 @@
-package java.ru.chaban.dbservice;
+package ru.chaban.dbservice;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

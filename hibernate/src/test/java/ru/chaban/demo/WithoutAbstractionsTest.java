@@ -1,4 +1,4 @@
-package java.ru.chaban.demo;
+package ru.chaban.demo;
 
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;

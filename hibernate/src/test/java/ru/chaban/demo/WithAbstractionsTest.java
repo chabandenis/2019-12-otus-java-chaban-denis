@@ -1,4 +1,4 @@
-package java.ru.chaban.demo;
+package ru.chaban.demo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

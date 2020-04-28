@@ -1,4 +1,4 @@
-package java.ru.chaban.jdbc.dao;
+package ru.chaban.jdbc.dao;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

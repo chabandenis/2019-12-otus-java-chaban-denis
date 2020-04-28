@@ -1,4 +1,4 @@
-package java.ru.chaban;
+package ru.chaban;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
