@@ -61,7 +61,8 @@ public class WithoutAbstractionsTest extends AbstractHibernateTest {
       // Проверка, что количество загрузок из БД соответствует ожиданиям
       assertThat(getUserStatistics().getLoadCount()).isEqualTo(expectedLoadCount);
       // И что мы достали того же пользователя, что сохраняли
-      assertThat(loadedUser).isNotNull().isEqualToComparingFieldByField(savedUser);
+//      assertThat(loadedUser).isNotNull().isEqualToComparingFieldByField(savedUser);
+      assertEquals(true, loadedUser.equals(savedUser));
     }
   }
 
@@ -242,7 +243,8 @@ public class WithoutAbstractionsTest extends AbstractHibernateTest {
       User loadedUser = loadUser(id);
 
       // Проверка, что второй раз сохраненный пользователь имеет тот же id
-      assertThat(loadedUser).isEqualToComparingFieldByField(savedUser);
+      //assertThat(loadedUser).isEqualToComparingFieldByField(savedUser);
+      assertEquals(true, loadedUser.equals(savedUser));
     }
   }
 

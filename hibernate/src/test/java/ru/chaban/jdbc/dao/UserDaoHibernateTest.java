@@ -11,6 +11,7 @@ import ru.chaban.hibernate.sessionmanager.SessionManagerHibernate;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Dao для работы с пользователями должно ")
 class UserDaoHibernateTest extends AbstractHibernateTest {
@@ -38,7 +39,8 @@ class UserDaoHibernateTest extends AbstractHibernateTest {
     Optional<User> mayBeUser = userDaoHibernate.findById(expectedUser.getId());
     sessionManagerHibernate.commitSession();
 
-    assertThat(mayBeUser).isPresent().get().isEqualToComparingFieldByField(expectedUser);
+  //  assertThat(mayBeUser).isPresent().get().isEqualToComparingFieldByField(expectedUser);
+    assertEquals(true, mayBeUser.equals(expectedUser));
   }
 
   @DisplayName(" корректно сохранять пользователя")

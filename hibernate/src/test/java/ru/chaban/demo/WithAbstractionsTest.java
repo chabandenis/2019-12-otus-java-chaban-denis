@@ -14,6 +14,7 @@ import ru.chaban.hibernate.sessionmanager.SessionManagerHibernate;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Демо работы с hibernate (с абстракциями) должно ")
 public class WithAbstractionsTest extends AbstractHibernateTest {
@@ -36,7 +37,8 @@ public class WithAbstractionsTest extends AbstractHibernateTest {
     long id = dbServiceUser.saveUser(savedUser);
     User loadedUser = loadUser(id);
 
-    assertThat(loadedUser).isNotNull().isEqualToComparingFieldByField(savedUser);
+    //assertThat(loadedUser).isNotNull().isEqualToComparingFieldByField(savedUser);
+    assertEquals(true, loadedUser.equals(savedUser));
 
     System.out.println(savedUser);
     System.out.println(loadedUser);
@@ -50,7 +52,7 @@ public class WithAbstractionsTest extends AbstractHibernateTest {
 
     Optional<User> mayBeUser = dbServiceUser.getUser(savedUser.getId());
 
-    assertThat(mayBeUser).isPresent().get().isEqualToComparingFieldByField(savedUser);
+    assertEquals(true, mayBeUser.equals(savedUser));
 
     System.out.println(savedUser);
     mayBeUser.ifPresent(System.out::println);
@@ -66,7 +68,8 @@ public class WithAbstractionsTest extends AbstractHibernateTest {
     long id = dbServiceUser.saveUser(savedUser2);
     User loadedUser = loadUser(id);
 
-    assertThat(loadedUser).isNotNull().isEqualToComparingFieldByField(savedUser2);
+   // assertThat(loadedUser).isNotNull().isEqualToComparingFieldByField(savedUser2);
+    assertEquals(true, loadedUser.equals(savedUser));
 
     System.out.println(savedUser);
     System.out.println(savedUser2);
