@@ -2,6 +2,7 @@ package ru.chaban.core.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -16,17 +17,17 @@ public class User {
     private String name;
 
     @OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL)
-    @JoinColumn(name="addresses")
+    @JoinColumn(name = "addresses")
     private Address addresses;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private List<Phone> phone;
 
     public User() {
     }
 
-    public User(long id, String name, Address addresses, List<Phone> phone) {
+    public User(long id, String name) {
         this.id = id;
         this.name = name;
         this.addresses = addresses;
@@ -52,64 +53,35 @@ public class User {
                 ", name='" + name + '\'' +
                 '}';
     }
-}
 
-
-/*
-@Entity
-@Table(name = "users")
-public class User {
-    @Id
-    private Long id;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "addresses")
-    private AddressDataSet addresses;
-
-    @Column(name = "phones")
-    private PhoneDataSet phones;
-
-    public User() {
-    }
-
-    public User(long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public AddressDataSet getAddresses() {
+    public Address getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(AddressDataSet addresses) {
+    public void setAddresses(Address addresses) {
         this.addresses = addresses;
     }
 
-    public PhoneDataSet getPhones() {
-        return phones;
+    public List<Phone> getPhone() {
+        return phone;
     }
 
-    public void setPhones(PhoneDataSet phones) {
-        this.phones = phones;
+    public void setPhone(List<Phone> phone) {
+        this.phone = phone;
     }
 
- */
-
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        User myObject = (User) obj;
+        return Objects.equals(id, myObject.id) &&
+                Objects.equals(name, myObject.name) &&
+                addresses.equals(myObject.addresses) &&
+                phone.containsAll(myObject.phone);
+    }
+}

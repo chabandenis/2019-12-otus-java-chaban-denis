@@ -11,7 +11,6 @@ import ru.chaban.core.model.Phone;
 import ru.chaban.core.model.User;
 import ru.chaban.hibernate.HibernateUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public abstract class AbstractHibernateTest {
     protected static final String TEST_USER_NAME = "Вася";
     protected static final String TEST_USER_NEW_NAME = "НЕ Вася";
     protected static final String TEST_USER_NEW_NAME2 = "Совершенно точно НЕ Вася";
-    protected static final Address TEST_USER_ADDR = new Address(1, "Адрес");
+//    protected static final Address TEST_USER_ADDR = new Address(1, "Адрес", new User());
     protected static final List<Phone> TEST_USER_PHONES = Arrays.asList(new Phone(1, "тел 1"),
             new Phone(2, "тел 2"));
 
@@ -43,7 +42,7 @@ public abstract class AbstractHibernateTest {
     }
 
     protected User buildDefaultUser() {
-        return new User(0, TEST_USER_NAME, TEST_USER_ADDR, TEST_USER_PHONES);
+        return new User(0, TEST_USER_NAME);
     }
 
     protected void saveUser(User user) {

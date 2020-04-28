@@ -11,11 +11,16 @@ import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import ru.chaban.AbstractHibernateTest;
+import ru.chaban.core.model.Address;
+import ru.chaban.core.model.Phone;
 import ru.chaban.core.model.User;
 
 import javax.persistence.Query;
 
+import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Демо работы с hibernate (без абстракций) должно ")
 public class WithoutAbstractionsTest extends AbstractHibernateTest {
@@ -64,6 +69,10 @@ public class WithoutAbstractionsTest extends AbstractHibernateTest {
   @Test
   void shouldCorrectSaveAndLoadUserWithExpectedQueriesCountInTwoDifferentSessions() {
     User savedUser = buildDefaultUser();
+    savedUser.setAddresses(new Address(0, "1", savedUser));
+    savedUser.setPhone(Arrays.asList(new Phone(0, "1")));
+
+
     // Сохранили пользователя в отдельной сессии
     saveUser(savedUser);
 
@@ -76,7 +85,7 @@ public class WithoutAbstractionsTest extends AbstractHibernateTest {
       assertThat(getUserStatistics().getLoadCount()).isEqualTo(1);
 
       // И что мы достали того же пользователя, что сохраняли
-      assertThat(loadedUser).isNotNull().isEqualToComparingFieldByField(savedUser);
+      assertEquals (true, loadedUser.equals(savedUser));
     }
   }
 
