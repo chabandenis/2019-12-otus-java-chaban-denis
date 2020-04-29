@@ -21,7 +21,7 @@ public class User {
     private Address addresses;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id")
     private List<Phone> phone;
 
     public User() {
