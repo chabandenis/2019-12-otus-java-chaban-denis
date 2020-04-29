@@ -81,7 +81,9 @@ public class User {
         User myObject = (User) obj;
         return Objects.equals(id, myObject.id) &&
                 Objects.equals(name, myObject.name) &&
-                addresses.equals(myObject.addresses) &&
-                phone.containsAll(myObject.phone);
+                ((addresses == null && myObject.addresses == null) ? true : addresses.equals(myObject.addresses)) &&
+                (((phone == null && myObject.phone == null) ||
+                        (phone.size() == 0 && myObject.phone == null)
+                ) ? true : phone.containsAll(myObject.phone));
     }
 }
