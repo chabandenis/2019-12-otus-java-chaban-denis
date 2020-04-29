@@ -27,10 +27,10 @@ public class User {
     public User() {
     }
 
-    public User(long id, String name) {
+    public User(long id, String name, List<Phone> phone) {
         this.id = id;
         this.name = name;
-        this.addresses = addresses;
+        //this.addresses = addresses;
         this.phone = phone;
     }
 

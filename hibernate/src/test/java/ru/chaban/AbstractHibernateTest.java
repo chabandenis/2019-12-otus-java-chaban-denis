@@ -42,7 +42,7 @@ public abstract class AbstractHibernateTest {
     }
 
     protected User buildDefaultUser() {
-        return new User(0, TEST_USER_NAME);
+        return new User(0, TEST_USER_NAME, TEST_USER_PHONES);
     }
 
     protected void saveUser(User user) {

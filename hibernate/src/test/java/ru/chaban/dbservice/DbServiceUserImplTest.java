@@ -84,7 +84,8 @@ class DbServiceUserImplTest {
     @DisplayName(" корректно загружать пользователя по заданному id")
     void shouldLoadCorrectUserById() {
         User expectedUser = new User(USER_ID,
-                "Вася"
+                "Вася",
+                null
         );
                 given(userDao.findById(USER_ID)).willReturn(Optional.of(expectedUser));
         Optional<User> mayBeUser = dbServiceUser.getUser(USER_ID);
