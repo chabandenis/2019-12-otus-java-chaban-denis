@@ -40,7 +40,7 @@ class UserDaoHibernateTest extends AbstractHibernateTest {
     sessionManagerHibernate.commitSession();
 
   //  assertThat(mayBeUser).isPresent().get().isEqualToComparingFieldByField(expectedUser);
-    assertEquals(true, mayBeUser.equals(expectedUser));
+    assertEquals(true, mayBeUser.get().equals(expectedUser));
   }
 
   @DisplayName(" корректно сохранять пользователя")

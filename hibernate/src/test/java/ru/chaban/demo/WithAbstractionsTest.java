@@ -52,7 +52,7 @@ public class WithAbstractionsTest extends AbstractHibernateTest {
 
     Optional<User> mayBeUser = dbServiceUser.getUser(savedUser.getId());
 
-    assertEquals(true, mayBeUser.equals(savedUser));
+    assertEquals(true, mayBeUser.get().equals(savedUser));
 
     System.out.println(savedUser);
     mayBeUser.ifPresent(System.out::println);
@@ -68,8 +68,8 @@ public class WithAbstractionsTest extends AbstractHibernateTest {
     long id = dbServiceUser.saveUser(savedUser2);
     User loadedUser = loadUser(id);
 
-   // assertThat(loadedUser).isNotNull().isEqualToComparingFieldByField(savedUser2);
-    assertEquals(true, loadedUser.equals(savedUser));
+    //assertThat(loadedUser).isNotNull().isEqualToComparingFieldByField(savedUser2);
+    assertEquals(true, loadedUser.equals(savedUser2));
 
     System.out.println(savedUser);
     System.out.println(savedUser2);

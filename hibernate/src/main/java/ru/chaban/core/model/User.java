@@ -16,11 +16,11 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "addresses")
     private Address addresses;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private List<Phone> phone;
 
@@ -83,7 +83,7 @@ public class User {
                 Objects.equals(name, myObject.name) &&
                 ((addresses == null && myObject.addresses == null) ? true : addresses.equals(myObject.addresses)) &&
                 (((phone == null && myObject.phone == null) ||
-                        (phone.size() == 0 && myObject.phone == null)
+                        (phone != null && phone.size() == 0 && myObject.phone == null)
                 ) ? true : phone.containsAll(myObject.phone));
     }
 }
