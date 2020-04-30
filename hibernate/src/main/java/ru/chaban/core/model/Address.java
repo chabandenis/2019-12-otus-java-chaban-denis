@@ -7,7 +7,7 @@ import java.util.Objects;
 @Table(name = "address")
 public class Address {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "street")
@@ -17,6 +17,11 @@ public class Address {
     private User user;
 
     public Address() {
+    }
+
+    public Address(String street, User user) {
+        this.street = street;
+        this.user = user;
     }
 
     public Address(long id, String street, User user) {
@@ -57,5 +62,14 @@ public class Address {
         return id == myObject.id &&
                 Objects.equals(street, myObject.street) &&
                 user.getId() == myObject.user.getId();
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", street='" + street + '\'' +
+                ", user=" + user.getId() +
+                '}';
     }
 }

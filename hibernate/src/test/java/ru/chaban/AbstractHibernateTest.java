@@ -12,7 +12,6 @@ import ru.chaban.core.model.User;
 import ru.chaban.hibernate.HibernateUtils;
 
 import java.util.Arrays;
-import java.util.List;
 
 public abstract class AbstractHibernateTest {
     private static final String HIBERNATE_CFG_XML_FILE_RESOURCE = "hibernate-test.cfg.xml";
@@ -23,12 +22,17 @@ public abstract class AbstractHibernateTest {
     protected static final String TEST_USER_NEW_NAME = "НЕ Вася";
     protected static final String TEST_USER_NEW_NAME2 = "Совершенно точно НЕ Вася";
 
+    /*
+    protected static long user_id = 0;
+    protected static long phone_id = 0;
+    protected static long adr_id = 0;
+     */
+
     protected SessionFactory sessionFactory;
 
     @BeforeEach
     public void setUp() {
         Class[] lst = {User.class, Phone.class, Address.class};
-
         sessionFactory = HibernateUtils.buildSessionFactory(HIBERNATE_CFG_XML_FILE_RESOURCE, lst);
     }
 
@@ -38,9 +42,9 @@ public abstract class AbstractHibernateTest {
     }
 
     protected User buildDefaultUser() {
-        User user = new User(0, TEST_USER_NAME);
-        user.setAddresses(new Address(0, "adress 1", user));
-        user.setPhones(Arrays.asList(new Phone(0, "phone 1", user)));
+        User user = new User(TEST_USER_NAME);
+        user.setAddresses(new Address( "adress 1", user));
+        user.setPhones(Arrays.asList(new Phone( "phone 1", user)));
         return user;
     }
 

@@ -9,7 +9,7 @@ import java.util.Objects;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
 
@@ -24,6 +24,10 @@ public class User {
     private List<Phone> phones;
 
     public User() {
+    }
+
+    public User(String name) {
+        this.name = name;
     }
 
     public User(long id, String name) {
@@ -48,6 +52,8 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", addresses=" + addresses +
+                ", phones=" + phones +
                 '}';
     }
 
@@ -81,6 +87,6 @@ public class User {
                 ((addresses == null && myObject.addresses == null) ? true : addresses.equals(myObject.addresses)) &&
                 (((phones == null && myObject.phones == null) ||
                         (phones != null && phones.size() == 0 && myObject.phones == null)
-                ) ? true : phones.containsAll(myObject.phones));
+                ) ? true : (phones.size() > 0 && myObject.phones == null ? false : phones.containsAll(myObject.phones)));
     }
 }
