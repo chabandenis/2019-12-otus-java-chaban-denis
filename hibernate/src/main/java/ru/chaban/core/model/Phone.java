@@ -13,16 +13,17 @@ public class Phone {
     @Column(name = "number")
     private String number;
 
-//    @ManyToOne
-//    private User user;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     public Phone() {
     }
 
-    public Phone(long id, String number) {
+    public Phone(long id, String number, User user) {
         this.id = id;
         this.number = number;
- //       this.user = user;
+        this.user = user;
     }
 
     public long getId() {
@@ -41,16 +42,13 @@ public class Phone {
         this.number = number;
     }
 
-/*    public User getUser() {
+    public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
     }
-
- */
-
 
     @Override
     public boolean equals(Object obj) {

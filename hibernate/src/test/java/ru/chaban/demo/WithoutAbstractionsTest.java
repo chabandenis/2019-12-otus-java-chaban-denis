@@ -70,10 +70,10 @@ public class WithoutAbstractionsTest extends AbstractHibernateTest {
   @Test
   void shouldCorrectSaveAndLoadUserWithExpectedQueriesCountInTwoDifferentSessions() {
     User savedUser = buildDefaultUser();
-    savedUser.setAddresses(new Address(0, "1", savedUser));
-    Phone phone = new Phone(0, "1");
+    //savedUser.setAddresses(new Address(0, "1", savedUser));
+    //Phone phone = new Phone(0, "1", savedUser);
     //phone.setUser(savedUser);
-    savedUser.setPhone(Arrays.asList(phone));
+    //savedUser.setPhones(Arrays.asList(phone));
 
 
     // Сохранили пользователя в отдельной сессии

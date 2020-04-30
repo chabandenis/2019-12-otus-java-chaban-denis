@@ -22,10 +22,6 @@ public abstract class AbstractHibernateTest {
     protected static final String TEST_USER_NAME = "Вася";
     protected static final String TEST_USER_NEW_NAME = "НЕ Вася";
     protected static final String TEST_USER_NEW_NAME2 = "Совершенно точно НЕ Вася";
-//    protected static final Address TEST_USER_ADDR = new Address(1, "Адрес", new User());
-    protected static final List<Phone> TEST_USER_PHONES = Arrays.asList(new Phone(1, "тел 1"),
-            new Phone(2, "тел 2"));
-
 
     protected SessionFactory sessionFactory;
 
@@ -42,7 +38,10 @@ public abstract class AbstractHibernateTest {
     }
 
     protected User buildDefaultUser() {
-        return new User(0, TEST_USER_NAME, TEST_USER_PHONES);
+        User user = new User(0, TEST_USER_NAME);
+        user.setAddresses(new Address(0, "adress 1", user));
+        user.setPhones(Arrays.asList(new Phone(0, "phone 1", user)));
+        return user;
     }
 
     protected void saveUser(User user) {

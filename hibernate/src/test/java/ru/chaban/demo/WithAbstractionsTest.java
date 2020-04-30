@@ -64,7 +64,7 @@ public class WithAbstractionsTest extends AbstractHibernateTest {
     User savedUser = buildDefaultUser();
     saveUser(savedUser);
 
-    User savedUser2 = new User(savedUser.getId(), TEST_USER_NEW_NAME, TEST_USER_PHONES);
+    User savedUser2 = new User(savedUser.getId(), TEST_USER_NEW_NAME);
     long id = dbServiceUser.saveUser(savedUser2);
     User loadedUser = loadUser(id);
 

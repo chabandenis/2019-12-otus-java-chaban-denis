@@ -20,18 +20,15 @@ public class User {
     @JoinColumn(name = "addresses")
     private Address addresses;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
-    private List<Phone> phone;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Phone> phones;
 
     public User() {
     }
 
-    public User(long id, String name, List<Phone> phone) {
+    public User(long id, String name) {
         this.id = id;
         this.name = name;
-        //this.addresses = addresses;
-        this.phone = phone;
     }
 
     public long getId() {
@@ -66,12 +63,12 @@ public class User {
         this.addresses = addresses;
     }
 
-    public List<Phone> getPhone() {
-        return phone;
+    public List<Phone> getPhones() {
+        return phones;
     }
 
-    public void setPhone(List<Phone> phone) {
-        this.phone = phone;
+    public void setPhones(List<Phone> phones) {
+        this.phones = phones;
     }
 
     @Override
@@ -82,8 +79,8 @@ public class User {
         return Objects.equals(id, myObject.id) &&
                 Objects.equals(name, myObject.name) &&
                 ((addresses == null && myObject.addresses == null) ? true : addresses.equals(myObject.addresses)) &&
-                (((phone == null && myObject.phone == null) ||
-                        (phone != null && phone.size() == 0 && myObject.phone == null)
-                ) ? true : phone.containsAll(myObject.phone));
+                (((phones == null && myObject.phones == null) ||
+                        (phones != null && phones.size() == 0 && myObject.phones == null)
+                ) ? true : phones.containsAll(myObject.phones));
     }
 }
