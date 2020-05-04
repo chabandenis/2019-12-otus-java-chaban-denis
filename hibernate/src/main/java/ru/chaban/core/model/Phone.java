@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Phone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "number")
     private String number;
@@ -24,17 +24,17 @@ public class Phone {
         this.number = number;
         this.user = user;
     }
-    public Phone(long id, String number, User user) {
+    public Phone(Long id, String number, User user) {
         this.id = id;
         this.number = number;
         this.user = user;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

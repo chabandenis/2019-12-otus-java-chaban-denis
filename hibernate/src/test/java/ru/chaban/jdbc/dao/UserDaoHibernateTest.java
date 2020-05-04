@@ -30,7 +30,7 @@ class UserDaoHibernateTest extends AbstractHibernateTest {
     @Test
     @DisplayName(" корректно загружать пользователя по заданному id")
     void shouldFindCorrectUserById() {
-        User expectedUser = new User(0, "Вася");
+        User expectedUser = new User(0L, "Вася");
         saveUser(expectedUser);
 
         assertThat(expectedUser.getId()).isGreaterThan(0);
@@ -46,7 +46,7 @@ class UserDaoHibernateTest extends AbstractHibernateTest {
     @DisplayName(" корректно сохранять пользователя")
     @Test
     void shouldCorrectSaveUser() {
-        User expectedUser = new User(0, "Вася");
+        User expectedUser = new User(0L, "Вася");
         sessionManagerHibernate.beginSession();
         long id = userDaoHibernate.saveUser(expectedUser);
         sessionManagerHibernate.commitSession();

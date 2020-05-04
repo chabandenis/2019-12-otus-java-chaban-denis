@@ -11,16 +11,16 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
 
     @OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "addresses")
+    @JoinColumn(name = "user")
     private Address addresses;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER ) //EAGER
     private List<Phone> phones;
 
     public User() {
@@ -30,12 +30,12 @@ public class User {
         this.name = name;
     }
 
-    public User(long id, String name) {
+    public User(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -57,7 +57,7 @@ public class User {
                 '}';
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
