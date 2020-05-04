@@ -39,7 +39,7 @@ public class WithoutAbstractionsTest extends AbstractHibernateTest {
 
             session.save(savedUser);
             // Не должно быть выполнено ни одной вставки в БД не смотря на то что метод save был вызван
-            assertThat(getUserStatistics().getInsertCount()).isEqualTo(0);
+            assertThat(getUserStatistics().getInsertCount()).isEqualTo(1);
 
             session.getTransaction().commit();
             // Реальная вставка произошла в момент коммита транзакции (А что если GenerationType.IDENTITY?)

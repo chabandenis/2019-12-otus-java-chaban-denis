@@ -62,6 +62,7 @@ public class WithAbstractionsTest extends AbstractHibernateTest {
         mayBeUser.ifPresent(System.out::println);
     }
 
+    //222
     @Test
     @DisplayName(" корректно изменять ранее сохраненного пользователя")
     void shouldCorrectUpdateSavedUser() {

@@ -20,7 +20,7 @@ public class User {
     @JoinColumn(name = "addresses")
     private Address addresses;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER ) //EAGER
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     private List<Phone> phones;
 
     public User() {
