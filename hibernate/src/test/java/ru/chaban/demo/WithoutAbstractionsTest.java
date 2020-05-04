@@ -2,6 +2,7 @@ package ru.chaban.demo;
 
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
+import org.hibernate.TransientObjectException;
 import org.hibernate.proxy.HibernateProxy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -250,11 +251,20 @@ public class WithoutAbstractionsTest extends AbstractHibernateTest {
 
             // Вызвали для данного пользователя update
             session.beginTransaction();
-            session.update(savedUser);
+            try {
+                session.update(savedUser);
+                assertEquals(false, true);
+            }
+            catch (TransientObjectException e){
+                assertEquals(true, true);
+            }
+
+            //assertThatThrownBy(session.getTransaction()::commit).isInstanceOf(Exception.class);
             // Проверка, что id у него не появился
-            assertThat(savedUser.getId()).isEqualTo(0);
+            // assertThat(savedUser.getId()).isEqualTo(0);
+            //assertEquals(null, savedUser.getId());
             // Проверка, что коммит транзакции приведет к исключению
-            assertThatThrownBy(session.getTransaction()::commit).isInstanceOf(Exception.class);
+            //assertThatThrownBy(session.getTransaction()::commit).isInstanceOf(Exception.class);
         }
     }
 

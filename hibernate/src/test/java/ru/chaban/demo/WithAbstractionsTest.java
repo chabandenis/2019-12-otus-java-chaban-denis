@@ -29,6 +29,7 @@ public class WithAbstractionsTest extends AbstractHibernateTest {
         dbServiceUser = new DbServiceUserImpl(userDao);
     }
 
+    //f111
     @Test
     @DisplayName(" корректно сохранять пользователя")
     void shouldCorrectSaveUser() {

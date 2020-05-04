@@ -17,7 +17,7 @@ public class User {
     private String name;
 
     @OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "addresses")
     private Address addresses;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER ) //EAGER
