@@ -46,7 +46,7 @@ class UserDaoHibernateTest extends AbstractHibernateTest {
     @DisplayName(" корректно сохранять пользователя")
     @Test
     void shouldCorrectSaveUser() {
-        User expectedUser = new User(0L, "Вася");
+        User expectedUser = buildDefaultUser(); //new User(0L, "Вася");
         sessionManagerHibernate.beginSession();
         long id = userDaoHibernate.saveUser(expectedUser);
         sessionManagerHibernate.commitSession();
