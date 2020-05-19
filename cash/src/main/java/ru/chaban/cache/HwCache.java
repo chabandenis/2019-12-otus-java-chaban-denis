@@ -1,9 +1,5 @@
 package ru.chaban.cache;
 
-/**
- * @author sergey
- * created on 14.12.18.
- */
 public interface HwCache<K, V> {
 
   void put(K key, V value);

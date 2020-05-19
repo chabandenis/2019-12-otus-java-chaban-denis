@@ -3,10 +3,6 @@ package ru.chaban.cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author sergey
- * created on 14.12.18.
- */
 public class HWCacheDemo {
   private static final Logger logger = LoggerFactory.getLogger(HWCacheDemo.class);
 

@@ -1,9 +1,5 @@
 package ru.chaban.cache;
 
-/**
- * @author sergey
- * created on 14.12.18.
- */
 public class MyCache<K, V> implements HwCache<K, V> {
 //Надо реализовать эти методы
 
