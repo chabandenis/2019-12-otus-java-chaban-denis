@@ -13,21 +13,24 @@ public class MyCache<K, V> implements HWCache<K, V> {
     // подписчики
     List<HwListener> myListener = new ArrayList<>();
     // максимальное количество элементов в кеше
-    private int maxCount = 3;
+    private int maxCount;
     // кеш
     Map<K, V> cache = new HashMap<>(maxCount);
+
+    public MyCache(int maxCount, Map<K, V> cache) {
+        this.maxCount = maxCount;
+        this.cache = cache;
+    }
 
     @Override
     public void put(K key, V value) {
         if (cache.size() >= maxCount) {
             for (K k : cache.keySet()) {
-                logger.info("Удалилим: {} ", k);
                 remove(k);
                 break;
             }
         }
 
-        logger.info("Добавили: {} /\"{}\"", key, value);
         cache.put(key, value);
         myListener.stream().forEach(x -> x.notify(key, cache.get(key), "добавили"));
     }
