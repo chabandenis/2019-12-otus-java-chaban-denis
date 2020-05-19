@@ -79,6 +79,13 @@ class MyCacheTest {
 
     @Test
     void addListener() {
+        HwListener<Integer, String> listener = new MyListener<>();
+        HWCache cache = new MyCache();
+        cache.addListener(listener);
+        cache.put(1, "111");
+        cache.remove(1);
+
+
         assertEquals(true, true);
     }
 
