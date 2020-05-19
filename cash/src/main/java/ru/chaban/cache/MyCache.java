@@ -10,15 +10,12 @@ import java.util.Map;
 
 public class MyCache<K, V> implements HWCache<K, V> {
     private static final Logger logger = LoggerFactory.getLogger(MyCache.class);
-
-    // максимальное количество элементов в кеше
-    private int maxCount = 3;
-
-    // кеш
-    Map<K, V> cache = new HashMap<>(maxCount);
-
     // подписчики
     List<HwListener> myListener = new ArrayList<>();
+    // максимальное количество элементов в кеше
+    private int maxCount = 3;
+    // кеш
+    Map<K, V> cache = new HashMap<>(maxCount);
 
     @Override
     public void put(K key, V value) {

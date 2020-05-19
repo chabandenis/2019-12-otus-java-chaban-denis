@@ -4,28 +4,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HWCacheDemo {
-  private static final Logger logger = LoggerFactory.getLogger(HWCacheDemo.class);
+    private static final Logger logger = LoggerFactory.getLogger(HWCacheDemo.class);
 
-  public static void main(String[] args) {
-    new HWCacheDemo().demo();
-  }
+    public static void main(String[] args) {
+        new HWCacheDemo().demo();
+    }
 
-  private void demo() {
-    HWCache<Integer, Integer> cache = new MyCache<>();
+    private void demo() {
+        HWCache<Integer, Integer> cache = new MyCache<>();
 
-    // пример, когда Idea предлагает упростить код, при этом может появиться "спец"-эффект
-    HwListener<Integer, Integer> listener = new HwListener<Integer, Integer>() {
-      @Override
-      public void notify(Integer key, Integer value, String action) {
-        logger.info("key:{}, value:{}, action: {}", key, value, action);
-      }
-    };
+        // пример, когда Idea предлагает упростить код, при этом может появиться "спец"-эффект
+        HwListener<Integer, Integer> listener = new HwListener<Integer, Integer>() {
+            @Override
+            public void notify(Integer key, Integer value, String action) {
+                logger.info("key:{}, value:{}, action: {}", key, value, action);
+            }
+        };
 
-    cache.addListener(listener);
-    cache.put(1, 1);
+        cache.addListener(listener);
+        cache.put(1, 1);
 
 //    logger.info("getValue:{}", cache.get(1));
-  //  cache.remove(1);
-    cache.removeListener(listener);
-  }
+        //  cache.remove(1);
+        cache.removeListener(listener);
+    }
 }

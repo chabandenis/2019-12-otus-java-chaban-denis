@@ -254,8 +254,7 @@ public class WithoutAbstractionsTest extends AbstractHibernateTest {
             try {
                 session.update(savedUser);
                 assertEquals(false, true);
-            }
-            catch (TransientObjectException e){
+            } catch (TransientObjectException e) {
                 assertEquals(true, true);
             }
 

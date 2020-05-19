@@ -14,20 +14,18 @@ import ru.chaban.hibernate.HibernateUtils;
 import java.util.Arrays;
 
 public abstract class AbstractHibernateTest {
-    private static final String HIBERNATE_CFG_XML_FILE_RESOURCE = "hibernate-test.cfg.xml";
-
     protected static final String FIELD_ID = "id";
     protected static final String FIELD_NAME = "name";
     protected static final String TEST_USER_NAME = "Вася";
     protected static final String TEST_USER_NEW_NAME = "НЕ Вася";
     protected static final String TEST_USER_NEW_NAME2 = "Совершенно точно НЕ Вася";
+    private static final String HIBERNATE_CFG_XML_FILE_RESOURCE = "hibernate-test.cfg.xml";
 
     /*
     protected static long user_id = 0;
     protected static long phone_id = 0;
     protected static long adr_id = 0;
      */
-
     protected SessionFactory sessionFactory;
 
     @BeforeEach
@@ -43,8 +41,8 @@ public abstract class AbstractHibernateTest {
 
     protected User buildDefaultUser() {
         User user = new User(TEST_USER_NAME);
-        user.setAddresses(new Address( "adress 1", user));
-        user.setPhones(Arrays.asList(new Phone( "phone 1", user)));
+        user.setAddresses(new Address("adress 1", user));
+        user.setPhones(Arrays.asList(new Phone("phone 1", user)));
         return user;
     }
 
