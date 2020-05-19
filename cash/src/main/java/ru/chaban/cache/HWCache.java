@@ -1,6 +1,6 @@
 package ru.chaban.cache;
 
-public interface HwCache<K, V> {
+public interface HWCache<K, V> {
 
   void put(K key, V value);
 

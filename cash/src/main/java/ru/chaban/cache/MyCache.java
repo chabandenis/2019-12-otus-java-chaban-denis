@@ -1,6 +1,6 @@
 package ru.chaban.cache;
 
-public class MyCache<K, V> implements HwCache<K, V> {
+public class MyCache<K, V> implements HWCache<K, V> {
 //Надо реализовать эти методы
 
   @Override
