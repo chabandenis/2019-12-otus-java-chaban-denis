@@ -6,7 +6,7 @@ public interface HWCache<K, V> {
 
   void remove(K key);
 
-  V get(K key);
+  V get(K key) throws NoInCache;
 
   void addListener(HwListener<K, V> listener);
 
