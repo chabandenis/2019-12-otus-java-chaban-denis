@@ -1,11 +1,15 @@
 package ru.chaban.cache;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class MyCache<K, V> implements HWCache<K, V> {
+    private static final Logger logger = LoggerFactory.getLogger(MyCache.class);
 
     // максимальное количество элементов в кеше
     private int maxCount = 3;
@@ -20,13 +24,13 @@ public class MyCache<K, V> implements HWCache<K, V> {
     public void put(K key, V value) {
         if (cache.size() >= maxCount) {
             for (K k : cache.keySet()) {
-                System.out.println("Удалилим " + k);
+                logger.info("Удалилим: {} ", k);
                 remove(k);
                 break;
             }
         }
 
-        System.out.println("Добавили: " + key + "/\"" + value + "\"");
+        logger.info("Добавили: {} /\"{}\"", key, value);
         cache.put(key, value);
         myListener.stream().forEach(x -> x.notify(key, cache.get(key), "добавили"));
     }
