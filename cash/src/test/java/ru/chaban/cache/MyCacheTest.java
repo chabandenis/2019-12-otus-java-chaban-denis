@@ -183,15 +183,13 @@ class MyCacheTest {
     Ломается. Так задумано!!! OutOfMemoryError: Java heap space. (тесты приходится запускать вручную)
     кэш HashMap
     в отладке:
-        2020-05-19_17:59:00.181 INFO  ru.chaban.cache.MyCache - Обработано: 10
-        2020-05-19_17:59:00.513 INFO  ru.chaban.cache.MyCache - Обработано: 20
-        2020-05-19_17:59:00.820 INFO  ru.chaban.cache.MyCache - Обработано: 30
-        2020-05-19_17:59:01.124 INFO  ru.chaban.cache.MyCache - Обработано: 40
-        Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+    2020-05-20_18:12:53.836 INFO  ru.chaban.cache.MyCache - Обработано: 100
+    2020-05-20_18:12:54.652 INFO  ru.chaban.cache.MyCache - Обработано: 200
+    Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
      */
     @Test
     void lowHeap() {
-        int maxSize = 100000000;
+        int maxSize = 2000000;
 
         StringBuilder str = new StringBuilder("");
 
@@ -203,7 +201,7 @@ class MyCacheTest {
 
         Stream.iterate(1, n -> n + 1).limit(maxSize).forEach(x -> {
             cache.put(x, str.toString());
-            if (x % 10 == 0) {
+            if (x % 100 == 0) {
                 logger.info("Обработано: {}", x);
             }
         });
@@ -212,51 +210,15 @@ class MyCacheTest {
     }
 
     /*
-    Тест аналогичен предыдущему, но заменил HashMap на WeakHashMap
-    Ломается аналогично hashMap
-    в отладке:
-        2020-05-19_17:59:00.181 INFO  ru.chaban.cache.MyCache - Обработано: 10
-        2020-05-19_17:59:00.513 INFO  ru.chaban.cache.MyCache - Обработано: 20
-        2020-05-19_17:59:00.820 INFO  ru.chaban.cache.MyCache - Обработано: 30
-        2020-05-19_17:59:01.124 INFO  ru.chaban.cache.MyCache - Обработано: 40
-        Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
-     */
-    @Test
-    void weakHashMap() {
-        int maxSize = 10000000;
-
-        StringBuilder str = new StringBuilder("");
-
-        for (int i = 0; i < maxSize; i++) {
-            str.append(String.valueOf(i));
-        }
-
-        HWCache cache = new MyCache(maxSize, new WeakHashMap<>());
-
-        Stream.iterate(1, n -> n + 1).limit(maxSize).forEach(x -> {
-            cache.put(x, str.toString());
-            if (x % 10 == 0) {
-                logger.info("Обработано: {}", x);
-            }
-        });
-
-        assertEquals(true, true);
-    }
-
-    /*
-    Тест аналогичен предыдущему, но добавил вызов GC
-    пример начал работать
-    в отладке:
-        2020-05-19_17:59:00.181 INFO  ru.chaban.cache.MyCache - Обработано: 10
-        2020-05-19_17:59:00.513 INFO  ru.chaban.cache.MyCache - Обработано: 20
-        2020-05-19_17:59:00.820 INFO  ru.chaban.cache.MyCache - Обработано: 30
-        2020-05-19_17:59:01.124 INFO  ru.chaban.cache.MyCache - Обработано: 40
-        Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+    Тест аналогичен предыдущему, но заменил HashMap на weakHashMap
+    пример работает, вызывать gc не нужно, он сам успевает
+    добавлена информация из GC
+    работает долго, не дожидался окончания работы
      */
     @Test
     void weakHashMapWithGc() {
         switchOnMonitoring();
-        int maxSize = 10000000;
+        int maxSize = 2000000;
 
         StringBuilder str = new StringBuilder("");
 
@@ -264,14 +226,12 @@ class MyCacheTest {
             str.append(String.valueOf(i));
         }
 
-        System.gc();
-
         HWCache cache = new MyCache(maxSize, new WeakHashMap<>());
 
         Stream.iterate(1, n -> n + 1).limit(maxSize).forEach(x -> {
-            //System.gc();
+            //System.gc(); он не нужен, срабатывает автоматом
             cache.put(x, str.toString());
-            if (x % 10 == 0) {
+            if (x % 100 == 0) {
                 logger.info("Обработано: {}.", x);
             }
         });
