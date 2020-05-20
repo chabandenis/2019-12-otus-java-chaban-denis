@@ -15,7 +15,7 @@ public class MyCache<K, V> implements HWCache<K, V> {
     // максимальное количество элементов в кеше
     private int maxCount;
     // кеш
-    Map<K, V> cache = new HashMap<>(maxCount);
+    Map<K, V> cache;
 
     public MyCache(int maxCount, Map<K, V> cache) {
         this.maxCount = maxCount;
