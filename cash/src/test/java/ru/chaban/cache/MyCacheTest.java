@@ -11,13 +11,13 @@ import javax.management.openmbean.CompositeData;
 import java.lang.management.GarbageCollectorMXBean;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /*
-    !!! В А Ж Н О !!!
     прошу прочитать
  */
 class MyCacheTest {
@@ -213,7 +213,12 @@ class MyCacheTest {
     Тест аналогичен предыдущему, но заменил HashMap на weakHashMap
     пример работает, вызывать gc не нужно, он сам успевает
     добавлена информация из GC
-    работает долго, не дожидался окончания работы
+    работает долго, не дожидАлся окончания работы
+    В отладке видно, что размер кэша изменяется. Видно, что weakHashMap работает и удаляет данные.
+    2020-05-21_09:41:53.919 INFO  ru.chaban.cache.MyCache - Обработано: 2400. Размер кэша: 128
+    2020-05-21_09:41:54.260 INFO  ru.chaban.cache.MyCache - Обработано: 2500. Размер кэша: 131
+    2020-05-21_09:42:04.070 INFO  ru.chaban.cache.MyCache - Обработано: 5400. Размер кэша: 129
+    2020-05-21_09:43:04.793 INFO  ru.chaban.cache.MyCache - Обработано: 24000. Размер кэша: 128
      */
     @Test
     void weakHashMapWithGc() {
@@ -226,13 +231,16 @@ class MyCacheTest {
             str.append(String.valueOf(i));
         }
 
-        HWCache cache = new MyCache(maxSize, new WeakHashMap<>());
+        Map weak = new WeakHashMap<>();
+
+        HWCache cache = new MyCache(maxSize, weak);
 
         Stream.iterate(1, n -> n + 1).limit(maxSize).forEach(x -> {
-            //System.gc(); он не нужен, срабатывает автоматом
+            //System.gc(); не нужен, срабатывает автоматом
             cache.put(x, str.toString());
             if (x % 100 == 0) {
-                logger.info("Обработано: {}.", x);
+                logger.info("Обработано: {}. Размер кэша: {}. Количество ключей: {}",
+                        x, weak.size(), weak.keySet().size());
             }
         });
 

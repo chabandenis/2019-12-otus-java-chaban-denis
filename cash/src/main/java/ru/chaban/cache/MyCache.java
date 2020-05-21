@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,10 +11,10 @@ public class MyCache<K, V> implements HWCache<K, V> {
     private static final Logger logger = LoggerFactory.getLogger(MyCache.class);
     // подписчики
     List<HwListener> myListener = new ArrayList<>();
-    // максимальное количество элементов в кеше
-    private int maxCount;
     // кеш
     Map<K, V> cache;
+    // максимальное количество элементов в кеше
+    private int maxCount;
 
     public MyCache(int maxCount, Map<K, V> cache) {
         this.maxCount = maxCount;

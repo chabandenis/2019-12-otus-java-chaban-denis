@@ -10,4 +10,6 @@ public interface DBServiceUser {
 
     Optional<User> getUser(long id);
 
+    User getUserCache(long id);
+
 }
