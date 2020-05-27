@@ -8,6 +8,7 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import ru.chaban.core.dao.UserDao;
+import ru.chaban.web.helpers.FileSystemHelper;
 import ru.chaban.web.services.TemplateProcessor;
 import ru.chaban.web.servlet.*;
 
@@ -68,7 +69,7 @@ public class UsersWebServerSimple implements UsersWebServer {
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setDirectoriesListed(false);
         resourceHandler.setWelcomeFiles(new String[]{START_PAGE_NAME});
-        resourceHandler.setResourceBase("C:\\java_hw\\web_server\\src\\main\\resources\\static");
+        resourceHandler.setResourceBase(FileSystemHelper.localFileNameOrResourceNameToFullPath(COMMON_RESOURCES_DIR));
         return resourceHandler;
     }
 
