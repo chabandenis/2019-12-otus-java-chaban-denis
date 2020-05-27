@@ -12,7 +12,7 @@ public final class FileSystemHelper {
 
     public static String localFileNameOrResourceNameToFullPath(String fileOrResourceName) {
         String path = null;
-        File file = new File(String.format("./src/main/resource/%s", fileOrResourceName));
+        File file = new File(String.format("./%s", fileOrResourceName));
         if (file.exists()) {
             path = URLDecoder.decode(file.toURI().getPath(), StandardCharsets.UTF_8);
         }

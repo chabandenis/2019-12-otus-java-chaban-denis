@@ -8,10 +8,8 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import ru.chaban.core.dao.UserDao;
-import ru.chaban.web.helpers.FileSystemHelper;
 import ru.chaban.web.services.TemplateProcessor;
-import ru.chaban.web.servlet.UsersApiServlet;
-import ru.chaban.web.servlet.UsersServlet;
+import ru.chaban.web.servlet.*;
 
 
 public class UsersWebServerSimple implements UsersWebServer {
@@ -70,12 +68,15 @@ public class UsersWebServerSimple implements UsersWebServer {
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setDirectoriesListed(false);
         resourceHandler.setWelcomeFiles(new String[]{START_PAGE_NAME});
-        resourceHandler.setResourceBase(FileSystemHelper.localFileNameOrResourceNameToFullPath(COMMON_RESOURCES_DIR));
+        resourceHandler.setResourceBase("C:\\java_hw\\web_server\\src\\main\\resources\\static");
         return resourceHandler;
     }
 
     private ServletContextHandler createServletContextHandler() {
         ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        servletContextHandler.addServlet(new ServletHolder(new AddUserServlet(templateProcessor)), "/add_user");
+        servletContextHandler.addServlet(new ServletHolder(new LoginServlet(templateProcessor)), "/login");
+        servletContextHandler.addServlet(new ServletHolder(new LogoutServlet(templateProcessor)), "/logout");
         servletContextHandler.addServlet(new ServletHolder(new UsersServlet(templateProcessor, userDao)), "/users");
         servletContextHandler.addServlet(new ServletHolder(new UsersApiServlet(userDao, gson)), "/api/user/*");
         return servletContextHandler;
