@@ -10,6 +10,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import ru.chaban.dao.UserDao;
 import ru.chaban.helpers.FileSystemHelper;
 import ru.chaban.services.TemplateProcessor;
+import ru.chaban.servlet.LoginServlet;
 import ru.chaban.servlet.UsersApiServlet;
 import ru.chaban.servlet.UsersServlet;
 
@@ -61,7 +62,7 @@ public class UsersWebServerSimple implements UsersWebServer {
         return server;
     }
 
-    protected Handler applySecurity(ServletContextHandler servletContextHandler, String ...paths) {
+    protected Handler applySecurity(ServletContextHandler servletContextHandler, String... paths) {
         return servletContextHandler;
     }
 
@@ -75,8 +76,12 @@ public class UsersWebServerSimple implements UsersWebServer {
 
     private ServletContextHandler createServletContextHandler() {
         ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        servletContextHandler.addServlet(new ServletHolder(new UsersServlet(templateProcessor, userDao)), "/users");
-        servletContextHandler.addServlet(new ServletHolder(new UsersApiServlet(userDao, gson)), "/api/user/*");
+        servletContextHandler.addServlet(
+                new ServletHolder(new UsersServlet(templateProcessor, userDao)), "/users");
+        servletContextHandler.addServlet(
+                new ServletHolder(new UsersApiServlet(userDao, gson)), "/api/user/*");
+        servletContextHandler.addServlet(
+                new ServletHolder(new LoginServlet(templateProcessor, null)), "/login");
         return servletContextHandler;
     }
 }
