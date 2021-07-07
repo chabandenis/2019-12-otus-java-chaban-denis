@@ -1,0 +1,146 @@
+package ru.chaban.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/*
+    Над объектом возвращает список полей с данными для БД
+ */
+public class FieldsForDbImpl implements FieldsForDb {
+
+    private List<FieldsInfo> fieldsInfo = new ArrayList<>();
+
+    @Override
+    public List<FieldsInfo> getFieldsWithoutValues(Object object) {
+        try {
+            createFieldsWithoutValues(object);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return fieldsInfo;
+    }
+
+    @Override
+    public List<FieldsInfo> getFieldsAndValues(Object object) {
+        try {
+            create(object);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return fieldsInfo;
+    }
+
+    // метод формирования строки JSON
+    public void create(Object myObject) throws IllegalAccessException {
+        createSimpleObject(myObject);
+    }
+
+    public void createSimpleObject(Object myObject) throws IllegalAccessException {
+
+        for (var field : myObject.getClass().getDeclaredFields()) {
+
+            field.setAccessible(true);
+
+            if (field.get(myObject) == null) {
+                continue;
+            }
+
+            switch (String.valueOf(field.getType())) {
+                case ("int"):
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf(field.getInt(myObject)),
+                            field.isAnnotationPresent(Id.class),
+                            field.get(myObject)));
+                    break;
+
+                case ("class java.lang.String"):
+                case ("char"):
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf(String.valueOf(field.get(myObject))),
+                            field.isAnnotationPresent(Id.class),
+                            field.get(myObject)));
+                    break;
+
+                case ("class java.lang.Integer"):
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf(Integer.parseInt(field.get(myObject).toString())),
+                            field.isAnnotationPresent(Id.class),
+                            field.get(myObject)));
+                    break;
+
+                case ("class java.lang.Boolean"):
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf((Boolean) field.get(myObject)),
+                            field.isAnnotationPresent(Id.class),
+                            field.get(myObject)));
+                    break;
+
+                case ("class java.lang.Double"):
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf((Double) field.get(myObject)),
+                            field.isAnnotationPresent(Id.class),
+                            field.get(myObject)));
+                    break;
+
+                case ("class java.lang.Float"):
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf(Double.valueOf(field.get(myObject).toString())),
+                            field.isAnnotationPresent(Id.class),
+                            field.get(myObject)));
+                    break;
+
+                case ("class java.lang.Short"):
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf((Short) field.get(myObject)),
+                            field.isAnnotationPresent(Id.class),
+                            field.get(myObject)));
+                    break;
+
+                case ("class java.lang.Long"):
+                case ("long"):
+                    fieldsInfo.add(new FieldsInfo(
+                            field.getName(),
+                            String.valueOf(field.getType()),
+                            String.valueOf((Long) field.get(myObject)),
+                            field.isAnnotationPresent(Id.class),
+                            field.get(myObject)));
+                    break;
+            }
+        }
+    }
+
+    public void createFieldsWithoutValues(Object myObject) throws IllegalAccessException {
+        for (var field : myObject.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+
+            // для id нужно значение
+            if (field.isAnnotationPresent(Id.class)) {
+                fieldsInfo.add(new FieldsInfo(
+                        field.getName(),
+                        String.valueOf(field.getType()),
+                        String.valueOf((Long) field.get(myObject)),
+                        field.isAnnotationPresent(Id.class),
+                        field.get(myObject)));
+            } else {
+                fieldsInfo.add(new FieldsInfo(
+                        field.getName(),
+                        String.valueOf(field.getType()),
+                        field.isAnnotationPresent(Id.class)));
+            }
+        }
+    }
+}
